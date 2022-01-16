@@ -29,6 +29,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             requestToast.observe(this@SignUpActivity, Observer {
                 showToast(signUpViewModel.toastMessage)
             })
+            // 이메일 인증 성공
             successCheckNumber.observe(this@SignUpActivity, Observer {
                 binding.etInputEmail.isClickable =false
                 binding.etInputEmail.isFocusable = false
@@ -36,6 +37,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 binding.btnSendNumber.isFocusable = false
                 showToast(signUpViewModel.toastMessage)
             })
+            // 로그인 성공
             successLogin.observe(this@SignUpActivity, Observer {
                 goToMainActivity()
                 finish()
