@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.view.activity.SignUpActivity">
+
+    <data>
+        <variable
+            name="signUpViewModel"
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이메일"
+            android:text="@={signUpViewModel.email}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_sendNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SendAuthNumber"
+            android:onClick="@{() -> signUpViewModel.sendNumber()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_inputEmail" />
+
+        <EditText
+            android:id="@+id/et_inputNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="인증번호"
+            android:text="@={signUpViewModel.number}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sendNumber" />
+
+        <Button
+            android:id="@+id/btn_checkNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckNumber"
+            android:onClick="@{() -> signUpViewModel.checkNumber()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_inputNumber" />
+
+        <EditText
+            android:id="@+id/et_inputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="패스워드"
+            android:text="@={signUpViewModel.password}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_checkNumber" />
+
+        <Button
+            android:id="@+id/btn_inputComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> signUpViewModel.createUser()}"
+            android:text="확인"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_inputPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

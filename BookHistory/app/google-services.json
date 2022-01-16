@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941905704072",
+    "project_id": "bookhistory-df29f",
+    "storage_bucket": "bookhistory-df29f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941905704072:android:f3b3b199fb939dc7d05b3d",
+        "android_client_info": {
+          "package_name": "com.ejstudio.bookhistory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941905704072-uomqn6b1e11bt907e453q6960cbm2707.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTm6o6KmCV2KpcHreh2UJ9IcTQau2EuNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941905704072-uomqn6b1e11bt907e453q6960cbm2707.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
