@@ -1,21 +1,14 @@
 package com.ejstudio.bookhistory.presentation.view.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
-import com.ejstudio.bookhistory.databinding.ActivityWelcomeBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -69,8 +62,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             goToFindPassword.observe(this@LoginActivity, Observer {
                 goToFindPasswordActivity()
             })
-            requestToast.observe(this@LoginActivity, Observer {
-                showToast(loginViewModel.toastMessage)
+            requestSnackbar.observe(this@LoginActivity, Observer {
+                showSnackbar(loginViewModel.snackbarMessage)
             })
         }
     }

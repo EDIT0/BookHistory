@@ -14,6 +14,7 @@ import com.ejstudio.bookhistory.presentation.view.activity.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
 import com.ejstudio.bookhistory.util.LoginManager
@@ -83,7 +84,8 @@ val apiModule: Module = module {
 val viewModelModule: Module = module {
     viewModel { SplashViewModel(get(), get()) }
     viewModel { LoginViewModel(get()) }
-    viewModel { SignUpViewModel(get(), get()) }
+    viewModel { SignUpViewModel(get()) }
+    viewModel { SignUp2ViewModel(get()) }
 }
 
 val useCaseModule: Module = module {

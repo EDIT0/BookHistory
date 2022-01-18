@@ -12,7 +12,7 @@ class LoginViewModel(
 
     private val TAG: String? = LoginViewModel::class.java.simpleName
 
-    public var toastMessage = String()
+    public var snackbarMessage = String()
 
     var inputEmail = MutableLiveData<String>()
     var inputPassword = MutableLiveData<String>()
@@ -23,26 +23,26 @@ class LoginViewModel(
     val goToSignUp: LiveData<Unit> get() = _goToSignUp
     private val _goToFindPassword: MutableLiveData<Unit> = MutableLiveData()
     val goToFindPassword: LiveData<Unit> get() = _goToFindPassword
-    private val _requestToast: MutableLiveData<Unit> = MutableLiveData()
-    val requestToast: LiveData<Unit> get() = _requestToast
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
 
     fun goToMain() {
         // 인증 후 메인으로
         if(inputEmail.value == null || inputPassword.value == null) {
-            toastMessage = "이메일 또는 패스워드를 확인해주세요"
-            _requestToast.value = Unit
+            snackbarMessage = "이메일 또는 비밀번호를 확인해주세요"
+            _requestSnackbar.value = Unit
         } else {
             Log.i(TAG, "로그인 실행한다. ${inputEmail.value} ${inputPassword.value}")
             compositeDisposable.add(isLoginAuthUseCase.execute(inputEmail.value!!, inputPassword.value!!)
                 .subscribe {
                     Log.i(TAG, "로그인 허가 메시지: " + it)
                     if (it.toString().toBoolean()) {
-                        toastMessage = "Login Success"
-                        _requestToast.value = Unit
+                        snackbarMessage = "Login Success"
+                        _requestSnackbar.value = Unit
                         _goToMain.value = Unit
                     } else {
-                        toastMessage = "이메일 또는 패스워드를 확인해주세요"
-                        _requestToast.value = Unit
+                        snackbarMessage = "이메일 또는 비밀번호를 확인해주세요"
+                        _requestSnackbar.value = Unit
                     }
                 })
         }
