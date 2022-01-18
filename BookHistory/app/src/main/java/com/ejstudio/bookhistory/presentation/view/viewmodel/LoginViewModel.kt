@@ -21,6 +21,8 @@ class LoginViewModel(
     val goToMain: LiveData<Unit> get() = _goToMain
     private val _goToSignUp: MutableLiveData<Unit> = MutableLiveData()
     val goToSignUp: LiveData<Unit> get() = _goToSignUp
+    private val _goToFindPassword: MutableLiveData<Unit> = MutableLiveData()
+    val goToFindPassword: LiveData<Unit> get() = _goToFindPassword
     private val _requestToast: MutableLiveData<Unit> = MutableLiveData()
     val requestToast: LiveData<Unit> get() = _requestToast
 
@@ -49,5 +51,10 @@ class LoginViewModel(
     fun goToSignUp() {
         // 회원가입
         _goToSignUp.value = Unit
+    }
+
+    fun goToFindPassword() {
+        // 회원가입
+        _goToFindPassword.value = Unit
     }
 }

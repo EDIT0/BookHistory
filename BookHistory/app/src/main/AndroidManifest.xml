@@ -15,6 +15,9 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.view.activity.FindPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.activity.SignUpActivity"
             android:exported="false" />
         <activity
