@@ -25,16 +25,11 @@ class SignUpViewModel(
 
     private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
     val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
-    private val _successCheckNumber: MutableLiveData<Unit> = MutableLiveData()
-    val successCheckNumber: LiveData<Unit> get() = _successCheckNumber
-//    private val _successLogin: MutableLiveData<Unit> = MutableLiveData()
-//    val successLogin: LiveData<Unit> get() = _successLogin
 
     var email = MutableLiveData<String>()
     var number = MutableLiveData<String>()
     var password = MutableLiveData<String>()
 
-    var passEmail = false
 
     var random = Random
     var randomNum = 0
@@ -75,38 +70,4 @@ class SignUpViewModel(
             )
         }
     }
-
-    fun checkNumber() {
-        if(randomNum.toString() == number.value.toString()) {
-            snackbarMessage = "인증되었습니다"
-            _successCheckNumber.value = Unit
-            passEmail = true
-        } else {
-            snackbarMessage = "인증번호를 다시 확인해주세요"
-            _requestSnackbar.value = Unit
-        }
-    }
-
-//    fun createUser() {
-//        if (email.value == null || !passEmail) {
-//            toastMessage = "이메일 인증을 진행해주세요"
-//            _requestToast.value = Unit
-//        } else if(password.value == null || !(password.value.toString().length >= 8 && password.value.toString().length <= 16)) {
-//            toastMessage = "패스워드는 8~16자 이내로 설정해주세요"
-//            _requestToast.value = Unit
-//        } else {
-//            compositeDisposable.add(createEmailUserUseCase.execute(email.value!!, password.value!!)
-//                .subscribe {
-//                    Log.i(TAG, "메시지: " + it)
-//                    if (it.toString().toBoolean()) {
-////                        _successLogin.value = Unit
-//                    } else {
-//                        // sign up fail
-//                        toastMessage = "이미 가입된 이메일이거나 이메일 형식이 잘못되었습니다"
-//                        _requestToast.value = Unit
-//                    }
-//                }
-//            )
-//        }
-//    }
 }

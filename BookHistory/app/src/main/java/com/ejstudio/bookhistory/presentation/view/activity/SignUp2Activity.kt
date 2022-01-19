@@ -5,24 +5,31 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySignUp2Binding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
+import com.ejstudio.bookhistory.presentation.view.fragment.ToSBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_sign_up2) {
 
     private val signUp2ViewModel: SignUp2ViewModel by viewModel()
+    private lateinit var manager: InputMethodManager
+    private lateinit var bottomSheet: ToSBottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.signUp2ViewModel = signUp2ViewModel
 
+
         revIntent()
+        keyboardSetting()
         viewModelCallback()
         textWatcher()
     }
@@ -32,13 +39,27 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
         signUp2ViewModel.email = intent.getStringExtra("email")?:""
     }
 
+    fun keyboardSetting() {
+        manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
+        binding.etInputPassword.requestFocus()
+
+    }
+
     fun viewModelCallback() {
         with(signUp2ViewModel) {
             requestSnackbar.observe(this@SignUp2Activity, Observer {
+                showSnackbar(signUp2ViewModel.snackbarMessage)
+            })
+            requestSnackbarAction.observe(this@SignUp2Activity, Observer {
                 showSnackbarAction(signUp2ViewModel.snackbarMessage)
             })
             goToMain.observe(this@SignUp2Activity, Observer {
                 goToMainActivity()
+            })
+            showExpandableToS.observe(this@SignUp2Activity, Observer {
+                bottomSheet = ToSBottomSheetDialogFragment()
+                bottomSheet.show(supportFragmentManager, "tag")
             })
         }
     }
@@ -57,6 +78,8 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
                     if(signUp2ViewModel.password.value.toString() == signUp2ViewModel.checkPassword.value.toString()) {
                         binding.textInputLayoutInputCheckPassword.helperText = "확인"
                         binding.btnCreateUser.isEnabled = true
+                        binding.btnCreateUser.requestFocus()
+                        manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
                     } else {
                         binding.textInputLayoutInputCheckPassword.error = "비밀번호를 확인해주세요."
                         binding.btnCreateUser.isEnabled = false
@@ -80,6 +103,8 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
                         } else {
                             binding.textInputLayoutInputCheckPassword.helperText = "확인"
                             binding.btnCreateUser.isEnabled = true
+                            binding.btnCreateUser.requestFocus()
+                            manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
                         }
                     } else {
                         binding.textInputLayoutInputCheckPassword.error = "비밀번호를 확인해주세요."

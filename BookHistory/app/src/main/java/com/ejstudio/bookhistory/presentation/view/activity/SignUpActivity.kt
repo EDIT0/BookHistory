@@ -1,9 +1,12 @@
 package com.ejstudio.bookhistory.presentation.view.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySignUpBinding
@@ -14,14 +17,21 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
     private val signUpViewModel: SignUpViewModel by viewModel()
+    private lateinit var manager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.signUpViewModel = signUpViewModel
 
+        keyboardSetting()
         viewModelCallback()
         textWatcher()
+    }
+
+    fun keyboardSetting() {
+        manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        showSoftKeyboard(binding.etInputEmail)
     }
 
     fun viewModelCallback() {
@@ -34,30 +44,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             })
             requestSnackbar.observe(this@SignUpActivity, Observer {
                 showSnackbar(signUpViewModel.snackbarMessage)
+                showSoftKeyboard(binding.etInputNumber)
             })
-//            // 이메일 인증 성공
-//            successCheckNumber.observe(this@SignUpActivity, Observer {
-//                binding.etInputEmail.isClickable =false
-//                binding.etInputEmail.isFocusable = false
-//                binding.btnSendNumber.isClickable = false
-//                binding.btnSendNumber.isFocusable = false
-//                showSnackbar(signUpViewModel.snackbarMessage)
-//            })
-            number.observe(this@SignUpActivity, Observer {
-                if(randomNum.toString() == number.value.toString()) {
-//                    snackbarMessage = "인증되었습니다"
-//                    _successCheckNumber.value = Unit
-//                    passEmail = true
-                } else {
-//                    snackbarMessage = "인증번호를 다시 확인해주세요"
-//                    _requestToast.value = Unit
-                }
-            })
-            // 로그인 성공
-//            successLogin.observe(this@SignUpActivity, Observer {
-//                goToMainActivity()
-//                finish()
-//            })
         }
     }
 
@@ -95,6 +83,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                     binding.etInputNumber.isClickable = false
                     binding.etInputNumber.isFocusable = false
                     binding.btnGoToPasswordSetting.isEnabled = true
+                    binding.btnGoToPasswordSetting.requestFocus()
+//                    manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+                    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
                 }
             }
 
@@ -112,8 +103,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         finish()
     }
 
-//    private fun goToMainActivity() {
-//        startActivity(Intent(this, MainActivity::class.java))
-//        finish()
-//    }
+    fun showSoftKeyboard(view: View) {
+        if (view.requestFocus()) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
 }

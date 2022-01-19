@@ -16,11 +16,14 @@ abstract class BaseActivity<B : ViewDataBinding>(
 ) : AppCompatActivity() {
     lateinit var binding: B
     private val compositeDisposable = CompositeDisposable()
+    lateinit var mActivity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
         binding.lifecycleOwner = this
+
+        mActivity = this
     }
 
     protected fun showToast(msg: String) {
@@ -34,11 +37,6 @@ abstract class BaseActivity<B : ViewDataBinding>(
     protected fun showSnackbarAction(msg: String) {
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
             .setAction("확인", object : View.OnClickListener {
-//                fun onCl(view: View) {
-//                    // 스낵바의 OK 클릭시 실행할 작업
-//                    Toast.makeText(view.getContext(), "스낵바 Action 클릭", Toast.LENGTH_SHORT).show()
-//                }
-
                 override fun onClick(p0: View?) {
                     finish()
                 }
