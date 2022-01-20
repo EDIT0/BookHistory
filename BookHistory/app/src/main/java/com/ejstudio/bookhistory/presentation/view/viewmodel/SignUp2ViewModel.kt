@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.usecase.CreateEmailUserUseCase
+import com.ejstudio.bookhistory.domain.usecase.RegisterEmailAndPasswordUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 
 class SignUp2ViewModel(
-    private val createEmailUserUseCase: CreateEmailUserUseCase
+    private val createEmailUserUseCase: CreateEmailUserUseCase,
+    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase
 ) : BaseViewModel() {
 
     private val TAG: String? = SignUp2ViewModel::class.java.simpleName
@@ -51,6 +53,7 @@ class SignUp2ViewModel(
                 .subscribe {
                     Log.i(TAG, "메시지: " + it)
                     if (it.toString().toBoolean()) {
+                        registerEmailAndPassword() // 서버에 가입한 아이디 등록
                         _goToMain.value = Unit
                     } else {
                         // sign up fail
@@ -63,6 +66,15 @@ class SignUp2ViewModel(
             snackbarMessage = "이용약관에 체크해주세요."
             _requestSnackbar.value = Unit
         }
+    }
+
+    fun registerEmailAndPassword() {
+        Log.i(TAG, "registerEmailAndPassword() $email / ${password.value}")
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, password.value!!)
+            .subscribe{
+
+            }
+        )
     }
 
     fun closeToSFragment() {

@@ -13,13 +13,12 @@ import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.presentation.view.activity.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -65,9 +64,33 @@ val apiModule: Module = module {
     single<Retrofit> {
         Retrofit.Builder()
             .baseUrl(ApiClient.BASE_URL)
+            .client(get())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    single<GsonConverterFactory> { GsonConverterFactory.create() }
+
+    single<OkHttpClient> {
+        OkHttpClient.Builder()
+            .run {
+                addInterceptor(get<Interceptor>())
+                build()
+            }
+    }
+
+    single<Interceptor> {
+        Interceptor { chain ->
+            with(chain) {
+                val newRequest = request().newBuilder()
+//                    .addHeader("X-Naver-Client-Id", "33chRuAiqlSn5hn8tIme")
+//                    .addHeader("X-Naver-Client-Secret", "fyfwt9PCUN")
+//                    .addHeader("Connection", "close")
+                    .build()
+                proceed(newRequest)
+            }
+        }
     }
 
 //    single<GsonConverterFactory> { GsonConverterFactory.create() }
@@ -85,7 +108,8 @@ val viewModelModule: Module = module {
     viewModel { SplashViewModel(get(), get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
-    viewModel { SignUp2ViewModel(get()) }
+    viewModel { SignUp2ViewModel(get(), get()) }
+    viewModel { FindPasswordViewModel(get()) }
 }
 
 val useCaseModule: Module = module {
@@ -99,6 +123,8 @@ val useCaseModule: Module = module {
 //    single { AutoLoginAuthUseCase(get()) }
 //    single { SaveLoginInfoUseCase(get()) }
     single { SendSignUpEmailUseCase(get()) }
+    single { CheckEmailUseCase(get()) }
+    single { RegisterEmailAndPasswordUseCase(get()) }
 }
 
 val repositoryModule: Module = module {

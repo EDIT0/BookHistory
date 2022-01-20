@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.data.api
 
+import com.ejstudio.bookhistory.domain.model.CheckEmailModel
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -29,4 +30,17 @@ interface ApiInterface {
         @Field("email") email: String,
         @Field("num") num: String
     ): Observable<String>
+
+    @FormUrlEncoded
+    @POST("login/RegisterEmailAndPassword.php")
+    fun registerEmailAndPassword(
+        @Field("email") email: String,
+        @Field("pw") password:String
+    ) : Observable<Unit>
+
+    @FormUrlEncoded
+    @POST("login/CheckEmail.php")
+    fun checkEmail(
+        @Field("email") email: String
+    ) : Observable<CheckEmailModel>
 }
