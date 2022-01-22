@@ -17,6 +17,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
+import com.kakao.sdk.common.KakaoSdk
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -33,6 +34,9 @@ class KoinApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Kakao SDK 초기화
+        KakaoSdk.init(this, "26c4f514d1de68a24b14951564a57d9b")
 
         startKoin {
             // Koin Android logger
@@ -92,39 +96,26 @@ val apiModule: Module = module {
             }
         }
     }
-
-//    single<GsonConverterFactory> { GsonConverterFactory.create() }
-//
-//    single<OkHttpClient> {
-//        OkHttpClient.Builder()
-//            .run {
-//                addInterceptor(get<Interceptor>())
-//                build()
-//            }
-//    }
 }
 
 val viewModelModule: Module = module {
     viewModel { SplashViewModel(get(), get()) }
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
-    viewModel { FindPasswordViewModel(get()) }
+    viewModel { FindPasswordViewModel(get(), get()) }
 }
 
 val useCaseModule: Module = module {
     single { IsFirstWelcomeUseCase(get()) }
     single { IsAutoLoginUseCase(get()) }
     single { IsLoginAuthUseCase(get()) }
-//    single { IsFirstUseCase(get()) }
-//    single { SaveIsFirstInfoUseCase(get()) }
     single { CreateEmailUserUseCase(get()) }
-//    single { SaveAutoLoginUseCase(get()) }
-//    single { AutoLoginAuthUseCase(get()) }
-//    single { SaveLoginInfoUseCase(get()) }
     single { SendSignUpEmailUseCase(get()) }
     single { CheckEmailUseCase(get()) }
     single { RegisterEmailAndPasswordUseCase(get()) }
+    single { FindPassword2ViewModel() }
+    single { SendFindPasswordEmailUseCase(get()) }
 }
 
 val repositoryModule: Module = module {

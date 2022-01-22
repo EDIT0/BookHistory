@@ -15,9 +15,12 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.view.activity.FindPassword2Activity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.activity.SignUp2Activity"
             android:exported="false"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".presentation.view.activity.FindPasswordActivity"
             android:exported="false" />
@@ -38,6 +41,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--Redirect URI: "kakao{NATIVE_APP_KEY}://oauth"-->
+                <data
+                    android:host="oauth"
+                    android:scheme="aebb42dc4048c3609a4167f65fd2a5d8"/>
             </intent-filter>
         </activity>
         <activity

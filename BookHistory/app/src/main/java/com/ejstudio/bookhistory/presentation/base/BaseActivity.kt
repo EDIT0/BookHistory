@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.ejstudio.bookhistory.R
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -39,6 +40,7 @@ abstract class BaseActivity<B : ViewDataBinding>(
             .setAction("확인", object : View.OnClickListener {
                 override fun onClick(p0: View?) {
                     finish()
+                    overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
                 }
             }).show()
     }

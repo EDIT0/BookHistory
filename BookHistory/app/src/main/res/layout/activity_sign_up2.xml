@@ -5,7 +5,7 @@
     tools:context=".presentation.view.activity.SignUp2Activity">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="signUp2ViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel" />
@@ -155,6 +155,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="@{signUp2ViewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

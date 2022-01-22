@@ -5,7 +5,7 @@
     tools:context=".presentation.view.activity.SignUpActivity">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="signUpViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel" />
@@ -53,12 +53,12 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="#595959"
+            app:boxStrokeColor="#ffa967"
             app:errorEnabled="true"
             app:errorTextColor="#ff6666"
             app:helperTextEnabled="true"
-            app:helperTextTextColor="#8BC34A"
-            app:hintTextColor="#595959"
+            app:helperTextTextColor="#ffa967"
+            app:hintTextColor="#ffa967"
             app:layout_constraintBottom_toTopOf="@+id/btn_sendNumber"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,12 +107,12 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="#595959"
+            app:boxStrokeColor="#ffa967"
             app:errorEnabled="true"
             app:errorTextColor="#ff6666"
             app:helperTextEnabled="true"
-            app:helperTextTextColor="#8BC34A"
-            app:hintTextColor="#595959"
+            app:helperTextTextColor="#ffa967"
+            app:hintTextColor="#ffa967"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_sendNumber">
@@ -164,6 +164,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="@{signUpViewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--        <EditText-->
         <!--            android:id="@+id/et_inputEmail"-->

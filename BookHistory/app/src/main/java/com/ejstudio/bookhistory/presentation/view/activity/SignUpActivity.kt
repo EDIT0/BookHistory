@@ -93,7 +93,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
     }
 
     private fun goToLoginActivity() {
-        finish()
+        onBackPressed()
     }
 
     private fun goToSignUp2Activity() {
@@ -101,6 +101,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         intent.putExtra("email", signUpViewModel.authEmail)
         startActivity(intent)
         finish()
+        overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
     fun showSoftKeyboard(view: View) {
@@ -108,5 +109,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
     }
 }

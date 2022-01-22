@@ -78,7 +78,7 @@ class ToSBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     fun viewModelCallback() {
         signUp2ViewModel.dissmissTos.observe(viewLifecycleOwner, Observer {
-            dialog?.let { it -> this.onDismiss(it) }
+            this.dismiss()
         })
     }
 

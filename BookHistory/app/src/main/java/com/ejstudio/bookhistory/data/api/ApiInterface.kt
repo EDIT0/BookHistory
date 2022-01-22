@@ -2,6 +2,7 @@ package com.ejstudio.bookhistory.data.api
 
 import com.ejstudio.bookhistory.domain.model.CheckEmailModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -42,5 +43,5 @@ interface ApiInterface {
     @POST("login/CheckEmail.php")
     fun checkEmail(
         @Field("email") email: String
-    ) : Observable<CheckEmailModel>
+    ) : Single<CheckEmailModel>
 }

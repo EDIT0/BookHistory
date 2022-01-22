@@ -19,6 +19,7 @@ class PreferenceManager(context: Context) : KoinComponent {
         const val IS_FIRST_KEY = "IS_FIRST_KEY"
         const val EMAIL = "EMAIL"
         const val PASSWORD = "PASSWORD"
+        const val KAKAO_USER_TOKEN = "KAKAO_USER_TOKEN"
     }
 
     private val TAG = PreferenceManager::class.java.simpleName
@@ -34,11 +35,20 @@ class PreferenceManager(context: Context) : KoinComponent {
         }
 
     var isAutoLogin: Observable<Boolean> = Observable.create<Boolean> {
+
         var prefEmail = loginPreferences.getString(EMAIL, null)
         var prefPassword = loginPreferences.getString(PASSWORD, null)
+        var prefKakaoToken = loginPreferences.getString(KAKAO_USER_TOKEN, null)
+
+
+        Log.i(TAG, "${prefEmail}\n${prefPassword}\n${prefKakaoToken}")
 
         if(prefEmail == null || prefPassword == null) {
-            it.onNext(false)
+            if(prefKakaoToken != null) {
+                it.onNext(true)
+            } else {
+                it.onNext(false)
+            }
         } else {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(prefEmail, prefPassword)
                 .addOnCompleteListener(splashActivity) { task ->

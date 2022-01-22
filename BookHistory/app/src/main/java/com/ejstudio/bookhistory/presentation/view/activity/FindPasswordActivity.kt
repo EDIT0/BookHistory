@@ -33,10 +33,16 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
     fun viewModelCallback() {
         with(findPasswordViewModel) {
             goToFindPassword2.observe(this@FindPasswordActivity, Observer {
-                goToFindPassword2()
+                goToFindPassword2Activity()
             })
             goToLogin.observe(this@FindPasswordActivity, Observer {
-                finish()
+                onBackPressed()
+            })
+            requestSnackbar.observe(this@FindPasswordActivity, Observer {
+                showSnackbar(findPasswordViewModel.snackbarMessage)
+            })
+            completeCheckEmail.observe(this@FindPasswordActivity, Observer {
+                findPasswordViewModel.sendFindPasswordEmail()
             })
         }
     }
@@ -60,9 +66,14 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
         })
     }
 
-    fun goToFindPassword2() {
+    fun goToFindPassword2Activity() {
+        startActivity(Intent(this, FindPassword2Activity::class.java))
+        finish()
+        overridePendingTransition(R.anim.leftout_activity, R.anim.rightin_activity)
+    }
 
-
-//        startActivity(Intent(this, FindPassword2Activity::class.java))
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
     }
 }

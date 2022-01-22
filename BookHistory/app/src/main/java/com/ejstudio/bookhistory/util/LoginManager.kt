@@ -6,6 +6,8 @@ import android.util.Log
 import com.ejstudio.bookhistory.presentation.view.activity.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SignUpActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -20,6 +22,7 @@ class LoginManager(context: Context) : KoinComponent {
 
     private val loginPreferences: SharedPreferences = context.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
 
+    // 일반 로그인
     fun loginAuth(email: String, password: String): Observable<Boolean> = Observable.create<Boolean> {
         if(email == null || password == null) {
             it.onNext(false)
@@ -50,7 +53,7 @@ class LoginManager(context: Context) : KoinComponent {
         }
     }
 
-
+    // 가입 후 바로 로그인
     fun createEmailUser(email:String, password: String): Observable<Boolean> = Observable.create<Boolean> {
         if(email == null || password == null) {
             it.onNext(false)
@@ -66,6 +69,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.putString(PreferenceManager.EMAIL, email)
                         editor.putString(PreferenceManager.PASSWORD, password)
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                        editor.remove("KAKAO_USER_TOKEN");
                         editor.apply()
 
                         Log.i(TAG, "현재 회원가입 -> 로그인 이메일: $email")
@@ -77,6 +81,23 @@ class LoginManager(context: Context) : KoinComponent {
                 }
         }
     }
+
+    // 비밀번호 변경 이메일 보내기
+    fun sendFindPasswordEmail(email: String) : Observable<Boolean> = Observable.create<Boolean> {
+        Firebase.auth.setLanguageCode("ko")
+            val emailAddress = "akdmadl34@naver.com"
+
+            Firebase.auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Email sent.")
+                        it.onNext(task.isSuccessful)
+                    } else {
+                        it.onNext(false)
+                    }
+                }
+    }
+
 
 
 

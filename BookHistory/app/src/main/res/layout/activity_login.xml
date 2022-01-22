@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="loginViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel" />
@@ -49,11 +51,11 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="#595959"
+            app:boxStrokeColor="#ffa967"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#80000000"
-            app:hintTextColor="#595959"
+            app:hintTextColor="#ffa967"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +65,8 @@
                 android:id="@+id/et_inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gowunbatang_regular"
-                android:maxLines="1"
                 android:inputType="text"
+                android:maxLines="1"
                 android:text="@={loginViewModel.inputEmail}"
                 android:textCursorDrawable="@drawable/login_edittext_cursor_color" />
 
@@ -83,11 +84,11 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="#595959"
+            app:boxStrokeColor="#ffa967"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#80000000"
-            app:hintTextColor="#595959"
+            app:hintTextColor="#ffa967"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_email">
@@ -97,7 +98,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:fontFamily="@font/gowunbatang_regular"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:text="@={loginViewModel.inputPassword}"
@@ -112,8 +112,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/login_button"
-            android:fontFamily="@font/notosanskr_regular"
-            android:onClick="@{() -> loginViewModel.goToMain()}"
+            android:onClick="@{() -> loginViewModel.goToMainWithEmail()}"
             android:stateListAnimator="@null"
             android:text="로그인"
             android:textColor="#595959"
@@ -123,16 +122,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_password" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/btn_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/login_button"
-            android:fontFamily="@font/notosanskr_regular"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kakao_login_large_wide"
             android:stateListAnimator="@null"
-            android:text="구글로 로그인"
             android:textColor="#595959"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +154,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="36dp"
             android:background="@android:color/transparent"
-            android:fontFamily="@font/notosanskr_regular"
             android:onClick="@{() -> loginViewModel.goToSignUp()}"
             android:text="회원가입"
             android:textColor="#595959"
@@ -171,7 +170,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="36dp"
             android:background="@android:color/transparent"
-            android:fontFamily="@font/notosanskr_regular"
             android:onClick="@{() -> loginViewModel.goToFindPassword()}"
             android:text="비밀번호 찾기"
             android:textColor="#595959"
@@ -180,5 +178,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_emailSignUp" />
 
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="@{loginViewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

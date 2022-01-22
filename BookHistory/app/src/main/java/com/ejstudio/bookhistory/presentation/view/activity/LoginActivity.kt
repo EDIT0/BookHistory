@@ -1,26 +1,42 @@
 package com.ejstudio.bookhistory.presentation.view.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel
+import com.ejstudio.bookhistory.util.PreferenceManager
+import com.kakao.sdk.auth.model.OAuthToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
     private val TAG: String? = LoginActivity::class.java.simpleName
     private val loginViewModel: LoginViewModel by viewModel()
+    private lateinit var manager: InputMethodManager
+    private lateinit var loginPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.loginViewModel = loginViewModel
+        loginPreferences = this.applicationContext.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
 
+        keyBoardSetting()
         viewModelCallback()
 
         textWatcher()
@@ -36,19 +52,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 //                        Log.d(TAG, "Email sent.")
 //                    }
 //                }
-
-            // 비밀번호 재설정
-//            Firebase.auth.setLanguageCode("ko")
-//            val emailAddress = "akdmadl34@naver.com"
-//
-//            Firebase.auth.sendPasswordResetEmail(emailAddress)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        Log.d(TAG, "Email sent.")
-//                    }
-//                }
+            kakaoLogin()
         }
 
+    }
+
+    fun keyBoardSetting() {
+        manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     fun viewModelCallback() {
@@ -64,6 +74,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             })
             requestSnackbar.observe(this@LoginActivity, Observer {
                 showSnackbar(loginViewModel.snackbarMessage)
+                manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
             })
         }
     }
@@ -71,14 +82,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     fun goToMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+        overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
     fun goToSignUpActivity() {
         startActivity(Intent(this, SignUpActivity::class.java))
+        overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity)
     }
 
     fun goToFindPasswordActivity() {
         startActivity(Intent(this, FindPasswordActivity::class.java))
+        overridePendingTransition(R.anim.rightin_activity, R.anim.not_move_activity)
     }
 
     fun textWatcher() {
@@ -98,5 +112,33 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             }
 
         })
+    }
+
+    fun kakaoLogin() {
+        UserApiClient.instance
+            .loginWithKakaoTalk(this@LoginActivity) { oAuthToken: OAuthToken?, error: Throwable? ->
+                if (error != null) {
+                    Log.e(TAG, "로그인 실패", error)
+                } else if (oAuthToken != null) {
+                    Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.accessToken)
+                    val editor = loginPreferences.edit()
+                    editor.putString(PreferenceManager.KAKAO_USER_TOKEN, oAuthToken.accessToken)
+                    editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                    editor.remove("EMAIL");
+                    editor.remove("PASSWORD");
+                    editor.commit();
+                    editor.apply()
+
+                    UserApiClient.instance.me { user: User?, meError: Throwable? ->
+                        if (meError != null) {
+                            Log.e(TAG, "사용자 정보 요청 실패", meError)
+                        } else {
+                            // 기존 가입 이력이 있는지 확인
+                            loginViewModel.checkKakaoUserId(user?.id.toString())
+                            Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id}이메일: ${user?.kakaoAccount?.email}""".trimIndent())
+                        }
+                    }
+                }
+            }
     }
 }

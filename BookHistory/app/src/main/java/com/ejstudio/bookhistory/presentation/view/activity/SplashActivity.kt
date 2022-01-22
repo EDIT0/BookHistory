@@ -3,18 +3,23 @@ package com.ejstudio.bookhistory.presentation.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
+import com.kakao.sdk.common.KakaoSdk.keyHash
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : AppCompatActivity() {
 
+    private val TAG = SplashActivity::class.java.simpleName
     private val splashViewModel: SplashViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initViewModelCallback()
+
+        Log.i(TAG, keyHash)
         splashViewModel.doSplash()
     }
 

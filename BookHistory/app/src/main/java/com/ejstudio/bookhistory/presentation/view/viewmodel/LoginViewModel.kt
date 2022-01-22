@@ -3,11 +3,19 @@ package com.ejstudio.bookhistory.presentation.view.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ejstudio.bookhistory.domain.model.CheckEmailModel
+import com.ejstudio.bookhistory.domain.usecase.CheckEmailUseCase
 import com.ejstudio.bookhistory.domain.usecase.IsLoginAuthUseCase
+import com.ejstudio.bookhistory.domain.usecase.RegisterEmailAndPasswordUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class LoginViewModel(
-    private val isLoginAuthUseCase: IsLoginAuthUseCase
+    private val isLoginAuthUseCase: IsLoginAuthUseCase,
+    private val checkEmailUseCase: CheckEmailUseCase,
+    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase
 ) : BaseViewModel() {
 
     private val TAG: String? = LoginViewModel::class.java.simpleName
@@ -26,7 +34,7 @@ class LoginViewModel(
     private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
     val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
 
-    fun goToMain() {
+    fun goToMainWithEmail() {
         // 인증 후 메인으로
         if(inputEmail.value == null || inputPassword.value == null) {
             snackbarMessage = "이메일 또는 비밀번호를 확인해주세요"
@@ -46,6 +54,30 @@ class LoginViewModel(
                     }
                 })
         }
+    }
+
+    fun checkKakaoUserId(kakaoUserId: String) {
+        compositeDisposable.add(checkEmailUseCase.execute(kakaoUserId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe ({ it ->
+                Log.e(TAG, "(카카오로그인) 이미 가입했는지? 있:true 없:false : ${it.returnvalue.toString().toBoolean()}")
+                if(!it.returnvalue.toString().toBoolean()) { // 가입 이력이 없으면 false, 있으면 true
+                    registerKakaoUserId(kakaoUserId)
+                }
+                _goToMain.value = Unit
+            }, {
+                Log.e(TAG, it.message.toString())
+            })
+        )
+    }
+
+    fun registerKakaoUserId(kakaoUserId: String) {
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(kakaoUserId, "카카오로그인")
+            .subscribe {
+
+            }
+        )
     }
 
     fun goToSignUp() {
