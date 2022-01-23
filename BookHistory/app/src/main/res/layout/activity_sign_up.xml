@@ -5,7 +5,9 @@
     tools:context=".presentation.view.activity.SignUpActivity">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="signUpViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel" />
@@ -18,8 +20,9 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_backPress"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginStart="31dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="27dp"
             android:background="@android:color/transparent"
             android:onClick="@{() -> signUpViewModel.goToLogin()}"
             android:src="@drawable/ic_arrow_back_black_24dp"
@@ -29,15 +32,18 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:fontFamily="@font/notosanskr_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="회원가입"
+            android:text="이메일 인증"
             android:textColor="#595959"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout_inputEmail"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_backPress"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -68,7 +74,6 @@
                 android:id="@+id/et_inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gowunbatang_regular"
                 android:inputType="text"
                 android:maxLines="1"
                 android:text="@={signUpViewModel.email}"
@@ -82,13 +87,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/login_button"
+            android:background="@drawable/default_button_background"
             android:fontFamily="@font/notosanskr_regular"
             android:onClick="@{() -> signUpViewModel.sendNumber()}"
             android:stateListAnimator="@null"
             android:text="인증번호 전송"
             android:textColor="#595959"
-            android:textSize="12sp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout_inputNumber"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +126,6 @@
                 android:id="@+id/et_inputNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gowunbatang_regular"
                 android:inputType="number"
                 android:maxLines="1"
                 android:text="@={signUpViewModel.number}"
@@ -153,14 +157,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="19dp"
-            android:background="@drawable/login_button"
+            android:background="@drawable/default_button_background"
             android:enabled="false"
-            android:fontFamily="@font/notosanskr_medium"
             android:onClick="@{() -> signUpViewModel.goToSignUp2()}"
             android:stateListAnimator="@null"
-            android:text="비밀번호 설정"
+            android:text="다음"
             android:textColor="#595959"
-            android:textSize="15sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

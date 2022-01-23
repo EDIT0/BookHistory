@@ -39,9 +39,8 @@ class FindPasswordViewModel(
                 hideProgress()
             }
             .subscribe({
-                Log.i(TAG, "리턴: ${it.returnvalue}")
+                Log.i(TAG, "이메일이 있는가?: ${it.returnvalue}")
                 if(it.returnvalue.toBoolean()) {
-                    Log.i(TAG, "리턴:1 ${it.returnvalue}")
                     _completeCheckEmail.value = Unit
                 } else {
                     snackbarMessage = "가입되지 않은 이메일입니다."
@@ -56,7 +55,8 @@ class FindPasswordViewModel(
     }
 
     fun sendFindPasswordEmail() {
-        compositeDisposable.add(sendFindPasswordEmailUseCase.execute(email.value.toString())
+        Log.i(TAG, "(비밀번호 찾기) 보낼 이메일 주소: "+email.value.toString())
+        compositeDisposable.add(sendFindPasswordEmailUseCase.execute(email.value.toString().trim())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showProgress() }
@@ -64,9 +64,8 @@ class FindPasswordViewModel(
                 hideProgress()
             }
             .subscribe({
-                Log.i(TAG, "리턴: ${it.toString().toBoolean()}")
+                Log.i(TAG, "이메일을 보냈는가?: ${it.toString().toBoolean()}")
                 if(it.toString().toBoolean()) {
-                    Log.i(TAG, "리턴:1 ${it.toString().toBoolean()}")
                     _goToFindPassword2.value = Unit
                 } else {
                     snackbarMessage = "다시 시도해주세요."

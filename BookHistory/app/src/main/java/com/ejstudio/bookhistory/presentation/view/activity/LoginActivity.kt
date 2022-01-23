@@ -118,7 +118,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         UserApiClient.instance
             .loginWithKakaoTalk(this@LoginActivity) { oAuthToken: OAuthToken?, error: Throwable? ->
                 if (error != null) {
-                    Log.e(TAG, "로그인 실패", error)
+                    Log.e(TAG, "로그인 실패 " + error.message)
                 } else if (oAuthToken != null) {
                     Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.accessToken)
                     val editor = loginPreferences.edit()

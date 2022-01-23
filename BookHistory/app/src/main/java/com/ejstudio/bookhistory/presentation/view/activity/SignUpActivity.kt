@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
 
+    private val TAG = SignUpActivity::class.java.simpleName
     private val signUpViewModel: SignUpViewModel by viewModel()
     private lateinit var manager: InputMethodManager
 
@@ -31,7 +33,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
     fun keyboardSetting() {
         manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        showSoftKeyboard(binding.etInputEmail)
+        binding.etInputEmail.requestFocus()
     }
 
     fun viewModelCallback() {
@@ -44,7 +46,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
             })
             requestSnackbar.observe(this@SignUpActivity, Observer {
                 showSnackbar(signUpViewModel.snackbarMessage)
-                showSoftKeyboard(binding.etInputNumber)
+                binding.etInputNumber.requestFocus()
             })
         }
     }
@@ -84,7 +86,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                     binding.etInputNumber.isFocusable = false
                     binding.btnGoToPasswordSetting.isEnabled = true
                     binding.btnGoToPasswordSetting.requestFocus()
-//                    manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
                     manager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
                 }
             }
@@ -104,15 +105,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
         overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
-    fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
-
     override fun onBackPressed() {
-        super.onBackPressed()
+//        super.onBackPressed()
+        finish()
         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
     }
 }

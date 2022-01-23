@@ -23,10 +23,12 @@
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".presentation.view.activity.FindPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".presentation.view.activity.SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".presentation.view.activity.LoginActivity"
             android:exported="false" />

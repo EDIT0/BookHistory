@@ -85,9 +85,7 @@ class LoginManager(context: Context) : KoinComponent {
     // 비밀번호 변경 이메일 보내기
     fun sendFindPasswordEmail(email: String) : Observable<Boolean> = Observable.create<Boolean> {
         Firebase.auth.setLanguageCode("ko")
-            val emailAddress = "akdmadl34@naver.com"
-
-            Firebase.auth.sendPasswordResetEmail(emailAddress)
+            Firebase.auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "Email sent.")

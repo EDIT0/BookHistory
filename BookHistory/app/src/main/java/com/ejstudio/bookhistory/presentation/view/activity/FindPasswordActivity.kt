@@ -1,10 +1,13 @@
 package com.ejstudio.bookhistory.presentation.view.activity
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
@@ -17,6 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.activity_find_password) {
 
+    private val TAG = FindPasswordActivity::class.java.simpleName
     private val findPasswordViewModel: FindPasswordViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +28,15 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
 
         binding.findPasswordViewModel = findPasswordViewModel
 
+        focusWidget()
         viewModelCallback()
         textWatcher()
 
 
+    }
+
+    fun focusWidget() {
+        binding.etInputEmail.requestFocus()
     }
 
     fun viewModelCallback() {
@@ -73,7 +82,8 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+//        super.onBackPressed()
+        finish()
         overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
     }
 }
