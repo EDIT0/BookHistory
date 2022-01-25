@@ -78,4 +78,6 @@ dependencies {
 //    implementation "com.kakao.sdk:v2-link-rx:2.8.4" // 메시지(카카오링크)
 //    implementation "com.kakao.sdk:v2-navi:2.8.4" // 카카오내비
 
+    // Room
+    implementation 'androidx.room:room-ktx:2.4.1'
 }

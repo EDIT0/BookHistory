@@ -1,8 +1,11 @@
 package com.ejstudio.bookhistory.presentation.di
 
 import android.app.Application
+import androidx.room.Room
+import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
+import com.ejstudio.bookhistory.data.db.MyBookDatabase
 import com.ejstudio.bookhistory.data.repository.login.LoginRepositorylmpl
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSourcelmpl
@@ -29,6 +32,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.logging.Level
 
 class KoinApplication : Application() {
 
@@ -39,10 +43,9 @@ class KoinApplication : Application() {
         KakaoSdk.init(this, "26c4f514d1de68a24b14951564a57d9b")
 
         startKoin {
-            // Koin Android logger
-            androidLogger()
             //inject Android context
             androidContext(this@KoinApplication)
+            androidLogger(if (BuildConfig.DEBUG) org.koin.core.logger.Level.ERROR else org.koin.core.logger.Level.NONE)
             modules(networkModule)
             modules(apiModule)
             modules(viewModelModule)
@@ -125,6 +128,9 @@ val repositoryModule: Module = module {
 val localDataModule: Module = module {
     single { PreferenceManager(get()) }
     single<LoginLocalDataSource> { LoginLocalDataSourcelmpl(get()) }
+    single<MyBookDatabase> {
+        Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").build()
+    }
 }
 
 val remoteDataModule: Module = module {
