@@ -1,18 +1,16 @@
-package com.ejstudio.bookhistory.presentation.view.activity
+package com.ejstudio.bookhistory.presentation.view.activity.login
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySignUpBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {

@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.domain.usecase
+package com.ejstudio.bookhistory.domain.usecase.login
 
 import android.util.Log
 import com.ejstudio.bookhistory.domain.repository.LoginRepository

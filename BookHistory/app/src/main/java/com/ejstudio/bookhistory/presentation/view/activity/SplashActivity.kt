@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
+import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
 import com.kakao.sdk.common.KakaoSdk.keyHash
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -1,21 +1,14 @@
-package com.ejstudio.bookhistory.presentation.view.activity
+package com.ejstudio.bookhistory.presentation.view.activity.login
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityFindPasswordBinding
-import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.FindPasswordViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.activity_find_password) {

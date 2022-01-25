@@ -5,7 +5,7 @@
     <data>
         <variable
             name="signUp2ViewModel"
-            type="com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel" />
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

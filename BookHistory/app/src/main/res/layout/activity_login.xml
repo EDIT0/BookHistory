@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.view.activity.LoginActivity">
+    tools:context=".presentation.view.activity.login.LoginActivity">
 
     <data>
 
@@ -10,7 +10,7 @@
 
         <variable
             name="loginViewModel"
-            type="com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel" />
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

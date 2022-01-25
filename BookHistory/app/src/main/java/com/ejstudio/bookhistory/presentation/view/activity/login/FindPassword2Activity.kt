@@ -1,15 +1,12 @@
-package com.ejstudio.bookhistory.presentation.view.activity
+package com.ejstudio.bookhistory.presentation.view.activity.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityFindPassword2Binding
-import com.ejstudio.bookhistory.databinding.ActivityFindPasswordBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.FindPassword2ViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.FindPasswordViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPassword2ViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FindPassword2Activity : BaseActivity<ActivityFindPassword2Binding>(R.layout.activity_find_password2) {

@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel
+package com.ejstudio.bookhistory.presentation.view.viewmodel.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,9 +1,9 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel
+package com.ejstudio.bookhistory.presentation.view.viewmodel.login
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ejstudio.bookhistory.domain.usecase.SendSignUpEmailUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.SendSignUpEmailUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers

@@ -15,22 +15,22 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".presentation.view.activity.FindPassword2Activity"
+            android:name=".presentation.view.activity.login.FindPassword2Activity"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.activity.SignUp2Activity"
+            android:name=".presentation.view.activity.login.SignUp2Activity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".presentation.view.activity.FindPasswordActivity"
+            android:name=".presentation.view.activity.login.FindPasswordActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible"/>
         <activity
-            android:name=".presentation.view.activity.SignUpActivity"
+            android:name=".presentation.view.activity.login.SignUpActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible"/>
         <activity
-            android:name=".presentation.view.activity.LoginActivity"
+            android:name=".presentation.view.activity.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.view.activity.WelcomeActivity"
@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.view.activity.MainActivity"
+            android:name=".presentation.view.activity.main.MainActivity"
             android:exported="true" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.domain.usecase
+package com.ejstudio.bookhistory.domain.usecase.login
 
 import com.ejstudio.bookhistory.domain.model.CheckEmailModel
 import com.ejstudio.bookhistory.domain.repository.LoginRepository

@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.fragment
+package com.ejstudio.bookhistory.presentation.view.fragment.login
 
 import android.app.Dialog
 import android.os.Bundle
@@ -13,14 +13,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.content.DialogInterface
-import android.content.DialogInterface.OnShowListener
-import android.util.Log
 import android.app.Activity
 
 import android.util.DisplayMetrics
 import androidx.lifecycle.Observer
-import com.ejstudio.bookhistory.presentation.view.activity.SignUp2Activity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

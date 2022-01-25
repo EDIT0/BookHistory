@@ -1,10 +1,10 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel
+package com.ejstudio.bookhistory.presentation.view.viewmodel.login
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ejstudio.bookhistory.domain.usecase.CreateEmailUserUseCase
-import com.ejstudio.bookhistory.domain.usecase.RegisterEmailAndPasswordUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.CreateEmailUserUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.RegisterEmailAndPasswordUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 
 class SignUp2ViewModel(

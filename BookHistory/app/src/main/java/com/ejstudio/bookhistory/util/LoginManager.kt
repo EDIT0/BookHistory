@@ -3,8 +3,8 @@ package com.ejstudio.bookhistory.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.ejstudio.bookhistory.presentation.view.activity.LoginActivity
-import com.ejstudio.bookhistory.presentation.view.activity.SignUpActivity
+import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
+import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -41,6 +41,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.apply()
 
 //                        global.email = authEmail.toString()
+                        UserInfo.email = email
 
                         Log.i(TAG, "현재 로그인한 이메일: ${email.toString()}")
 
@@ -71,6 +72,8 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
                         editor.remove("KAKAO_USER_TOKEN");
                         editor.apply()
+
+                        UserInfo.email = email
 
                         Log.i(TAG, "현재 회원가입 -> 로그인 이메일: $email")
                         it.onNext(task.isSuccessful)

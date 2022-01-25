@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.activity
+package com.ejstudio.bookhistory.presentation.view.activity.login
 
 import android.content.Context
 import android.content.Intent
@@ -12,15 +12,14 @@ import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.LoginViewModel
+import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.LoginViewModel
 import com.ejstudio.bookhistory.util.PreferenceManager
+import com.ejstudio.bookhistory.util.UserInfo
 import com.kakao.sdk.auth.model.OAuthToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -128,6 +127,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     editor.remove("PASSWORD");
                     editor.commit();
                     editor.apply()
+
+                    UserInfo.email = oAuthToken.accessToken
 
                     UserApiClient.instance.me { user: User?, meError: Throwable? ->
                         if (meError != null) {

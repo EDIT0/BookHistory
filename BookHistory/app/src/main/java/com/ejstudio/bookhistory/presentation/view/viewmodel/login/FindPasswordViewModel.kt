@@ -1,14 +1,13 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel
+package com.ejstudio.bookhistory.presentation.view.viewmodel.login
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ejstudio.bookhistory.domain.usecase.CheckEmailUseCase
-import com.ejstudio.bookhistory.domain.usecase.SendFindPasswordEmailUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.CheckEmailUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.SendFindPasswordEmailUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlin.system.exitProcess
 
 class FindPasswordViewModel(
     private val checkEmailUseCase: CheckEmailUseCase,

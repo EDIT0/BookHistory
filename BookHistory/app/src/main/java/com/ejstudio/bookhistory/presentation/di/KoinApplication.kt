@@ -13,10 +13,17 @@ import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSour
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSourcelmpl
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
-import com.ejstudio.bookhistory.presentation.view.activity.LoginActivity
-import com.ejstudio.bookhistory.presentation.view.activity.SignUpActivity
+import com.ejstudio.bookhistory.domain.usecase.login.*
+import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
+import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
+import com.ejstudio.bookhistory.presentation.view.fragment.main.BookListFragment
+import com.ejstudio.bookhistory.presentation.view.fragment.main.BookSearchFragment
+import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFragment
+import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.*
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
@@ -32,7 +39,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.logging.Level
 
 class KoinApplication : Application() {
 
@@ -54,7 +60,8 @@ class KoinApplication : Application() {
             modules(localDataModule)
             modules(
                 remoteDataModule,
-                activityMoudel
+                activityMoudel,
+                fragmentModule
             )
         }
     }
@@ -107,6 +114,7 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
+    viewModel { MainViewModel() }
 }
 
 val useCaseModule: Module = module {
@@ -143,4 +151,11 @@ val activityMoudel: Module = module {
     single { SignUpActivity() }
     single { LoginActivity() }
     single { SplashActivity() }
+}
+
+val fragmentModule: Module = module {
+    single { BookListFragment() }
+    single { BookSearchFragment() }
+    single { MyBookHistoryFragment() }
+    single { SettingFragment() }
 }

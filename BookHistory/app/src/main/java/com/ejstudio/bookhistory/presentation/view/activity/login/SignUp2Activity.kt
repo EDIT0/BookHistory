@@ -1,7 +1,6 @@
-package com.ejstudio.bookhistory.presentation.view.activity
+package com.ejstudio.bookhistory.presentation.view.activity.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,10 +9,9 @@ import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySignUp2Binding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.fragment.ToSBottomSheetDialogFragment
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUp2ViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.SignUpViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
+import com.ejstudio.bookhistory.presentation.view.fragment.login.ToSBottomSheetDialogFragment
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_sign_up2) {
