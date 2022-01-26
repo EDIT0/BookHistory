@@ -26,5 +26,5 @@ interface ImageMemoDao {
     fun deleteAllImageMemo()
 
     @Query("SELECT * FROM ImageMemoEntity WHERE booklist_idx = :booklist_idx")
-    fun getAllImageMemo(booklist_idx: Int): LiveData<List<TextMemoEntity>>
+    fun getAllImageMemo(booklist_idx: Int): LiveData<List<ImageMemoEntity>>
 }

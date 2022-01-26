@@ -1,24 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.view.fragment.main.BookSearchFragment">
+
     <data>
+
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <View
+            android:id="@+id/searchBackgroundView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="book search" />
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/recentSearchsBackgroundView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+        <View
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="8dp"
+            android:onClick="@{() -> mainViewModel.goToSearch()}"
+            android:background="@drawable/search_background"
+            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
+            app:layout_constraintStart_toStartOf="@+id/searchBackgroundView"
+            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="11dp"
+            android:src="@drawable/ic_search_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/searchView"
+            app:layout_constraintEnd_toEndOf="@+id/searchView"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/searchView"
+            app:layout_constraintTop_toTopOf="@+id/searchView" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
+
+        <View
+            android:id="@+id/recentSearchsBackgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
+
+        <View
+            android:id="@+id/recentSearchsView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="12dp"
+            android:background="#94fffcf7"
+            app:layout_constraintBottom_toBottomOf="@+id/recentSearchsBackgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/recentSearchsBackgroundView"
+            app:layout_constraintStart_toStartOf="@+id/recentSearchsBackgroundView"
+            app:layout_constraintTop_toTopOf="@+id/recentSearchsBackgroundView" />
+
+        <TextView
+            android:id="@+id/recentSearchsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="13dp"
+            android:text="최근 검색어"
+            android:textColor="#595959"
+            android:textSize="16sp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toTopOf="@+id/recentSearchsScrollView"
+            app:layout_constraintStart_toStartOf="@+id/recentSearchsView"
+            app:layout_constraintTop_toTopOf="@+id/recentSearchsView" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentSearchsScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/recentSearchsView"
+            app:layout_constraintEnd_toEndOf="@+id/recentSearchsView"
+            app:layout_constraintStart_toStartOf="@+id/recentSearchsView"
+            app:layout_constraintTop_toBottomOf="@+id/recentSearchsTitle"
+            tools:itemCount="1" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

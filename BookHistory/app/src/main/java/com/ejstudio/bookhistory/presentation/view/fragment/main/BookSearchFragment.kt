@@ -1,13 +1,17 @@
 package com.ejstudio.bookhistory.presentation.view.fragment.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentBookSearchBinding
+import com.ejstudio.bookhistory.presentation.view.activity.main.SearchActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,7 +25,26 @@ class BookSearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainViewModel = mainViewModel
 
+        viewModelCallback()
+
         return binding.root
+    }
+
+    fun viewModelCallback() {
+        with(mainViewModel) {
+            goToSearch.observe(viewLifecycleOwner, Observer {
+                goToSearchActivity("")
+            })
+
+        }
+    }
+
+    fun goToSearchActivity(recentSearchs: String) {
+        val intent: Intent = Intent(activity, SearchActivity::class.java)
+        if(!recentSearchs.equals("")) {
+            intent.putExtra("recentSearchs", "리사이클러뷰 아이템 중 하나")
+        }
+        startActivity(Intent(activity, SearchActivity::class.java))
     }
 
 }

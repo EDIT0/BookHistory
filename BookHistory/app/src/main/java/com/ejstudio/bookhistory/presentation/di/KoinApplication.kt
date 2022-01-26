@@ -11,9 +11,16 @@ import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSourcelmpl
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSource
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.BookSearchRepositorylmpl
+import com.ejstudio.bookhistory.data.repository.main.local.SearchBookLocalDataSource
+import com.ejstudio.bookhistory.data.repository.main.local.SearchBookLocalDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.remote.SearchBookRemoteDataSource
+import com.ejstudio.bookhistory.data.repository.main.remote.SearchBookRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
+import com.ejstudio.bookhistory.domain.usecase.main.GetSearchBookUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -24,6 +31,7 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchViewModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
@@ -36,6 +44,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.koin.dsl.single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -115,6 +124,7 @@ val viewModelModule: Module = module {
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
     viewModel { MainViewModel() }
+    viewModel { SearchViewModel(get(), get()) }
 }
 
 val useCaseModule: Module = module {
@@ -127,10 +137,12 @@ val useCaseModule: Module = module {
     single { RegisterEmailAndPasswordUseCase(get()) }
     single { FindPassword2ViewModel() }
     single { SendFindPasswordEmailUseCase(get()) }
+    single { GetSearchBookUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
     single<LoginRepository> { LoginRepositorylmpl(get(), get()) }
+    single<BookSearchRepository> { BookSearchRepositorylmpl(get(),get()) }
 }
 
 val localDataModule: Module = module {
@@ -139,12 +151,14 @@ val localDataModule: Module = module {
     single<MyBookDatabase> {
         Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").build()
     }
+    single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl() }
 }
 
 val remoteDataModule: Module = module {
 //    single { EmailLogin() }
     single { LoginManager(get()) }
     single<LoginRemoteDataSource> { LoginRemoteDataSourcelmpl(get(), get(), get()) }
+    single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
 }
 
 val activityMoudel: Module = module {

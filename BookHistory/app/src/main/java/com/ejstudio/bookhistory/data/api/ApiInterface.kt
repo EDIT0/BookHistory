@@ -1,11 +1,10 @@
 package com.ejstudio.bookhistory.data.api
 
 import com.ejstudio.bookhistory.domain.model.CheckEmailModel
+import com.ejstudio.bookhistory.domain.model.SearchBookModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
 //    // query : 검색어, start : 시작, display : 갖고올개수
@@ -44,4 +43,14 @@ interface ApiInterface {
     fun checkEmail(
         @Field("email") email: String
     ) : Single<CheckEmailModel>
+
+    @Headers("Authorization: KakaoAK ${ApiClient.KAKAO_API_KEY}")
+    @GET("https://dapi.kakao.com/v3/search/book")
+    fun getSearchBook(
+//        @Header("Authorization:KakaoAK ${ApiClient.KAKAO_API_KEY}") apiKey: String = ApiClient.KAKAO_API_KEY,
+        @Query("query") query : String,
+        @Query("sort") sort : String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Observable<SearchBookModel>
 }
