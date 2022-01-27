@@ -8,12 +8,12 @@ class MainViewModel(
 
 ): BaseViewModel() {
 
-    private val _goToSearch: MutableLiveData<Unit> = MutableLiveData()
-    val goToSearch: LiveData<Unit> get() = _goToSearch
-
-
-
-    fun goToSearch() {
-        _goToSearch.value = Unit
-    }
+//    private val _goToSearch: MutableLiveData<Unit> = MutableLiveData()
+//    val goToSearch: LiveData<Unit> get() = _goToSearch
+//
+//
+//
+//    fun goToSearch() {
+//        _goToSearch.value = Unit
+//    }
 }

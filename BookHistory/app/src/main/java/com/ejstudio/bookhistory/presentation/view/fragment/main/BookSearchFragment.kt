@@ -2,6 +2,7 @@ package com.ejstudio.bookhistory.presentation.view.fragment.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookSearchFragment : Fragment() {
 
+    private val TAG = BookSearchFragment::class.java.simpleName
     lateinit var binding: FragmentBookSearchBinding
     private val mainViewModel: MainViewModel by viewModel()
 
@@ -26,16 +28,24 @@ class BookSearchFragment : Fragment() {
         binding.mainViewModel = mainViewModel
 
         viewModelCallback()
+        buttonClickListener()
 
         return binding.root
     }
 
     fun viewModelCallback() {
         with(mainViewModel) {
-            goToSearch.observe(viewLifecycleOwner, Observer {
-                goToSearchActivity("")
-            })
+//            goToSearch.observe(viewLifecycleOwner, Observer {
+//                Log.i(TAG, "이거 왜 눌림?")
+//                goToSearchActivity("")
+//            })
 
+        }
+    }
+
+    fun buttonClickListener() {
+        binding.searchBackgroundView.setOnClickListener {
+            goToSearchActivity("")
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
-import com.ejstudio.bookhistory.data.db.MyBookDatabase
+import com.ejstudio.bookhistory.data.db.*
 import com.ejstudio.bookhistory.data.repository.login.LoginRepositorylmpl
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSourcelmpl
@@ -20,7 +20,9 @@ import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
+import com.ejstudio.bookhistory.domain.usecase.main.GetRecentSearchesUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.GetSearchBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.InsertRecentSearchesUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -31,6 +33,7 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchResultViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchViewModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
@@ -124,7 +127,8 @@ val viewModelModule: Module = module {
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
     viewModel { MainViewModel() }
-    viewModel { SearchViewModel(get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get()) }
+    viewModel { SearchResultViewModel(get(), get()) }
 }
 
 val useCaseModule: Module = module {
@@ -138,6 +142,8 @@ val useCaseModule: Module = module {
     single { FindPassword2ViewModel() }
     single { SendFindPasswordEmailUseCase(get()) }
     single { GetSearchBookUseCase(get()) }
+    single { InsertRecentSearchesUseCase(get()) }
+    single { GetRecentSearchesUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -148,10 +154,14 @@ val repositoryModule: Module = module {
 val localDataModule: Module = module {
     single { PreferenceManager(get()) }
     single<LoginLocalDataSource> { LoginLocalDataSourcelmpl(get()) }
+    single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl(get()) }
+    single<RecentSearchesDao> { get<MyBookDatabase>().RecentSearchesDao() }
+    single<BookListDao> { get<MyBookDatabase>().bookListDao() }
+    single<TextMemoDao> { get<MyBookDatabase>().textMemoDao() }
+    single<ImageMemoDao> { get<MyBookDatabase>().imageMemoDao() }
     single<MyBookDatabase> {
-        Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").build()
+        Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").fallbackToDestructiveMigration().build()
     }
-    single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl() }
 }
 
 val remoteDataModule: Module = module {

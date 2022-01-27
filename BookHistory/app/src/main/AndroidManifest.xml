@@ -15,9 +15,13 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.view.activity.main.SearchResultActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
             android:name=".presentation.view.activity.main.SearchActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".presentation.view.activity.login.FindPassword2Activity"
             android:exported="false" />

@@ -41,7 +41,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.apply()
 
 //                        global.email = authEmail.toString()
-                        UserInfo.email = email
+                        UserInfo.email = email.toString().trim()
 
                         Log.i(TAG, "현재 로그인한 이메일: ${email.toString()}")
 
@@ -73,7 +73,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.remove("KAKAO_USER_TOKEN");
                         editor.apply()
 
-                        UserInfo.email = email
+                        UserInfo.email = email.toString().trim()
 
                         Log.i(TAG, "현재 회원가입 -> 로그인 이메일: $email")
                         it.onNext(task.isSuccessful)

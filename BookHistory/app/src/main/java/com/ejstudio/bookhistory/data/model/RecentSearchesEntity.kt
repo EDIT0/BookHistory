@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "RecentSearchesEntity")
 class RecentSearchesEntity(
-    @PrimaryKey
     val email: String,
     val searchs: String
 ) {
-
+    @PrimaryKey(autoGenerate = true)
+    var idx: Int = 0
 }

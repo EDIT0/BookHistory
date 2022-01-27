@@ -45,6 +45,7 @@ class PreferenceManager(context: Context) : KoinComponent {
 
         if(prefEmail == null || prefPassword == null) {
             if(prefKakaoToken != null) {
+                UserInfo.email = prefKakaoToken.toString().trim()
                 it.onNext(true)
             } else {
                 it.onNext(false)
@@ -56,6 +57,7 @@ class PreferenceManager(context: Context) : KoinComponent {
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = FirebaseAuth.getInstance().currentUser
 //                        global.email = check_email
+                        UserInfo.email = FirebaseAuth.getInstance().currentUser?.email.toString().trim()
                         it.onNext(task.isSuccessful)
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)

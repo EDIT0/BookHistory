@@ -28,25 +28,25 @@
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginVertical="8dp"
-            android:onClick="@{() -> mainViewModel.goToSearch()}"
             android:background="@drawable/search_background"
             app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
+            app:layout_constraintEnd_toStartOf="@+id/iv_searchButton"
             app:layout_constraintStart_toStartOf="@+id/searchBackgroundView"
             app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
 
         <ImageView
+            android:id="@+id/iv_searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="11dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/ic_search_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toEndOf="@+id/searchView"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
-            app:layout_constraintTop_toTopOf="@+id/searchView" />
+            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
+            app:layout_constraintStart_toEndOf="@+id/searchView"
+            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
 
         <View
             android:layout_width="match_parent"
