@@ -3,6 +3,9 @@ package com.ejstudio.bookhistory.presentation.view.activity.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +23,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     private val searchViewModel: SearchViewModel by viewModel()
     var recentSearchesAdapter = RecentSearchesAdapter()
 
-    var pastVisiblesItems:Int = 0
-    var visibleItemCount:Int = 0
-    var totalItemCount:Int = 0
+    private lateinit var manager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +32,21 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
         binding.etSearch.requestFocus()
 
+        keyboardSetting()
         settingRecyclerView()
         viewModelCallback()
+        buttonClickListener()
+    }
+
+    fun keyboardSetting() {
+        manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
+        binding.etSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            when (keyCode) {
+                KeyEvent.KEYCODE_ENTER -> searchViewModel.searchButton()
+            }
+            true
+        })
     }
 
     fun settingRecyclerView() {
@@ -65,13 +79,30 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                 activityBackButton()
             })
             goToSearchResult.observe(this@SearchActivity, Observer {
-                goToSearchResultActivity()
+                goToSearchResultActivity(searchViewModel.inputSearch.value.toString().trim())
             })
             recentSearchesList.observe(this@SearchActivity, Observer {
                 recentSearchesAdapter.updataList(it)
             })
 
         }
+    }
+
+    fun buttonClickListener() {
+        recentSearchesAdapter.setOnDeleteRecentSearchesClickListener(object : RecentSearchesAdapter.OnDeleteRecentSearchesClickListener {
+            override fun onItemClick(holder: RecentSearchesAdapter.ViewHolder?, view: View?, position: Int) {
+                // 클릭된 최근검색어 idx로 삭제 요청
+                searchViewModel.deleteRecentSearches(searchViewModel.recentSearchesList.value!!.get(position).idx)
+            }
+
+        })
+
+        recentSearchesAdapter.setOnRecentSearchesClickListener(object : RecentSearchesAdapter.OnRecentSearchesClickListener {
+            override fun onItemClick(holder: RecentSearchesAdapter.ViewHolder?, view: View?, position: Int) {
+                goToSearchResultActivity(searchViewModel.recentSearchesList.value!!.get(position).searchs)
+            }
+
+        })
     }
 
 //    fun settingRecyclerView() {
@@ -115,10 +146,23 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         onBackPressed()
     }
 
-    fun goToSearchResultActivity() {
+    fun goToSearchResultActivity(keyword: String) {
         val intent: Intent = Intent(this, SearchResultActivity::class.java)
-        intent.putExtra("searchKeyword", searchViewModel.inputSearch.value.toString().trim())
+//        searchViewModel.inputSearch.value.toString().trim()
+        intent.putExtra("searchKeyword", keyword)
         searchViewModel.inputSearch.value = ""
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "마지막 페이지 onResume()")
+        binding.etSearch.requestFocus()
+        manager.showSoftInput(binding.etSearch, 0);
+    }
+
+    override fun onDestroy() {
+        manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+        super.onDestroy()
     }
 }

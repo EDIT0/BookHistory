@@ -12,11 +12,19 @@ class SearchBookLocalDataSourcelmpl(
     private val recentSaechesDao: RecentSearchesDao
 ) : SearchBookLocalDataSource {
 
-    override fun insertRecentSearches(recentSearches: RecentSearchesEntity): Completable {
+    override fun insertRecentSearches(recentSearches: RecentSearchesEntity): io.reactivex.rxjava3.core.Completable {
         return recentSaechesDao.insertRecentSearches(recentSearches)
     }
 
     override fun getRecentSearchesList(email: String): LiveData<List<RecentSearchesEntity>> {
         return recentSaechesDao.getAllRecentSearches(email)
+    }
+
+    override fun deleteRecentSearches(deleteIdx: Int): io.reactivex.rxjava3.core.Completable {
+        return recentSaechesDao.deleteRecentSearches(deleteIdx)
+    }
+
+    override fun totalDeleteRecentSearches(email: String): io.reactivex.rxjava3.core.Completable {
+        return recentSaechesDao.deleteAllRecentSearches(email)
     }
 }

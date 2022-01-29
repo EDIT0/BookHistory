@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="searchBookModel"
             type="com.ejstudio.bookhistory.domain.model.SearchBookModel.Document" />
@@ -10,19 +12,124 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        >
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/iv_bookThumbnail"
+            android:layout_width="70dp"
+            android:layout_height="101.5dp"
+            app:cardCornerRadius="5dp"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                Error="@{@drawable/ic_launcher_foreground}"
+                setImage="@{searchBookModel.thumbnail}"
+                android:layout_width="70dp"
+                android:layout_height="101.5dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+
+
 
         <TextView
+            android:id="@+id/tv_bookTitle"
+            setText="@{searchBookModel.title}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#595959"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bookThumbnail"
+            app:layout_constraintEnd_toStartOf="@+id/iv_image1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_bookThumbnail"
+            app:layout_constraintTop_toTopOf="@+id/iv_bookThumbnail"
+            app:layout_constraintVertical_bias="0"
+            tools:text="제목" />
+
+        <TextView
+            android:id="@+id/tv_authors"
+            setText="@{searchBookModel.toString()}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#595959"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/layout1"
+            app:layout_constraintEnd_toStartOf="@+id/iv_image1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/tv_bookTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bookTitle"
+            tools:text="작가" />
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/iv_image1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/tv_authors"
+            app:layout_constraintTop_toBottomOf="@+id/tv_authors">
+
+            <TextView
+                android:id="@+id/tv_publisher"
+                setText="@{searchBookModel.publisher}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#595959"
+                android:textSize="12sp"
+                tools:text="출판사" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:paddingVertical="2dp" />
+
+            <TextView
+                android:id="@+id/tv_datetime"
+                setDateSubString="@{searchBookModel.datetime}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="#595959"
+                android:textSize="12sp"
+                tools:text="출시날짜" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bookTitle"
-            android:text="@{searchBookModel.title}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_navigate_next_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

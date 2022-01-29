@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.view.activity.main.BookDetailPageActivity">
+
+    <data>
+
+        <variable
+            name="bookDetailPageViewModel"
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.BookDetailPageViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/actionBarBackgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageButton
+            android:id="@+id/ib_backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> bookDetailPageViewModel.backButton()}"
+            android:src="@drawable/ic_arrow_back_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/actionBarBackgroundView"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
+            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView" />
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:id="@+id/tv_bookTitle"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:textColor="#595959"-->
+        <!--            android:text="@={bookDetailPageViewModel.title}"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/actionBarBackgroundView"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"/>-->
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="174dp"
+                    android:layout_gravity="center"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_bookThumbnail"
+                        Error="@{@drawable/ic_launcher_foreground}"
+                        setImage="@{bookDetailPageViewModel.thumbnail}"
+                        android:layout_width="120dp"
+                        android:layout_height="174dp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    setText="@{bookDetailPageViewModel.title}"
+                    tools:text="제목" />
+
+                <TextView
+                    android:id="@+id/tv_authors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="3dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    setText="@{bookDetailPageViewModel.authors}"
+                    android:textSize="14sp"
+                    tools:text="저자" />
+
+                <TextView
+                    android:id="@+id/tv_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="3dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    setText="@{bookDetailPageViewModel.publisher}"
+                    android:textSize="14sp"
+                    tools:text="출판사" />
+
+                <TextView
+                    android:id="@+id/tv_datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="3dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    setText="@{bookDetailPageViewModel.datetime}"
+                    android:textSize="14sp"
+                    tools:text="출시년도" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#c2faf9f9"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#595959"
+                        setText="@{bookDetailPageViewModel.contents}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="줄거리"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_seeDetail"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자세히보기"
+                        android:textSize="14sp"
+                        android:textColor="#595959"
+                        android:id="@+id/tv_seeDetail"
+                        android:paddingVertical="5dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_contents"
+                        app:layout_constraintStart_toStartOf="@+id/tv_contents"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_contents"
+                        app:layout_constraintHorizontal_bias="0"/>
+                    
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                
+
+
+                <Button
+                    android:id="@+id/btn_addBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="72dp"
+                    android:text="리스트에 추가하기"
+                    android:textColor="#595959"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_addBook"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="52dp"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:text="리스트에 추가하기"-->
+        <!--            android:textColor="#595959"-->
+        <!--            android:textSize="18sp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

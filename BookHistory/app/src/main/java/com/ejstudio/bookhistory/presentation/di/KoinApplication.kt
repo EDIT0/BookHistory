@@ -20,9 +20,7 @@ import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
-import com.ejstudio.bookhistory.domain.usecase.main.GetRecentSearchesUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.GetSearchBookUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.InsertRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.*
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -32,6 +30,7 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFra
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.BookDetailPageViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchResultViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchViewModel
@@ -127,8 +126,9 @@ val viewModelModule: Module = module {
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
     viewModel { MainViewModel() }
-    viewModel { SearchViewModel(get(), get(), get()) }
-    viewModel { SearchResultViewModel(get(), get()) }
+    viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SearchResultViewModel(get(), get(), get()) }
+    viewModel { BookDetailPageViewModel() }
 }
 
 val useCaseModule: Module = module {
@@ -144,6 +144,8 @@ val useCaseModule: Module = module {
     single { GetSearchBookUseCase(get()) }
     single { InsertRecentSearchesUseCase(get()) }
     single { GetRecentSearchesUseCase(get()) }
+    single { DeleteRecentSearchesUseCase(get()) }
+    single { TotalDeleteRecentSearchesUseCase(get()) }
 }
 
 val repositoryModule: Module = module {

@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 class InsertRecentSearchesUseCase(
     private val bookSearchRepository: BookSearchRepository
 ) {
-    fun execute(recentSearches: RecentSearchesEntity) : Completable {
+    fun execute(recentSearches: RecentSearchesEntity) : io.reactivex.rxjava3.core.Completable {
         return bookSearchRepository.insertRecentSearches(recentSearches)
     }
 }

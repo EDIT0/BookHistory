@@ -18,12 +18,20 @@ class BookSearchRepositorylmpl(
         return searchBookRemoteDataSource.getSearchBook(inputSearch, page)
     }
 
-    override fun insertRecentSearches(recentSearches: RecentSearchesEntity): Completable {
+    override fun insertRecentSearches(recentSearches: RecentSearchesEntity): io.reactivex.rxjava3.core.Completable {
         return searchBookLocalDataSource.insertRecentSearches(recentSearches)
     }
 
     override fun getRecentSearchesList(email: String): LiveData<List<RecentSearchesEntity>> {
         return searchBookLocalDataSource.getRecentSearchesList(email)
+    }
+
+    override fun deleteRecentSearches(deleteIdx: Int): io.reactivex.rxjava3.core.Completable {
+        return searchBookLocalDataSource.deleteRecentSearches(deleteIdx)
+    }
+
+    override fun totalDeleteRecentSearches(email: String): io.reactivex.rxjava3.core.Completable {
+        return searchBookLocalDataSource.totalDeleteRecentSearches(email)
     }
 
 }

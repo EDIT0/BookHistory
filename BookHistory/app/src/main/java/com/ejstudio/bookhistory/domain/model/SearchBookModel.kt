@@ -1,5 +1,7 @@
 package com.ejstudio.bookhistory.domain.model
 
+import java.io.Serializable
+
 data class SearchBookModel(
     var meta: Meta,
     var documents: List<Document>
@@ -24,9 +26,23 @@ data class SearchBookModel(
         var title: String,
         var translators: List<String>,
         var url: String
-    ){
+    ) : Serializable {
+        override fun toString(): String {
+            // 작가 리스트 스트링
+            var authorsString = StringBuilder()
+            for(i in 0 until authors.size) {
+                if(authors.size - 1 == i) {
+                    authorsString.append(authors.get(i))
+                } else {
+                    authorsString.append(authors.get(i) + ", ")
+                }
+            }
 
+            return authorsString.toString()
+        }
     }
+
+
 }
 
 

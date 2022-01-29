@@ -11,12 +11,23 @@ open class BaseViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isData = MutableLiveData<Boolean>(true)
+    val isData: LiveData<Boolean> get() = _isData
+
     fun showProgress() {
         _isLoading.value = true
     }
 
     fun hideProgress() {
         _isLoading.value = false
+    }
+
+    fun showDataEmptyScreen() {
+        _isData.value = false
+    }
+
+    fun hideDataEmptyScreen() {
+        _isData.value = true
     }
 
     override fun onCleared() {
