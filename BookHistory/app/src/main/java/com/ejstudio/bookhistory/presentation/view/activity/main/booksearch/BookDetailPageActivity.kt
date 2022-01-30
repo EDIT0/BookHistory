@@ -1,19 +1,15 @@
-package com.ejstudio.bookhistory.presentation.view.activity.main
+package com.ejstudio.bookhistory.presentation.view.activity.main.booksearch
 
 import android.os.Bundle
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityBookDetailPageBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.BookDetailPageViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchResultViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.BookDetailPageViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.ejstudio.bookhistory.domain.model.SearchBookModel
-import com.ejstudio.bookhistory.util.Converter
 
 
 class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.layout.activity_book_detail_page) {
@@ -45,7 +41,7 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
         bookDetailPageViewModel.status = intent.getStringExtra("status").toString()
         bookDetailPageViewModel.thumbnail = intent.getStringExtra("thumbnail").toString()
         bookDetailPageViewModel.title = intent.getStringExtra("title").toString()
-        bookDetailPageViewModel.translators = intent.getStringExtra("translators").toString()
+        bookDetailPageViewModel.translators = intent.getSerializableExtra("translators").toString()
         bookDetailPageViewModel.url = intent.getStringExtra("url").toString()
         Log.i(TAG, "리시브 authors: " + bookDetailPageViewModel.authors)
         Log.i(TAG, "리시브 contents: " + bookDetailPageViewModel.contents)
@@ -65,10 +61,21 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
             backButton.observe(this@BookDetailPageActivity, Observer {
                 activityBackButton()
             })
+            requestSnackbar.observe(this@BookDetailPageActivity, Observer {
+                showSnackbar(snackbarMessage)
+            })
+            contentsSeeDetail.observe(this@BookDetailPageActivity, Observer {
+                goToContentsSeeDetail()
+            })
         }
     }
 
     fun activityBackButton() {
         onBackPressed()
+    }
+
+    fun goToContentsSeeDetail() {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(bookDetailPageViewModel.url))
+        startActivity(browserIntent)
     }
 }

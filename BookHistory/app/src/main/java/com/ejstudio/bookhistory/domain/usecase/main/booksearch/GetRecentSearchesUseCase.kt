@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.domain.usecase.main
+package com.ejstudio.bookhistory.domain.usecase.main.booksearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

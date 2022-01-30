@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.adapter.main
+package com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ class SearchBookAdapter : RecyclerView.Adapter<SearchBookAdapter.ViewHolder>() {
     private lateinit var listener1: OnItemClickListener
 
     interface OnItemClickListener{
-        fun onItemClick(holder: SearchBookAdapter.ViewHolder?, view: View?, position:Int)
+        fun onItemClick(holder: ViewHolder?, view: View?, position:Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){

@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "BookListEntity")
 data class BookListEntity(
+    @PrimaryKey(autoGenerate = false)
+    var idx: Int,
     val email: String,
     val title: String,
     val contents: String,
@@ -44,6 +46,5 @@ data class BookListEntity(
     * reading_end_datetime
     * */
 ) {
-    @PrimaryKey(autoGenerate = true)
-    var idx: Int = 0
+
 }

@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.activity.main
+package com.ejstudio.bookhistory.presentation.view.activity.main.booksearch
 
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySearchResultBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.adapter.main.SearchBookAdapter
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchResultViewModel
+import com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch.SearchBookAdapter
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide

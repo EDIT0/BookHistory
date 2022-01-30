@@ -11,16 +11,26 @@ import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSourcelmpl
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSource
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSourcelmpl
-import com.ejstudio.bookhistory.data.repository.main.BookSearchRepositorylmpl
-import com.ejstudio.bookhistory.data.repository.main.local.SearchBookLocalDataSource
-import com.ejstudio.bookhistory.data.repository.main.local.SearchBookLocalDataSourcelmpl
-import com.ejstudio.bookhistory.data.repository.main.remote.SearchBookRemoteDataSource
-import com.ejstudio.bookhistory.data.repository.main.remote.SearchBookRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.booklist.BookListRepositorylmpl
+import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLocalDataSource
+import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLocalDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSource
+import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.booksearch.BookSearchRepositorylmpl
+import com.ejstudio.bookhistory.data.repository.main.booksearch.local.SearchBookLocalDataSource
+import com.ejstudio.bookhistory.data.repository.main.booksearch.local.SearchBookLocalDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote.SearchBookRemoteDataSource
+import com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote.SearchBookRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.domain.repository.BookListRepository
 import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
 import com.ejstudio.bookhistory.domain.usecase.main.*
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetBeforeReadBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetEndReadBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetReadingBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.*
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -30,10 +40,10 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFra
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.BookDetailPageViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.BookDetailPageViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchResultViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
@@ -46,7 +56,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.dsl.single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -125,10 +134,10 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel() }
+    viewModel { MainViewModel(get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
-    viewModel { BookDetailPageViewModel() }
+    viewModel { BookDetailPageViewModel(get()) }
 }
 
 val useCaseModule: Module = module {
@@ -146,17 +155,22 @@ val useCaseModule: Module = module {
     single { GetRecentSearchesUseCase(get()) }
     single { DeleteRecentSearchesUseCase(get()) }
     single { TotalDeleteRecentSearchesUseCase(get()) }
+    single { AddBookUseCase(get()) }
+    single { GetBeforeReadBookUseCase(get()) }
+    single { GetReadingBookUseCase(get()) }
+    single { GetEndReadBookUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
     single<LoginRepository> { LoginRepositorylmpl(get(), get()) }
     single<BookSearchRepository> { BookSearchRepositorylmpl(get(),get()) }
+    single<BookListRepository> { BookListRepositorylmpl(get(), get()) }
 }
 
 val localDataModule: Module = module {
     single { PreferenceManager(get()) }
     single<LoginLocalDataSource> { LoginLocalDataSourcelmpl(get()) }
-    single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl(get()) }
+    single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl(get(), get()) }
     single<RecentSearchesDao> { get<MyBookDatabase>().RecentSearchesDao() }
     single<BookListDao> { get<MyBookDatabase>().bookListDao() }
     single<TextMemoDao> { get<MyBookDatabase>().textMemoDao() }
@@ -164,6 +178,7 @@ val localDataModule: Module = module {
     single<MyBookDatabase> {
         Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").fallbackToDestructiveMigration().build()
     }
+    single<BookListLocalDataSource> { BookListLocalDataSourcelmpl(get()) }
 }
 
 val remoteDataModule: Module = module {
@@ -171,6 +186,7 @@ val remoteDataModule: Module = module {
     single { LoginManager(get()) }
     single<LoginRemoteDataSource> { LoginRemoteDataSourcelmpl(get(), get(), get()) }
     single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
+    single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl() }
 }
 
 val activityMoudel: Module = module {

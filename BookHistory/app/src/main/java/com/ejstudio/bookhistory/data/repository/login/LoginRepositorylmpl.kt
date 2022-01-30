@@ -2,7 +2,7 @@ package com.ejstudio.bookhistory.data.repository.login
 
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSource
-import com.ejstudio.bookhistory.domain.model.CheckEmailModel
+import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -35,7 +35,7 @@ class LoginRepositorylmpl(
         return loginRemoteDataSource.createEmailUser(email, password)
     }
 
-    override fun checkEmail(email: String): Single<CheckEmailModel> {
+    override fun checkEmail(email: String): Single<CheckTrueOrFalseModel> {
         return loginRemoteDataSource.checkEmail(email)
     }
 

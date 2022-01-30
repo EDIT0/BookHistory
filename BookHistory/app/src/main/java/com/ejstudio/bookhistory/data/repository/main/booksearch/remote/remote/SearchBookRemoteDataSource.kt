@@ -1,0 +1,13 @@
+package com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote
+
+import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
+import com.ejstudio.bookhistory.domain.model.SaveBookInfoModel
+import com.ejstudio.bookhistory.domain.model.SearchBookModel
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+
+interface SearchBookRemoteDataSource {
+    fun getSearchBook(inputSearch: String, page: Int) : Observable<SearchBookModel>
+    fun isExistBook(email: String, isbn: String) : Single<CheckTrueOrFalseModel>
+    fun insertBookInfo(email: String, bookInfo: SearchBookModel.Document) : Single<SaveBookInfoModel>
+}

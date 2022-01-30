@@ -1,24 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.view.fragment.main.BookListFragment">
+
     <data>
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <View
+            android:id="@+id/actionBarBackgroundView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="book list" />
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/tv_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="현재 메뉴"
+            android:textColor="#595959"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
+            app:layout_constraintEnd_toStartOf="@+id/ib_selectionImage"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
+            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView" />
+
+        <ImageView
+            android:id="@+id/ib_selectionImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_expand_more_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_selection"
+            app:layout_constraintStart_toEndOf="@+id/tv_selection"
+            app:layout_constraintTop_toTopOf="@+id/tv_selection" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="#cccccc"
+            app:layout_constraintBottom_toTopOf="@+id/rc_bookList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_bookList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

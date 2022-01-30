@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.domain.usecase.main
+package com.ejstudio.bookhistory.domain.usecase.main.booksearch
 
 import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 

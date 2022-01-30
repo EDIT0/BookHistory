@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.adapter.main
+package com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ class RecentSearchesAdapter: RecyclerView.Adapter<RecentSearchesAdapter.ViewHold
     private lateinit var listener1: OnDeleteRecentSearchesClickListener
 
     interface OnDeleteRecentSearchesClickListener{
-        fun onItemClick(holder: RecentSearchesAdapter.ViewHolder?, view: View?, position:Int)
+        fun onItemClick(holder: ViewHolder?, view: View?, position:Int)
     }
 
     fun setOnDeleteRecentSearchesClickListener(listener: OnDeleteRecentSearchesClickListener){
@@ -24,7 +24,7 @@ class RecentSearchesAdapter: RecyclerView.Adapter<RecentSearchesAdapter.ViewHold
     private lateinit var listener2: OnRecentSearchesClickListener
 
     interface OnRecentSearchesClickListener{
-        fun onItemClick(holder: RecentSearchesAdapter.ViewHolder?, view: View?, position:Int)
+        fun onItemClick(holder: ViewHolder?, view: View?, position:Int)
     }
 
     fun setOnRecentSearchesClickListener(listener: OnRecentSearchesClickListener){

@@ -1,12 +1,12 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel.main
+package com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.model.RecentSearchesEntity
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
-import com.ejstudio.bookhistory.domain.usecase.main.GetSearchBookUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.InsertRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetSearchBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.InsertRecentSearchesUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo

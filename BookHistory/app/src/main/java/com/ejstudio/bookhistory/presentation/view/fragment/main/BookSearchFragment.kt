@@ -2,17 +2,14 @@ package com.ejstudio.bookhistory.presentation.view.fragment.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentBookSearchBinding
-import com.ejstudio.bookhistory.presentation.view.activity.main.SearchActivity
+import com.ejstudio.bookhistory.presentation.view.activity.main.booksearch.SearchActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

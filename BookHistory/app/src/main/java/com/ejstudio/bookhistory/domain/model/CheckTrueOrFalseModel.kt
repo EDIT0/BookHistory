@@ -1,6 +1,6 @@
 package com.ejstudio.bookhistory.domain.model
 
-class CheckEmailModel(
+data class CheckTrueOrFalseModel(
     var returnvalue: String
 ) {
 }

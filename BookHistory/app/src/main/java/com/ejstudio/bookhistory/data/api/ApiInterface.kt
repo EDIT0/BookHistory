@@ -1,6 +1,7 @@
 package com.ejstudio.bookhistory.data.api
 
-import com.ejstudio.bookhistory.domain.model.CheckEmailModel
+import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
+import com.ejstudio.bookhistory.domain.model.SaveBookInfoModel
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -42,7 +43,7 @@ interface ApiInterface {
     @POST("login/CheckEmail.php")
     fun checkEmail(
         @Field("email") email: String
-    ) : Single<CheckEmailModel>
+    ) : Single<CheckTrueOrFalseModel>
 
     @Headers("Authorization: KakaoAK ${ApiClient.KAKAO_API_KEY}")
     @GET("https://dapi.kakao.com/v3/search/book")
@@ -53,4 +54,29 @@ interface ApiInterface {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Observable<SearchBookModel>
+
+    @FormUrlEncoded
+    @POST("main/CheckIsExistBook.php")
+    fun checkIsExistBook(
+        @Field("email") email: String,
+        @Field("isbn") isbn: String
+    ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("main/InsertBookInfo.php")
+    fun insertBookInfo(
+        @Field("email") email: String,
+        @Field("authors") authors: String,
+        @Field("contents") contents: String,
+        @Field("datetime") datetime: String,
+        @Field("isbn") isbn: String,
+        @Field("price") price: String,
+        @Field("publisher") publisher: String,
+        @Field("sale_price") sale_price: String,
+        @Field("status") status: String,
+        @Field("thumbnail") thumbnail: String,
+        @Field("title") title: String,
+        @Field("translators") translators: String,
+        @Field("url") url: String
+    ) : Single<SaveBookInfoModel>
 }

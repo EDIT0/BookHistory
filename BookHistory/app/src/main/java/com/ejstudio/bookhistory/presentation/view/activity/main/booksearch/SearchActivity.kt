@@ -1,4 +1,4 @@
-package com.ejstudio.bookhistory.presentation.view.activity.main
+package com.ejstudio.bookhistory.presentation.view.activity.main.booksearch
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,13 +8,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySearchBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
-import com.ejstudio.bookhistory.presentation.view.adapter.main.RecentSearchesAdapter
-import com.ejstudio.bookhistory.presentation.view.adapter.main.SearchBookAdapter
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.SearchViewModel
+import com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch.RecentSearchesAdapter
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {

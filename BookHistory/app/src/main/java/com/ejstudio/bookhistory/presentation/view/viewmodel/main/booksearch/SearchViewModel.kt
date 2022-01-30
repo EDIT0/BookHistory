@@ -1,20 +1,17 @@
-package com.ejstudio.bookhistory.presentation.view.viewmodel.main
+package com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.model.RecentSearchesEntity
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
-import com.ejstudio.bookhistory.domain.usecase.main.DeleteRecentSearchesUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.GetRecentSearchesUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.InsertRecentSearchesUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.TotalDeleteRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.DeleteRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.InsertRecentSearchesUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booksearch.TotalDeleteRecentSearchesUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 
