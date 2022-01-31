@@ -19,7 +19,9 @@
             android:id="@+id/searchBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@+id/recentSearchsBackgroundView"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,52 +58,101 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
 
-        <View
-            android:id="@+id/recentSearchsBackgroundView"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="108dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
-
-        <View
-            android:id="@+id/recentSearchsView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="12dp"
-            android:background="#94fffcf7"
-            app:layout_constraintBottom_toBottomOf="@+id/recentSearchsBackgroundView"
-            app:layout_constraintEnd_toEndOf="@+id/recentSearchsBackgroundView"
-            app:layout_constraintStart_toStartOf="@+id/recentSearchsBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/recentSearchsBackgroundView" />
-
-        <TextView
-            android:id="@+id/recentSearchsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="13dp"
-            android:text="최근 검색어"
-            android:textColor="#595959"
-            android:textSize="16sp"
-            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintBottom_toTopOf="@+id/recentSearchsScrollView"
-            app:layout_constraintStart_toStartOf="@+id/recentSearchsView"
-            app:layout_constraintTop_toTopOf="@+id/recentSearchsView" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:id="@+id/recentPopularBookBackgroundView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/recentPopularBookView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@drawable/booksearchfragment_background_shadow"
+                        app:layout_constraintBottom_toBottomOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintEnd_toEndOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/recentPopularBookBackgroundView" />
+
+                    <TextView
+                        android:id="@+id/tv_recentPopularBookTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="13dp"
+                        android:text="요즘 많이 읽는 책들"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        app:layout_constraintVertical_bias="0"
+                        app:layout_constraintBottom_toTopOf="@+id/rc_recentPopularBook"
+                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookView"
+                        app:layout_constraintTop_toTopOf="@+id/recentPopularBookView" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentSearchsScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/recentSearchsView"
-            app:layout_constraintEnd_toEndOf="@+id/recentSearchsView"
-            app:layout_constraintStart_toStartOf="@+id/recentSearchsView"
-            app:layout_constraintTop_toBottomOf="@+id/recentSearchsTitle"
-            tools:itemCount="1" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_recentPopularBook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/recentPopularBookView"
+                        app:layout_constraintEnd_toEndOf="@+id/recentPopularBookView"
+                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookView"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_recentPopularBookTitle"
+                        tools:itemCount="7" />
+
+                    <View
+                        android:id="@+id/recommendBookBackgroundView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintTop_toBottomOf="@+id/recentPopularBookBackgroundView" />
+
+                    <View
+                        android:id="@+id/alwaysPopularBookBackgroundView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recommendBookBackgroundView" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 </layout>

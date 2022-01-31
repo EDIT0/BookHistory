@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.model.RecentSearchesEntity
 import com.ejstudio.bookhistory.data.repository.main.booksearch.local.SearchBookLocalDataSource
 import com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote.SearchBookRemoteDataSource
+import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
 import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import io.reactivex.rxjava3.core.Observable
@@ -61,6 +62,10 @@ class BookSearchRepositorylmpl(
                     }
 //                }
             }
+    }
+
+    override fun getRecentPopularBook(startDt: String, endDt: String, page: Int, pageSize: Int): Single<RecentPopularBookModel> {
+        return searchBookRemoteDataSource.getRecentPopularBook(startDt, endDt, page, pageSize)
     }
 
 }

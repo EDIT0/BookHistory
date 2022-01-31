@@ -26,7 +26,7 @@ import org.koin.core.component.inject
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), KoinComponent {
 
     private val TAG: String? = MainActivity::class.java.simpleName
-    private val mainViewModel: MainViewModel by viewModel()
+    public val mainViewModel: MainViewModel by viewModel()
 
 //    lateinit var bookListFragment: BookListFragment
 //    lateinit var bookSearchFragment: BookSearchFragment
@@ -45,6 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 //        setContentView(R.layout.activity_main)
 
         binding.mainViewModel = mainViewModel
+        Log.i(TAG, "코드0: ${mainViewModel.hashCode()}")
 
         Log.i(TAG, "로그인 계정: " + UserInfo.email)
 

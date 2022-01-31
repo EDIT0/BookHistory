@@ -1,6 +1,7 @@
 package com.ejstudio.bookhistory.data.api
 
 import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
+import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.domain.model.SaveBookInfoModel
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
 import io.reactivex.rxjava3.core.Observable
@@ -46,7 +47,7 @@ interface ApiInterface {
     ) : Single<CheckTrueOrFalseModel>
 
     @Headers("Authorization: KakaoAK ${ApiClient.KAKAO_API_KEY}")
-    @GET("https://dapi.kakao.com/v3/search/book")
+    @GET("${ApiClient.KAKAO_BASE_URL}v3/search/book")
     fun getSearchBook(
 //        @Header("Authorization:KakaoAK ${ApiClient.KAKAO_API_KEY}") apiKey: String = ApiClient.KAKAO_API_KEY,
         @Query("query") query : String,
@@ -79,4 +80,15 @@ interface ApiInterface {
         @Field("translators") translators: String,
         @Field("url") url: String
     ) : Single<SaveBookInfoModel>
+
+
+    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+    fun getRecentPopularBook(
+        @Query("authKey") authKey : String,
+        @Query("startDt") startDt : String,
+        @Query("endDt") endDt: String,
+        @Query("pageNo") pageNo: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("format") format: String
+    ) : Single<RecentPopularBookModel>
 }

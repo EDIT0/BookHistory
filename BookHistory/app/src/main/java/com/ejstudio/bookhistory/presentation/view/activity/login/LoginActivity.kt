@@ -120,15 +120,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     Log.e(TAG, "로그인 실패 " + error.message)
                 } else if (oAuthToken != null) {
                     Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.accessToken)
-                    val editor = loginPreferences.edit()
-                    editor.putString(PreferenceManager.KAKAO_USER_TOKEN, oAuthToken.accessToken)
-                    editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
-                    editor.remove("EMAIL");
-                    editor.remove("PASSWORD");
-                    editor.commit();
-                    editor.apply()
-
-                    UserInfo.email = oAuthToken.accessToken
 
                     UserApiClient.instance.me { user: User?, meError: Throwable? ->
                         if (meError != null) {
@@ -136,6 +127,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         } else {
                             // 기존 가입 이력이 있는지 확인
                             loginViewModel.checkKakaoUserId(user?.id.toString())
+
+                            val editor = loginPreferences.edit()
+                            editor.putString(PreferenceManager.KAKAO_USER_TOKEN, user?.id.toString())
+                            editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                            editor.remove("EMAIL");
+                            editor.remove("PASSWORD");
+                            editor.commit();
+                            editor.apply()
+
+                            UserInfo.email = user?.id.toString()
+
                             Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id}이메일: ${user?.kakaoAccount?.email}""".trimIndent())
                         }
                     }

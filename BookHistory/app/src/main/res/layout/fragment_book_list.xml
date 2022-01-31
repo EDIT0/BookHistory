@@ -5,6 +5,7 @@
     tools:context=".presentation.view.fragment.main.BookListFragment">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
@@ -29,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="현재 메뉴"
             android:textColor="#595959"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
@@ -37,8 +37,9 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView" />
-
+            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView"
+            tools:text="상태 표시"/>
+<!--        android:text="@={mainViewModel._selectedMenu}"-->
         <ImageView
             android:id="@+id/ib_selectionImage"
             android:layout_width="wrap_content"
@@ -67,6 +68,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+        <include
+            android:id="@+id/include_data_empty_screen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/data_empty_screen"
+            android:visibility="@{mainViewModel.isData() ? View.GONE : View.VISIBLE}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

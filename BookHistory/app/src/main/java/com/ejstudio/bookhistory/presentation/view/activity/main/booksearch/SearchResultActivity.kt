@@ -59,17 +59,20 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.
 
     fun recvIntent() {
         searchResultViewModel.inputSearch.value = intent.getStringExtra("searchKeyword")
-        searchResultViewModel.searchButton()
+        searchResultViewModel.searchButton() // 받은 데이터가 있으면 자동 검색
     }
 
     fun keyboardSetting() {
         manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-        binding.etSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            when (keyCode) {
-                KeyEvent.KEYCODE_ENTER -> searchResultViewModel.searchButton()
+        binding.etSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p2?.action == KeyEvent.ACTION_DOWN && p1 == KeyEvent.KEYCODE_ENTER) {
+                    searchResultViewModel.searchButton()
+                    return true
+                }
+                return false
             }
-            false
         })
     }
 

@@ -134,7 +134,7 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
@@ -159,6 +159,7 @@ val useCaseModule: Module = module {
     single { GetBeforeReadBookUseCase(get()) }
     single { GetReadingBookUseCase(get()) }
     single { GetEndReadBookUseCase(get()) }
+    single { GetRecentPopularBookUseCase(get()) }
 }
 
 val repositoryModule: Module = module {

@@ -8,9 +8,11 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(entity = BookListEntity::class, parentColumns = ["idx"], childColumns = ["booklist_idx"], onDelete = ForeignKey.CASCADE)]
 )
 data class TextMemoEntity(
+    @PrimaryKey(autoGenerate = false)
+    var idx: Int,
     val booklist_idx: Int,
-    val memo_contents: String
+    val memo_contents: String,
+    val save_datetime: String
 ) {
-    @PrimaryKey(autoGenerate = true)
-    var idx: Int = 0
+
 }

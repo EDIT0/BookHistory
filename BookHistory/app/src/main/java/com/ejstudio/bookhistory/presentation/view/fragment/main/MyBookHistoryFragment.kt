@@ -9,17 +9,20 @@ import androidx.databinding.DataBindingUtil
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentBookListBinding
 import com.ejstudio.bookhistory.databinding.FragmentMyBookHistoryBinding
+import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyBookHistoryFragment : Fragment() {
 
     lateinit var binding: FragmentMyBookHistoryBinding
-    private val mainViewModel: MainViewModel by viewModel()
+//    private val mainViewModel: MainViewModel by viewModel()
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_book_history, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+        mainViewModel = (activity as MainActivity).mainViewModel
         binding.mainViewModel = mainViewModel
 
         return binding.root

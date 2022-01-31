@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/tv_authors"
-            setText="@{bookListEntity.toString()}"
+            setText="@{bookListEntity.authors}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

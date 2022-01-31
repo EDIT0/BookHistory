@@ -14,6 +14,10 @@ import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch.RecentSearchesAdapter
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.widget.Toast
+
+
+
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
@@ -39,11 +43,21 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     fun keyboardSetting() {
         manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-        binding.etSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            when (keyCode) {
-                KeyEvent.KEYCODE_ENTER -> searchViewModel.searchButton()
+//        binding.etSearch.setOnKeyListener({ v, keyCode, event ->
+//            when (keyCode) {
+//                KeyEvent.KEYCODE_ENTER -> searchViewModel.searchButton()
+//            }
+//            true
+//        })
+
+        binding.etSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p2?.action == KeyEvent.ACTION_DOWN && p1 == KeyEvent.KEYCODE_ENTER) {
+                    searchViewModel.searchButton()
+                    return true
+                }
+                return false
             }
-            true
         })
     }
 
