@@ -27,9 +27,7 @@ import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
 import com.ejstudio.bookhistory.domain.usecase.main.*
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetBeforeReadBookUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetEndReadBookUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetReadingBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.*
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
@@ -42,6 +40,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.BookDetailPageViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import com.ejstudio.bookhistory.util.LoginManager
@@ -134,10 +133,11 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
+    viewModel { BookViewModel(get(), get()) }
 }
 
 val useCaseModule: Module = module {
@@ -160,6 +160,11 @@ val useCaseModule: Module = module {
     single { GetReadingBookUseCase(get()) }
     single { GetEndReadBookUseCase(get()) }
     single { GetRecentPopularBookUseCase(get()) }
+    single { GetRecommendBookUseCase(get()) }
+    single { GetTotalBookUseCase(get()) }
+    single { GetAlwaysPopularBookUseCase(get()) }
+    single { GetIdxBookInfoUseCase(get()) }
+    single { DeleteIdxBookInfoUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -187,7 +192,7 @@ val remoteDataModule: Module = module {
     single { LoginManager(get()) }
     single<LoginRemoteDataSource> { LoginRemoteDataSourcelmpl(get(), get(), get()) }
     single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
-    single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl() }
+    single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl(get()) }
 }
 
 val activityMoudel: Module = module {

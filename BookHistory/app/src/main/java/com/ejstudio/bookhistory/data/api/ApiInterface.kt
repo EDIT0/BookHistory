@@ -1,9 +1,6 @@
 package com.ejstudio.bookhistory.data.api
 
-import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
-import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
-import com.ejstudio.bookhistory.domain.model.SaveBookInfoModel
-import com.ejstudio.bookhistory.domain.model.SearchBookModel
+import com.ejstudio.bookhistory.domain.model.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
@@ -91,4 +88,26 @@ interface ApiInterface {
         @Query("pageSize") pageSize: Int,
         @Query("format") format: String
     ) : Single<RecentPopularBookModel>
+
+    @GET("${ApiClient.BOOK_BASE_URL}recommandList")
+    fun getRecommendBook(
+        @Query("authKey") authKey : String,
+        @Query("isbn13") isbn13 : String,
+        @Query("format") format: String
+    ) : Single<RecommendBookModel>
+
+    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+    fun getAlwaysPopularBook(
+        @Query("authKey") authKey : String,
+        @Query("pageNo") pageNo: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("format") format: String
+    ) : Single<RecentPopularBookModel>
+
+    @FormUrlEncoded
+    @POST("main/DeleteIdxBookInfo.php")
+    fun deleteIdxBookInfo(
+        @Field("email") email: String,
+        @Field("idx") idx: Int
+    ) : Single<CheckTrueOrFalseModel>
 }

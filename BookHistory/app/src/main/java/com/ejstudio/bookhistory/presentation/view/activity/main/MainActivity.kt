@@ -75,25 +75,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                     R.id.tab_list -> {
                         fragmentManager.beginTransaction()
                             .replace(R.id.mainFramelayout, bookListFragment)
-                            .commitAllowingStateLoss()
+                            .commit()
                         true
                     }
                     R.id.tab_search -> {
                         fragmentManager.beginTransaction()
                             .replace(R.id.mainFramelayout, bookSearchFragment)
-                            .commitAllowingStateLoss()
+                            .commit()
                         true
                     }
                     R.id.tab_history -> {
                         fragmentManager.beginTransaction()
                             .replace(R.id.mainFramelayout, myBookHistoryFragment)
-                            .commitAllowingStateLoss()
+                            .commit()
                         true
                     }
                     R.id.tab_setting -> {
                         fragmentManager.beginTransaction()
                             .replace(R.id.mainFramelayout, settingFragment)
-                            .commitAllowingStateLoss()
+                            .commit()
                         true
                     }
                 }

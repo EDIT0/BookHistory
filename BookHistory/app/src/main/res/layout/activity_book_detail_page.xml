@@ -83,7 +83,7 @@
 
                     <ImageView
                         android:id="@+id/iv_bookThumbnail"
-                        Error="@{@drawable/ic_launcher_foreground}"
+                        Error="@{@drawable/img_bookcover_null}"
                         setImage="@{bookDetailPageViewModel.thumbnail}"
                         android:layout_width="120dp"
                         android:layout_height="174dp" />

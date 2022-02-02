@@ -27,11 +27,17 @@ interface BookListDao {
     @Query("DELETE FROM BookListEntity")
     fun deleteAllBookList()
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email")
+    @Query("DELETE FROM BookListEntity WHERE email = :email and idx = :idx")
+    fun deleteIdxBookInfo(email: String, idx: Int): Completable
+
+    @Query("SELECT * FROM BookListEntity WHERE email = :email order by idx desc")
     fun getAllBookList(email: String): LiveData<List<BookListEntity>>
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state")
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by idx desc")
     fun getBookList(email: String, reading_state: String): LiveData<List<BookListEntity>>
+
+    @Query("SELECT * FROM BookListEntity WHERE idx = :idx and email = :email and reading_state = :reading_state")
+    fun getIdxBookInfo(email: String, idx: Int, reading_state: String): LiveData<BookListEntity>
 
     @Query("SELECT COUNT(*) FROM BookListEntity WHERE EXISTS ( SELECT * FROM BookListEntity WHERE email = :email and isbn = :isbn)")
     fun isExistBook(email: String, isbn: String): Int

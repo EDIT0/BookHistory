@@ -27,7 +27,7 @@
             app:layout_constraintVertical_chainStyle="packed">
 
             <ImageView
-                Error="@{@drawable/ic_launcher_foreground}"
+                Error="@{@drawable/img_bookcover_null}"
                 setImage="@{recentPopularBookModel.bookImageURL}"
                 android:layout_width="93dp"
                 android:scaleType="centerCrop"

@@ -76,6 +76,7 @@
             android:background="@android:color/transparent"
             android:paddingHorizontal="10dp"
             android:singleLine="true"
+            android:hint="책 제목 / 지은이 검색"
             android:text="@={searchViewModel.inputSearch}"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
             app:layout_constraintEnd_toEndOf="@+id/searchView"

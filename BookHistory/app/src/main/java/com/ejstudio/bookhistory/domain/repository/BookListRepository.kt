@@ -2,9 +2,14 @@ package com.ejstudio.bookhistory.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 interface BookListRepository {
+    fun getTotalBookList(email: String) : LiveData<List<BookListEntity>>
     fun getBeforeReadBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
     fun getReadingBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
     fun getEndReadBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
+    fun getIdxBookInfo(email: String, idx: Int, reading_state: String) : LiveData<BookListEntity>
+    fun deleteIdxBookInfo(email: String, idx: Int) : Single<Boolean>
 }

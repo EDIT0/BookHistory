@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.presentation.view.fragment.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.databinding.DataBindingUtil
@@ -19,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentBookListBinding
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
+import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.BookActivity
 import com.ejstudio.bookhistory.presentation.view.adapter.main.booklist.BookListAdapter
 import com.ejstudio.bookhistory.presentation.view.fragment.login.ToSBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookListMenuSelectionBottomSheetDialogFragment
@@ -26,6 +29,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.Converter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
+import java.lang.StringBuilder
 
 
 class BookListFragment : Fragment() {
@@ -75,33 +79,77 @@ class BookListFragment : Fragment() {
 
     fun viewModelCallback() {
         with(mainViewModel) {
+            totalBookList.observe(viewLifecycleOwner, Observer {
+                if(it == null || it.size == 0) {
+                    // TODO 책 갯수가 0개면 뭐를 추천해야하는지?
+                    getRecommendBookList("9791165341909;")
+                } else {
+                    var str: StringBuilder = StringBuilder()
+                    if(it.size > 10) {
+                        for(i in 0 until 10) {
+                            if(it.get(i).isbn.trim().length == 13) {
+                                continue
+                            }
+                            if(i == 9) {
+                                str.append(it.get(i).isbn.substring(0,10).trim())
+                            } else {
+                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                            }
+                        }
+                        Log.i(TAG, " ${recommendBookList.value?.size} isbn = " + str.toString())
+                        if(recommendBookList.value == null) {
+                            getRecommendBookList(str.toString()) // 당신을 위한 추천 책들 호출
+                        }
+                    } else {
+                        for(i in 0 until it.size) {
+                            if(it.get(i).isbn.trim().length == 13) {
+                                continue
+                            }
+                            if(i == 0) {
+                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                            }
+                            else if(i == (it.size-1)) {
+                                str.append(it.get(i).isbn.substring(0,10).trim())
+                            } else {
+                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                            }
+                        }
+                        Log.i(TAG, " ${recommendBookList.value?.size} isbn = " + str.toString())
+                        if(recommendBookList.value == null) {
+                            getRecommendBookList(str.toString()) // 당신을 위한 추천 책들 호출
+                        }
+                    }
+                }
+            })
             beforeReadBookList.observe(viewLifecycleOwner, Observer {
                 try{
-                    bookListAdapter.updataList(it)
-                    if(it.size == 0) {
-                        showDataEmptyScreen()
-                    } else {
-                        hideDataEmptyScreen()
+                    if(_selectedMenu.value.equals(getString(R.string.before_read))) {
+                        bookListAdapter.updataList(it)
+                        if(it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
+                        Log.i(TAG, "현재 읽기 전 책 갯수: ${it.size}")
                     }
-                    Log.i(TAG, "현재 읽기 전 책 갯수: ${it.size}")
                 } catch (e: Exception){
                     Log.i(TAG, "읽기 전 오류: " + e.message.toString())
                 }
             })
             readingBookList.observe(viewLifecycleOwner, Observer {
                 try{
-                    bookListAdapter.updataList(it)
-                    if(it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
-                    Log.i(TAG, "현재 읽는 중 책 갯수: ${it.size}")
+                    if(_selectedMenu.value.equals(getString(R.string.reading))) {
+                        bookListAdapter.updataList(it)
+                        if (it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
+                        Log.i(TAG, "현재 읽는 중 책 갯수: ${it.size}")
+                    }
                 } catch (e: Exception){
                     Log.i(TAG, "읽는 중 오류: " + e.message.toString())
                 }
             })
             endReadBookList.observe(viewLifecycleOwner, Observer {
                 try{
-                    bookListAdapter.updataList(it)
-                    if(it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
-                    Log.i(TAG, "현재 읽은 후 책 갯수: ${it.size}")
+                    if(_selectedMenu.value.equals(getString(R.string.end_read))) {
+                        bookListAdapter.updataList(it)
+                        if (it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
+                        Log.i(TAG, "현재 읽은 후 책 갯수: ${it.size}")
+                    }
                 } catch (e: Exception){
                     Log.i(TAG, "읽은 후 오류: " + e.message.toString())
                 }
@@ -156,8 +204,6 @@ class BookListFragment : Fragment() {
                         emptyTextTitle.text = getString(R.string.end_read_book_empty)
                     }
                 }
-//                emptyTextTitle.text = "'[검색어]'를 찾을 수 없습니다."
-//                emptyTextSubTitle.text = "단어를 철자나 띄어쓰기를 확인해주세요."
             })
         }
     }
@@ -179,7 +225,25 @@ class BookListFragment : Fragment() {
         }
         bookListAdapter.setOnBookClickListener(object : BookListAdapter.OnBookClickListener{
             override fun onItemClick(holder: BookListAdapter.ViewHolder?, view: View?, position: Int) {
-
+                var intent = Intent(binding.root.context, BookActivity::class.java)
+                when (mainViewModel._selectedMenu.value) {
+                    binding.root.context.getString(R.string.before_read) -> {
+                        Log.i(TAG, "읽을 책: " + mainViewModel.beforeReadBookList.value?.get(position)?.idx)
+                        intent.putExtra("idx", mainViewModel.beforeReadBookList.value?.get(position)?.idx)
+                        intent.putExtra("reading_state", MainViewModel.BEFORE_READ)
+                    }
+                    binding.root.context.getString(R.string.reading) -> {
+                        Log.i(TAG, "읽는 중: " + mainViewModel.readingBookList.value?.get(position)?.idx)
+                        intent.putExtra("idx", mainViewModel.readingBookList.value?.get(position)?.idx)
+                        intent.putExtra("reading_state", MainViewModel.READING)
+                    }
+                    binding.root.context.getString(R.string.end_read) -> {
+                        Log.i(TAG, "읽은 책: " + mainViewModel.endReadBookList.value?.get(position)?.idx)
+                        intent.putExtra("idx", mainViewModel.endReadBookList.value?.get(position)?.idx)
+                        intent.putExtra("reading_state", MainViewModel.END_READ)
+                    }
+                }
+                startActivity(intent)
             }
         })
     }

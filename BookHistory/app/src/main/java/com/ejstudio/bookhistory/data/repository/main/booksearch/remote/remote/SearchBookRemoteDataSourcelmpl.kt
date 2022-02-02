@@ -3,10 +3,7 @@ package com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote
 import android.util.Log
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
-import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
-import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
-import com.ejstudio.bookhistory.domain.model.SaveBookInfoModel
-import com.ejstudio.bookhistory.domain.model.SearchBookModel
+import com.ejstudio.bookhistory.domain.model.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
@@ -43,5 +40,13 @@ class SearchBookRemoteDataSourcelmpl(
 
     override fun getRecentPopularBook(startDt: String, endDt: String, page: Int, pageSize: Int): Single<RecentPopularBookModel> {
         return apiInterface.getRecentPopularBook(ApiClient.BOOK_API_KEY, startDt, endDt, page, pageSize, ApiClient.FORMAT_JSON)
+    }
+
+    override fun getRecommendBook(isbn: String): Single<RecommendBookModel> {
+        return apiInterface.getRecommendBook(ApiClient.BOOK_API_KEY, isbn, ApiClient.FORMAT_JSON)
+    }
+
+    override fun getAlwaysPopularBook(page: Int, pageSize: Int): Single<RecentPopularBookModel> {
+        return apiInterface.getAlwaysPopularBook(ApiClient.BOOK_API_KEY, page, pageSize, ApiClient.FORMAT_JSON)
     }
 }
