@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.DeleteIdxBookInfoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetIdxBookInfoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.UpdateBookReadingStateUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class BookViewModel(
     private val getIdxBookInfoUseCase: GetIdxBookInfoUseCase,
-    private val deleteIdxBookInfoUseCase: DeleteIdxBookInfoUseCase
+    private val deleteIdxBookInfoUseCase: DeleteIdxBookInfoUseCase,
+    private val updateBookReadingStateUseCase: UpdateBookReadingStateUseCase
 ) : BaseViewModel() {
 
     private val TAG = BookViewModel::class.java.simpleName
@@ -29,6 +32,17 @@ class BookViewModel(
     private val _contentsSeeDetail: MutableLiveData<Unit> = MutableLiveData()
     val contentsSeeDetail: LiveData<Unit> get() = _contentsSeeDetail
 
+    private val _changeMenu: MutableLiveData<Unit> = MutableLiveData()
+    val changeMenu: LiveData<Unit> get() = _changeMenu
+
+    public var _selectedMenu : MutableLiveData<String> = MutableLiveData()
+    val selectedMenu: LiveData<String> get() = _selectedMenu
+
+    private val _clickFloaing: MutableLiveData<Unit> = MutableLiveData()
+    val clickFloaing: LiveData<Unit> get() = _clickFloaing
+
+    var currentTab = "TEXT" // 0번은 텍스트
+
     var book_idx = 0
     var reading_state = ""
 
@@ -39,6 +53,7 @@ class BookViewModel(
     var bookDatetime = String()
     var bookContents = String()
     var bookUrl = String()
+    var bookReadingState = String()
 
     lateinit var _bookInfo: LiveData<BookListEntity>
     val bookInfo: LiveData<BookListEntity> get() = _bookInfo
@@ -78,5 +93,74 @@ class BookViewModel(
 
     fun contentsSeeDetail() {
         _contentsSeeDetail.value = Unit
+    }
+
+    fun changeMenu() {
+        _changeMenu.value = Unit
+    }
+
+    fun changeSelectionMenu(state: String) {
+        when (state) {
+            MainViewModel.BEFORE_READ -> {
+                _selectedMenu.value = "읽을 책"
+                compositeDisposable.add(
+                    updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.BEFORE_READ)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { showProgress() }
+                        .doAfterTerminate {
+                            hideProgress()
+                        }
+                        .subscribe({
+                            Log.i(TAG, "책 수정 성공")
+                        }, {
+                            Log.i(TAG, it.message.toString())
+                        })
+                )
+            }
+            MainViewModel.READING -> {
+                _selectedMenu.value = "읽는 중"
+                compositeDisposable.add(
+                    updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.READING)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { showProgress() }
+                        .doAfterTerminate {
+                            hideProgress()
+                        }
+                        .subscribe({
+                            Log.i(TAG, "책 수정 성공")
+                        }, {
+                            Log.i(TAG, it.message.toString())
+                        })
+                )
+            }
+            MainViewModel.END_READ -> {
+                _selectedMenu.value = "읽은 책"
+                compositeDisposable.add(
+                    updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.END_READ)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { showProgress() }
+                        .doAfterTerminate {
+                            hideProgress()
+                        }
+                        .subscribe({
+                            Log.i(TAG, "책 수정 성공")
+                        }, {
+                            Log.i(TAG, "책 수정 에러: " + it.message.toString())
+                        })
+                )
+            }
+        }
+    }
+
+    fun clickFloating() {
+        _clickFloaing.value = Unit
+    }
+
+    companion object {
+        const val TEXT = "TEXT"
+        const val IMAGE = "IMAGE"
     }
 }

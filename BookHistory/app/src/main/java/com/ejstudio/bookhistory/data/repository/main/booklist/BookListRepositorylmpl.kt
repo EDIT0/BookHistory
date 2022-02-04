@@ -52,4 +52,19 @@ class BookListRepositorylmpl(
                 }
             }
     }
+
+    override fun updateBookReadingState(email: String, idx: Int, reading_state: String): Single<Boolean> {
+        return bookListRemoteDataSource.updateBookReadingState(email, idx, reading_state)
+            .flatMap { returnValue ->
+                if(returnValue.returnvalue.toBoolean()) {
+                    bookListLocalDataSource.updateBookReadingState(email, idx, reading_state)
+                        .subscribe({
+                            Log.i(TAG, "업데이트 성공")
+                        })
+                    Single.just(true)
+                } else {
+                    Single.just(false)
+                }
+            }
+    }
 }

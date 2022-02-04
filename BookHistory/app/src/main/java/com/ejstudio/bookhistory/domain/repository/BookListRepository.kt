@@ -12,4 +12,5 @@ interface BookListRepository {
     fun getEndReadBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
     fun getIdxBookInfo(email: String, idx: Int, reading_state: String) : LiveData<BookListEntity>
     fun deleteIdxBookInfo(email: String, idx: Int) : Single<Boolean>
+    fun updateBookReadingState(email: String, idx: Int, reading_state: String) : Single<Boolean>
 }

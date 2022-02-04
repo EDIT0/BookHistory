@@ -51,7 +51,7 @@ class MainViewModel(
         Log.i(TAG, "요청 url:  ${ApiClient.BOOK_BASE_URL}loanItemSrch?authKey=${ApiClient.BOOK_API_KEY}&startDt=$before60days" +
                 "&endDt=$todayDate&page=$page&pageSize=${pageSize}&format=${ApiClient.FORMAT_JSON}" )
 
-        _selectedMenu.value = "읽을 책" // 스타트 메뉴
+        _selectedMenu.value = "읽는 중" // 스타트 메뉴
         getRecentPopularBookList() // 요즘 많이 읽는 책들 호출
         getAlwaysPopularBookList() // 언제나 인기있는 책
 

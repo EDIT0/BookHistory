@@ -137,7 +137,7 @@ val viewModelModule: Module = module {
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
-    viewModel { BookViewModel(get(), get()) }
+    viewModel { BookViewModel(get(), get(), get()) }
 }
 
 val useCaseModule: Module = module {
@@ -165,6 +165,7 @@ val useCaseModule: Module = module {
     single { GetAlwaysPopularBookUseCase(get()) }
     single { GetIdxBookInfoUseCase(get()) }
     single { DeleteIdxBookInfoUseCase(get()) }
+    single { UpdateBookReadingStateUseCase(get()) }
 }
 
 val repositoryModule: Module = module {

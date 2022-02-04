@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bookViewModel"
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="3dp"
+            android:text="카테고리 변경"
+            android:textColor="#595959"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_beforeRead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="17dp"
+            android:text="@string/before_read"
+            android:textColor="#7d000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_reading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        <!--        android:onClick="@{() -> mainViewModel.changeList(mainViewModel.BEFORE_READ)}"-->
+
+        <ImageView
+            android:id="@+id/iv_beforeReadCheckImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_orange_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_beforeRead"
+            app:layout_constraintEnd_toEndOf="@+id/tv_beforeRead"
+            app:layout_constraintTop_toTopOf="@+id/tv_beforeRead" />
+
+        <TextView
+            android:id="@+id/tv_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="17dp"
+            android:text="@string/reading"
+            android:textColor="#7d000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_endRead"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_beforeRead" />
+
+        <ImageView
+            android:id="@+id/iv_readingCheckImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_orange_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_reading"
+            app:layout_constraintEnd_toEndOf="@+id/tv_reading"
+            app:layout_constraintTop_toTopOf="@+id/tv_reading" />
+
+        <TextView
+            android:id="@+id/tv_endRead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="17dp"
+            android:text="@string/end_read"
+            android:textColor="#7d000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reading" />
+
+        <ImageView
+            android:id="@+id/iv_endReadCheckImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_orange_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_endRead"
+            app:layout_constraintEnd_toEndOf="@+id/tv_endRead"
+            app:layout_constraintTop_toTopOf="@+id/tv_endRead" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

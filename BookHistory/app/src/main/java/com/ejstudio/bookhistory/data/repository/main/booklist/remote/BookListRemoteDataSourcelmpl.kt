@@ -10,4 +10,8 @@ class BookListRemoteDataSourcelmpl(
     override fun deleteIdxBookInfo(email: String, idx: Int): Single<CheckTrueOrFalseModel> {
         return apiInterface.deleteIdxBookInfo(email, idx)
     }
+
+    override fun updateBookReadingState(email: String, idx: Int, reading_state: String): Single<CheckTrueOrFalseModel> {
+        return apiInterface.updateBookReadingState(email, idx, reading_state)
+    }
 }

@@ -5,4 +5,5 @@ import io.reactivex.rxjava3.core.Single
 
 interface BookListRemoteDataSource {
     fun deleteIdxBookInfo(email: String, idx: Int) : Single<CheckTrueOrFalseModel>
+    fun updateBookReadingState(email: String, idx: Int, reading_state: String) : Single<CheckTrueOrFalseModel>
 }

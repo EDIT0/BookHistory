@@ -20,6 +20,8 @@ import android.widget.Button
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookInfoBottomSheetDialogFragment
 
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookListMenuSelectionBottomSheetDialogFragment
+import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookMenuChangeBottomSheetDialogFragment
+import com.google.android.material.tabs.TabLayout
 
 
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
@@ -28,7 +30,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
     public val bookViewModel: BookViewModel by viewModel()
     private lateinit var bookMemoViewPagerFragmentAdapter: BookMemoViewPagerFragmentAdapter
     lateinit var deleteDialog: Dialog
-    private lateinit var bottomSheet: BookInfoBottomSheetDialogFragment
+    private lateinit var bookInfoBottomSheetDialogFragment: BookInfoBottomSheetDialogFragment
+    private lateinit var bookMenuChangeBottomSheetDialogFragment: BookMenuChangeBottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +69,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                     bookDatetime = it.datetime
                     bookContents = it.contents
                     bookUrl = it.url
+                    bookReadingState = it.reading_state
+                    _selectedMenu.value = bookReadingState
                 }
             })
             deleteBook.observe(this@BookActivity, Observer {
@@ -75,14 +80,41 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 showDeleteDialog()
             })
             showBookInfo.observe(this@BookActivity, Observer {
-                bottomSheet = BookInfoBottomSheetDialogFragment()
-//                val bundle = Bundle()
-//                bundle.putString("state", mainViewModel._selectedMenu.value.toString())
-//                bottomSheet.setArguments(bundle)
-                bottomSheet.show(supportFragmentManager, "tag")
+                bookInfoBottomSheetDialogFragment = BookInfoBottomSheetDialogFragment()
+                bookInfoBottomSheetDialogFragment.show(supportFragmentManager, "tag")
             })
             contentsSeeDetail.observe(this@BookActivity, Observer {
                 goToContentsSeeDetail()
+            })
+            changeMenu.observe(this@BookActivity, Observer {
+                bookMenuChangeBottomSheetDialogFragment = BookMenuChangeBottomSheetDialogFragment()
+                val bundle = Bundle()
+                Log.i(TAG, "현재 상태는? " + bookReadingState)
+                bundle.putString("state", bookReadingState)
+                bookMenuChangeBottomSheetDialogFragment.setArguments(bundle)
+                bookMenuChangeBottomSheetDialogFragment.show(supportFragmentManager, "tag")
+            })
+            selectedMenu.observe(this@BookActivity, Observer {
+                Log.i(TAG, "메뉴 변경 $it")
+                when (it) {
+                    getString(R.string.before_read) -> {
+                        bookReadingState = getString(R.string.before_read)
+                    }
+                    getString(R.string.reading) -> {
+                        bookReadingState = getString(R.string.reading)
+                    }
+                    getString(R.string.end_read) -> {
+                        bookReadingState = getString(R.string.end_read)
+                    }
+                }
+
+            })
+            clickFloaing.observe(this@BookActivity, Observer {
+                if(currentTab.equals(BookViewModel.TEXT)) {
+                    showToast("텍스트 눌림")
+                } else if(currentTab.equals(BookViewModel.IMAGE)) {
+                    showToast("이미지 눌림")
+                }
             })
         }
     }
@@ -99,12 +131,34 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager2Container, {tab, position ->
             if(position == 0) {
                 tab.setIcon(R.drawable.ic_notes_black_24dp)
+                tab.id = position // 각 탭 구별을 위한 아이디 부여
             }
             else if(position == 1) {
                 tab.setIcon(R.drawable.ic_image_24dp)
+                tab.id = position // 각 탭 구별을 위한 아이디 부여
             }
 
         }).attach()
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                // 탭이 선택 되었을 때
+                Log.i(TAG ,"선택된 탭: ${tab?.id} 0: 텍스트, 1: 이미지")
+                if(tab?.id == 0) {
+                    bookViewModel.currentTab = BookViewModel.TEXT
+                } else if(tab?.id == 1) {
+                    bookViewModel.currentTab = BookViewModel.IMAGE
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // 탭이 선택되지 않은 상태로 변경 되었을 때
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // 이미 선택된 탭이 다시 선택 되었을 때
+            }
+        })
     }
 
     fun activityBackButton() {

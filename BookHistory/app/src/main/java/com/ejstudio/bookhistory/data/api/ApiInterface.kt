@@ -110,4 +110,12 @@ interface ApiInterface {
         @Field("email") email: String,
         @Field("idx") idx: Int
     ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("main/UpdateBookReadingState.php")
+    fun updateBookReadingState(
+        @Field("email") email: String,
+        @Field("idx") idx: Int,
+        @Field("reading_state") reading_state: String
+    ) : Single<CheckTrueOrFalseModel>
 }

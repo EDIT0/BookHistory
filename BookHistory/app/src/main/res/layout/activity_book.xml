@@ -17,21 +17,21 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/activity_book_motion"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
-<!--        app:layoutDescription="@xml/activity_book_motion"-->
+    <!--        app:layoutDescription="@xml/activity_book_motion"-->
         <!--        app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"-->
 
         <ImageView
             android:id="@+id/bookInfoBackgroundView"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:scaleType="centerCrop"
             android:background="#D37B7B"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:src="@drawable/ic_launcher_background"/>
+            tools:src="@drawable/ic_launcher_background" />
 
         <View
             android:id="@+id/bookInfoBackgroundViewTransparency"
@@ -67,10 +67,10 @@
             android:onClick="@{() -> bookViewModel.backButton()}"
             android:src="@drawable/ic_arrow_back_24dp"
             android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="@+id/ib_backButton"
-            app:layout_constraintStart_toStartOf="@+id/ib_backButton"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_backButton"
             app:layout_constraintEnd_toEndOf="@+id/ib_backButton"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_backButton"/>
+            app:layout_constraintStart_toStartOf="@+id/ib_backButton"
+            app:layout_constraintTop_toTopOf="@+id/ib_backButton" />
 
 
         <TextView
@@ -80,12 +80,12 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="18dp"
             android:ellipsize="end"
-            android:visibility="invisible"
             android:singleLine="true"
-            android:textStyle="bold"
             android:text="@={bookViewModel.bookTitle}"
             android:textColor="#000000"
             android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@+id/ib_actionBarBookInfoButton"
             app:layout_constraintStart_toEndOf="@+id/ib_backButton"
             app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
@@ -98,6 +98,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
+            android:onClick="@{() -> bookViewModel.changeMenu()}"
             android:src="@drawable/ic_more_vert_white_24dp"
             app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"
             app:layout_constraintStart_toEndOf="@+id/ib_deleteBook"
@@ -107,13 +108,14 @@
             android:id="@+id/ib_menuChange_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:background="@android:color/transparent"
+            android:onClick="@{() -> bookViewModel.changeMenu()}"
             android:src="@drawable/ic_more_vert_24dp"
-            app:layout_constraintTop_toTopOf="@+id/ib_menuChange"
-            app:layout_constraintStart_toStartOf="@+id/ib_menuChange"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_menuChange"
             app:layout_constraintEnd_toEndOf="@+id/ib_menuChange"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_menuChange"/>
+            app:layout_constraintStart_toStartOf="@+id/ib_menuChange"
+            app:layout_constraintTop_toTopOf="@+id/ib_menuChange" />
 
         <ImageButton
             android:id="@+id/ib_deleteBook"
@@ -121,8 +123,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:onClick="@{() -> bookViewModel.deleteBook()}"
             android:background="@android:color/transparent"
+            android:onClick="@{() -> bookViewModel.deleteBook()}"
             android:src="@drawable/ic_delete_outline_white_24dp"
             app:layout_constraintEnd_toStartOf="@+id/ib_menuChange"
             app:layout_constraintStart_toEndOf="@+id/ib_libraryMap"
@@ -132,14 +134,14 @@
             android:id="@+id/ib_deleteBook_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:onClick="@{() -> bookViewModel.deleteBook()}"
             android:background="@android:color/transparent"
+            android:onClick="@{() -> bookViewModel.deleteBook()}"
             android:src="@drawable/ic_delete_outline_24dp"
-            app:layout_constraintTop_toTopOf="@+id/ib_deleteBook"
-            app:layout_constraintStart_toStartOf="@+id/ib_deleteBook"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_deleteBook"
             app:layout_constraintEnd_toEndOf="@+id/ib_deleteBook"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_deleteBook" />
+            app:layout_constraintStart_toStartOf="@+id/ib_deleteBook"
+            app:layout_constraintTop_toTopOf="@+id/ib_deleteBook" />
 
 
         <ImageButton
@@ -158,13 +160,13 @@
             android:id="@+id/ib_libraryMap_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_location_24dp"
-            app:layout_constraintTop_toTopOf="@+id/ib_libraryMap"
-            app:layout_constraintStart_toStartOf="@+id/ib_libraryMap"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap"
             app:layout_constraintEnd_toEndOf="@+id/ib_libraryMap"
-            app:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap" />
+            app:layout_constraintStart_toStartOf="@+id/ib_libraryMap"
+            app:layout_constraintTop_toTopOf="@+id/ib_libraryMap" />
 
 
         <ImageButton
@@ -173,8 +175,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:onClick="@{() -> bookViewModel.showBookInfo()}"
             android:background="@android:color/transparent"
+            android:onClick="@{() -> bookViewModel.showBookInfo()}"
             android:src="@drawable/ic_expand_more_black_24dp"
             android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@+id/ib_libraryMap"
@@ -193,12 +195,12 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="@={bookViewModel.bookTitle}"
-            android:textSize="25sp"
             android:textColor="#ffffff"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"
             app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"
             app:layout_constraintTop_toBottomOf="@+id/ib_backButton"
-            tools:text="제목"/>
+            tools:text="제목" />
 
         <TextView
             android:id="@+id/tv_authors"
@@ -207,16 +209,16 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="#ffffff"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="@={bookViewModel.bookAuthors}"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            tools:text="지은이"/>
+            tools:text="지은이" />
 
         <View
             android:id="@+id/bookInfoView"
@@ -269,10 +271,10 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/viewPager2_container"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/viewPager2_container"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager2_container"
@@ -287,8 +289,19 @@
 
         </androidx.core.widget.NestedScrollView>
 
-
-
+        <ImageButton
+            android:id="@+id/ib_floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
+            android:onClick="@{() -> bookViewModel.clickFloating()}"
+            android:background="@drawable/write_floating_background"
+            android:elevation="3dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_edit_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

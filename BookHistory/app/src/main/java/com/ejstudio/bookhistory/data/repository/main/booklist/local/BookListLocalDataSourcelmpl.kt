@@ -32,4 +32,8 @@ class BookListLocalDataSourcelmpl(
     override fun deleteIdxBookInfo(email: String, idx: Int): Completable {
         return bookListDao.deleteIdxBookInfo(email, idx)
     }
+
+    override fun updateBookReadingState(email: String, idx: Int, reading_state: String): Completable {
+        return bookListDao.updateBookReadingState(email, idx, reading_state)
+    }
 }

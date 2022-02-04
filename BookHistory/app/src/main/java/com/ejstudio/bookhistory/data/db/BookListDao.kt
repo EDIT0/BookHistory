@@ -27,6 +27,9 @@ interface BookListDao {
     @Query("DELETE FROM BookListEntity")
     fun deleteAllBookList()
 
+    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state WHERE email = :email and idx = :idx")
+    fun updateBookReadingState(email: String, idx: Int, reading_state: String): Completable
+
     @Query("DELETE FROM BookListEntity WHERE email = :email and idx = :idx")
     fun deleteIdxBookInfo(email: String, idx: Int): Completable
 
