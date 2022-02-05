@@ -3,6 +3,7 @@ package com.ejstudio.bookhistory.data.repository.main.booklist
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLocalDataSource
 import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSource
 import com.ejstudio.bookhistory.domain.repository.BookListRepository
@@ -57,10 +58,57 @@ class BookListRepositorylmpl(
         return bookListRemoteDataSource.updateBookReadingState(email, idx, reading_state)
             .flatMap { returnValue ->
                 if(returnValue.returnvalue.toBoolean()) {
-                    bookListLocalDataSource.updateBookReadingState(email, idx, reading_state)
-                        .subscribe({
-                            Log.i(TAG, "업데이트 성공")
-                        })
+                    Log.i(TAG, "1차 업데이트 성공 : " + returnValue.returnvalue + " / " + returnValue.reading_start_datetime + " / " + returnValue.reading_end_datetime)
+                    if(returnValue.add_datetime != null) {
+                        bookListLocalDataSource.updateBookReadingState_before(email, idx, reading_state, "", "", returnValue.add_datetime)
+                            .subscribe({
+                                Log.i(TAG, "업데이트(before) 성공")
+                            })
+                    }
+                    else if(returnValue.reading_start_datetime == null) {
+                        bookListLocalDataSource.updateBookReadingState_end(email, idx, reading_state, returnValue.reading_end_datetime)
+                            .subscribe({
+                                Log.i(TAG, "업데이트(end) 성공")
+                            })
+                    } else if(returnValue.reading_end_datetime == null) {
+                        bookListLocalDataSource.updateBookReadingState_reading(email, idx, reading_state, returnValue.reading_start_datetime)
+                            .subscribe({
+                                Log.i(TAG, "업데이트(reading) 성공")
+                            })
+                    }
+                    Single.just(true)
+                } else {
+                    Single.just(false)
+                }
+            }
+    }
+
+    override fun getTextMemo(bookListIdx: Int): LiveData<List<TextMemoEntity>> {
+        return bookListLocalDataSource.getTextMemo(bookListIdx)
+    }
+
+    override fun insertTextMemo(bookIdx: Int, memoContents: String): Single<Boolean> {
+        return bookListRemoteDataSource.insertTextMemo(bookIdx, memoContents)
+            .flatMap {
+                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx} ${it.booklist_idx} ${it.memo_contents} ${it.save_datetime}")
+                bookListLocalDataSource.insertTextMemo(it.idx, it.booklist_idx, it.memo_contents, it.save_datetime)
+                Single.just(true)
+            }
+    }
+
+    override fun getIdxTextMemo(textMemoIdx: Int): LiveData<TextMemoEntity> {
+        return bookListLocalDataSource.getIdxTextMemo(textMemoIdx)
+    }
+
+    override fun deleteIdxTextMemo(textMemoIdx: Int): Single<Boolean> {
+        return bookListRemoteDataSource.deleteIdxTextMemo(textMemoIdx)
+            .flatMap {
+                if(it.returnvalue.toBoolean()) {
+                    Log.i(TAG, "서버 메모 삭제 성공")
+                    bookListLocalDataSource.deleteIdxTextMemo(textMemoIdx)
+                        .subscribe {
+                            Log.i(TAG, "로컬 메모 삭제 성공")
+                        }
                     Single.just(true)
                 } else {
                     Single.just(false)

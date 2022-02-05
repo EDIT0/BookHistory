@@ -17,6 +17,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 import com.google.android.material.tabs.TabLayoutMediator
 import android.widget.Button
+import android.widget.TextView
+import com.ejstudio.bookhistory.presentation.view.activity.login.FindPassword2Activity
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookInfoBottomSheetDialogFragment
 
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookListMenuSelectionBottomSheetDialogFragment
@@ -77,6 +79,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 deleteDialog = Dialog(binding.root.context);       // Dialog 초기화
 //                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
                 deleteDialog.setContentView(R.layout.dialog_delete_idx_book_info);
+                deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).setText("책을 삭제하면\n글/그림 기록도 삭제됩니다.")
+                deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("지운 데이터는 복구가 불가능합니다.")
                 showDeleteDialog()
             })
             showBookInfo.observe(this@BookActivity, Observer {
@@ -111,7 +115,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
             })
             clickFloaing.observe(this@BookActivity, Observer {
                 if(currentTab.equals(BookViewModel.TEXT)) {
-                    showToast("텍스트 눌림")
+                    goToWriteTextMemoActivity()
                 } else if(currentTab.equals(BookViewModel.IMAGE)) {
                     showToast("이미지 눌림")
                 }
@@ -183,5 +187,13 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
     fun goToContentsSeeDetail() {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(bookViewModel.bookUrl))
         startActivity(browserIntent)
+    }
+
+    fun goToWriteTextMemoActivity() {
+        var intent = Intent(this, WriteTextMemoActivity::class.java)
+        intent.putExtra("book_idx", bookViewModel.book_idx)
+        intent.putExtra("bookTitle", bookViewModel.bookTitle.value)
+        startActivity(intent)
+//        finish()
     }
 }

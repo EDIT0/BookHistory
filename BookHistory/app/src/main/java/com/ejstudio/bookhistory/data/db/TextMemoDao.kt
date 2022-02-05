@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
+import io.reactivex.rxjava3.core.Completable
 
 @Dao
 interface TextMemoDao {
@@ -27,4 +28,13 @@ interface TextMemoDao {
 
     @Query("SELECT * FROM TextMemoEntity WHERE booklist_idx = :booklist_idx")
     fun getAllTextMemo(booklist_idx: Int): LiveData<List<TextMemoEntity>>
+
+    @Query("SELECT * FROM TextMemoEntity WHERE booklist_idx = :bookListIdx order by idx desc")
+    fun getTotalTextMemo(bookListIdx: Int): LiveData<List<TextMemoEntity>>
+
+    @Query("SELECT * FROM TextMemoEntity WHERE idx = :textMemoIdx")
+    fun getIdxTextMemo(textMemoIdx: Int): LiveData<TextMemoEntity>
+
+    @Query("DELETE FROM TextMemoEntity WHERE idx = :textMemoIdx")
+    fun deleteIdxTextMemo(textMemoIdx: Int): Completable
 }

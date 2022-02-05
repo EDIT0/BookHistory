@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.data.api
 
+import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -117,5 +118,18 @@ interface ApiInterface {
         @Field("email") email: String,
         @Field("idx") idx: Int,
         @Field("reading_state") reading_state: String
+    ) : Single<UpdateBookReadingStateModel>
+
+    @FormUrlEncoded
+    @POST("main/InsertTextMemo.php")
+    fun insertTextMemo(
+        @Field("bookIdx") bookIdx: Int,
+        @Field("memoContents") memoContents: String
+    ) : Single<TextMemoEntity>
+
+    @FormUrlEncoded
+    @POST("main/DeleteIdxTextMemo.php")
+    fun deleteIdxTextMemo(
+        @Field("textMemoIdx") textMemoIdx: Int
     ) : Single<CheckTrueOrFalseModel>
 }

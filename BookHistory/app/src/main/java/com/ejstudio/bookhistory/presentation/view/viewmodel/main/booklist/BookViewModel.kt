@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.DeleteIdxBookInfoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetIdxBookInfoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetTextMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.UpdateBookReadingStateUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
@@ -16,7 +18,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class BookViewModel(
     private val getIdxBookInfoUseCase: GetIdxBookInfoUseCase,
     private val deleteIdxBookInfoUseCase: DeleteIdxBookInfoUseCase,
-    private val updateBookReadingStateUseCase: UpdateBookReadingStateUseCase
+    private val updateBookReadingStateUseCase: UpdateBookReadingStateUseCase,
+    private val getTextMemoUseCase: GetTextMemoUseCase
 ) : BaseViewModel() {
 
     private val TAG = BookViewModel::class.java.simpleName
@@ -57,6 +60,14 @@ class BookViewModel(
 
     lateinit var _bookInfo: LiveData<BookListEntity>
     val bookInfo: LiveData<BookListEntity> get() = _bookInfo
+
+    // 책 텍스트 메모 리스트
+//    lateinit var _textMemoList: LiveData<List<TextMemoEntity>>
+    val textMemoList: LiveData<List<TextMemoEntity>> get() = _textMemoList
+
+    val _textMemoList: LiveData<List<TextMemoEntity>> by lazy {
+        getTextMemoUseCase.execute(book_idx)
+    }
 
     fun backButton() {
         _backButton.value = Unit

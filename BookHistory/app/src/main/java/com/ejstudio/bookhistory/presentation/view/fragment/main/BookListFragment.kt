@@ -124,6 +124,7 @@ class BookListFragment : Fragment() {
             beforeReadBookList.observe(viewLifecycleOwner, Observer {
                 try{
                     if(_selectedMenu.value.equals(getString(R.string.before_read))) {
+                        Log.i(TAG, "읽을 책 순: ${it}")
                         bookListAdapter.updataList(it)
                         if(it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
                         Log.i(TAG, "현재 읽기 전 책 갯수: ${it.size}")
@@ -135,6 +136,7 @@ class BookListFragment : Fragment() {
             readingBookList.observe(viewLifecycleOwner, Observer {
                 try{
                     if(_selectedMenu.value.equals(getString(R.string.reading))) {
+                        Log.i(TAG, "읽는 중 순: ${it}")
                         bookListAdapter.updataList(it)
                         if (it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
                         Log.i(TAG, "현재 읽는 중 책 갯수: ${it.size}")
@@ -146,6 +148,7 @@ class BookListFragment : Fragment() {
             endReadBookList.observe(viewLifecycleOwner, Observer {
                 try{
                     if(_selectedMenu.value.equals(getString(R.string.end_read))) {
+                        Log.i(TAG, "읽은 책 순: ${it}")
                         bookListAdapter.updataList(it)
                         if (it.size == 0) { showDataEmptyScreen() } else { hideDataEmptyScreen() }
                         Log.i(TAG, "현재 읽은 후 책 갯수: ${it.size}")

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="246dp"
     android:layout_height="155dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center">
 
     <TextView
@@ -11,13 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
         android:gravity="center"
-        android:text="책을 삭제하면\n글/그림 기록도 삭제됩니다."
         android:textColor="#595959"
         android:textSize="16sp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toTopOf="@+id/dialog_tv_subTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="제목"/>
 
     <TextView
         android:id="@+id/dialog_tv_subTitle"
@@ -25,13 +28,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:gravity="center"
-        android:text="지운 데이터는 복구가 불가능합니다."
         android:textColor="#595959"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/dialog_buttonLayout"
         app:layout_constraintEnd_toEndOf="@+id/dialog_tv_title"
         app:layout_constraintStart_toStartOf="@+id/dialog_tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_tv_title"
+        tools:text="부제목"/>
 
     <View
         android:layout_width="0dp"
@@ -44,13 +47,13 @@
     <LinearLayout
         android:id="@+id/dialog_buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tv_subTitle">
+        app:layout_constraintStart_toStartOf="parent">
+<!--        app:layout_constraintTop_toBottomOf="@+id/dialog_tv_subTitle"-->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog_cancel"

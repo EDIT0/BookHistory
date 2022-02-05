@@ -9,6 +9,6 @@ class GetBeforeReadBookUseCase(
     private val bookListRepository: BookListRepository
 ) {
     fun execute(email: String, reading_state: String) : LiveData<List<BookListEntity>> {
-        return bookListRepository.getReadingBookList(email, reading_state)
+        return bookListRepository.getBeforeReadBookList(email, reading_state)
     }
 }

@@ -2,6 +2,7 @@ package com.ejstudio.bookhistory.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
@@ -13,4 +14,8 @@ interface BookListRepository {
     fun getIdxBookInfo(email: String, idx: Int, reading_state: String) : LiveData<BookListEntity>
     fun deleteIdxBookInfo(email: String, idx: Int) : Single<Boolean>
     fun updateBookReadingState(email: String, idx: Int, reading_state: String) : Single<Boolean>
+    fun getTextMemo(bookListIdx: Int) : LiveData<List<TextMemoEntity>>
+    fun insertTextMemo(bookIdx: Int, memoContents: String) : Single<Boolean>
+    fun getIdxTextMemo(textMemoIdx: Int) : LiveData<TextMemoEntity>
+    fun deleteIdxTextMemo(textMemoIdx: Int) : Single<Boolean>
 }

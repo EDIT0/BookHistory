@@ -27,8 +27,17 @@ interface BookListDao {
     @Query("DELETE FROM BookListEntity")
     fun deleteAllBookList()
 
-    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state WHERE email = :email and idx = :idx")
-    fun updateBookReadingState(email: String, idx: Int, reading_state: String): Completable
+//    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state WHERE email = :email and idx = :idx")
+//    fun updateBookReadingState(email: String, idx: Int, reading_state: String): Completable
+
+    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state, reading_start_datetime = :reading_start_datetime, reading_end_datetime = :reading_end_datetime, add_datetime = :add_datetime WHERE email = :email and idx = :idx")
+    fun updateBookReadingState_before(email: String, idx: Int, reading_state: String, reading_start_datetime: String, reading_end_datetime: String, add_datetime: String): Completable
+
+    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state, reading_start_datetime = :reading_start_datetime, reading_end_datetime = \"\" WHERE email = :email and idx = :idx")
+    fun updateBookReadingState_reading(email: String, idx: Int, reading_state: String, reading_start_datetime: String): Completable
+
+    @Query("UPDATE BOOKLISTENTITY SET reading_state = :reading_state, reading_end_datetime = :reading_end_datetime WHERE email = :email and idx = :idx")
+    fun updateBookReadingState_end(email: String, idx: Int, reading_state: String, reading_end_datetime: String): Completable
 
     @Query("DELETE FROM BookListEntity WHERE email = :email and idx = :idx")
     fun deleteIdxBookInfo(email: String, idx: Int): Completable
@@ -36,8 +45,17 @@ interface BookListDao {
     @Query("SELECT * FROM BookListEntity WHERE email = :email order by idx desc")
     fun getAllBookList(email: String): LiveData<List<BookListEntity>>
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by idx desc")
-    fun getBookList(email: String, reading_state: String): LiveData<List<BookListEntity>>
+//    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by idx desc")
+//    fun getBookList(email: String, reading_state: String): LiveData<List<BookListEntity>>
+
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by add_datetime desc")
+    fun getBookList_before(email: String, reading_state: String): LiveData<List<BookListEntity>>
+
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by reading_start_datetime desc")
+    fun getBookList_reading(email: String, reading_state: String): LiveData<List<BookListEntity>>
+
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by reading_end_datetime desc")
+    fun getBookList_end(email: String, reading_state: String): LiveData<List<BookListEntity>>
 
     @Query("SELECT * FROM BookListEntity WHERE idx = :idx and email = :email and reading_state = :reading_state")
     fun getIdxBookInfo(email: String, idx: Int, reading_state: String): LiveData<BookListEntity>

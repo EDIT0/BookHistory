@@ -15,6 +15,13 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.view.activity.main.booklist.SeeTextMemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.activity.main.booklist.WriteTextMemoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".presentation.view.activity.main.booklist.BookActivity"
             android:exported="false" />
         <activity
