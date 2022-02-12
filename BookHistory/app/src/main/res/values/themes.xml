@@ -65,4 +65,9 @@
         <item name="android:fontFamily">@font/custom_font_family</item>
     </style>
 
+    <style name="seeImageMemo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
 </resources>

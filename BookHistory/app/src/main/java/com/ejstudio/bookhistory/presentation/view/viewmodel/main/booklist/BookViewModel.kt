@@ -4,22 +4,27 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.DeleteIdxBookInfoUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetIdxBookInfoUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetTextMemoUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.booklist.UpdateBookReadingStateUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import com.ejstudio.bookhistory.util.ImageSenderModule
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 
 class BookViewModel(
     private val getIdxBookInfoUseCase: GetIdxBookInfoUseCase,
     private val deleteIdxBookInfoUseCase: DeleteIdxBookInfoUseCase,
     private val updateBookReadingStateUseCase: UpdateBookReadingStateUseCase,
-    private val getTextMemoUseCase: GetTextMemoUseCase
+    private val getTextMemoUseCase: GetTextMemoUseCase,
+    private val getImageMemoUseCase: GetImageMemoUseCase,
+    private val insertImageMemo: InsertImageMemoUseCase
 ) : BaseViewModel() {
 
     private val TAG = BookViewModel::class.java.simpleName
@@ -64,9 +69,19 @@ class BookViewModel(
     // 책 텍스트 메모 리스트
 //    lateinit var _textMemoList: LiveData<List<TextMemoEntity>>
     val textMemoList: LiveData<List<TextMemoEntity>> get() = _textMemoList
-
     val _textMemoList: LiveData<List<TextMemoEntity>> by lazy {
         getTextMemoUseCase.execute(book_idx)
+    }
+
+    // 책 이미지 메모 리스트
+    lateinit var _imageMemoList: LiveData<List<ImageMemoEntity>>
+    val imageMemoList: LiveData<List<ImageMemoEntity>> get() = _imageMemoList
+//    val _imageMemoList: LiveData<List<ImageMemoEntity>> by lazy {
+//        getImageMemoUseCase.execute(book_idx)
+//    }
+
+    fun getIdxImageMemo() {
+        _imageMemoList = getImageMemoUseCase.execute(book_idx)
     }
 
     fun backButton() {
@@ -168,6 +183,23 @@ class BookViewModel(
 
     fun clickFloating() {
         _clickFloaing.value = Unit
+    }
+
+    fun insertImageMemo(file:File, fileName: String) {
+        compositeDisposable.add(
+            insertImageMemo.execute(book_idx, file, fileName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showProgress() }
+                .doAfterTerminate {
+                    hideProgress()
+                }
+                .subscribe({
+                    Log.i(TAG, "이미지 메모 저장 성공")
+                }, {
+                    Log.i(TAG, "이미지 메모 저장 에러: " + it.message.toString())
+                })
+        )
     }
 
     companion object {

@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
+import io.reactivex.rxjava3.core.Completable
 
 @Dao
 interface ImageMemoDao {
     @Insert
-    fun insertImageMemo(imageMemoEntity: ImageMemoEntity)
+    fun insertImageMemo(imageMemoEntity: ImageMemoEntity) : Completable
 
     /*@Update
     fun update(bookEntity: BookEntity)*/
@@ -26,5 +27,8 @@ interface ImageMemoDao {
     fun deleteAllImageMemo()
 
     @Query("SELECT * FROM ImageMemoEntity WHERE booklist_idx = :booklist_idx")
-    fun getAllImageMemo(booklist_idx: Int): LiveData<List<ImageMemoEntity>>
+    fun getTotalImageMemo(booklist_idx: Int): LiveData<List<ImageMemoEntity>>
+
+    @Query("DELETE FROM ImageMemoEntity WHERE idx = :imageMemoIdx")
+    fun deleteIdxImageMemo(imageMemoIdx: Int): Completable
 }

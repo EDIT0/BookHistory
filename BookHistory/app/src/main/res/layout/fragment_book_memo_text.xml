@@ -26,16 +26,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <include-->
-<!--            android:id="@+id/include_data_empty_screen"-->
-<!--            layout="@layout/data_empty_screen"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:visibility="@{bookViewModel.isData() ? View.GONE : View.VISIBLE}"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <include
+            android:id="@+id/include_data_empty_screen"
+            layout="@layout/data_empty_screen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#fcfcfc"
+            android:visibility="@{bookViewModel.isData() ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

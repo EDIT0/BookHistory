@@ -1,9 +1,12 @@
 package com.ejstudio.bookhistory.data.api
 
+import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.*
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import okhttp3.MultipartBody
+import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiInterface {
@@ -131,5 +134,32 @@ interface ApiInterface {
     @POST("main/DeleteIdxTextMemo.php")
     fun deleteIdxTextMemo(
         @Field("textMemoIdx") textMemoIdx: Int
+    ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("main/UpdateIdxTextMemo.php")
+    fun updateIdxTextMemo(
+        @Field("textMemoIdx") textMemoIdx: Int,
+        @Field("edit_memo_contents") edit_memo_contents: String
+    ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("main/InsertImageMemo.php")
+    fun insertImageMemo(
+        @Field("bookIdx") bookIdx: Int,
+        @Field("imageMemoPath") imageMemoPath: String
+    ) : Single<ImageMemoEntity>
+
+    @Multipart
+    @POST("main/ImageSenderToServer.php")
+    fun imageSenderToServer(
+        @Part("userId") userId: String,
+        @Part imageFile : MultipartBody.Part
+    ): Call<String>
+
+    @FormUrlEncoded
+    @POST("main/DeleteIdxImageMemo.php")
+    fun deleteIdxImageMemo(
+        @Field("imageMemoIdx") imageMemoIdx: Int
     ) : Single<CheckTrueOrFalseModel>
 }

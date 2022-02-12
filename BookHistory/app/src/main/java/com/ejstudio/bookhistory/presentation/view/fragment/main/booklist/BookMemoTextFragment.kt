@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentBookMemoTextBinding
 import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.BookActivity
@@ -22,6 +23,7 @@ import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.SeeText
 import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.WriteTextMemoActivity
 import com.ejstudio.bookhistory.presentation.view.adapter.main.booklist.BookMemoTextAdapter
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
+import com.ejstudio.bookhistory.util.Converter
 
 class BookMemoTextFragment : Fragment() {
 
@@ -59,10 +61,10 @@ class BookMemoTextFragment : Fragment() {
     }
 
     fun dataEmptyScreenSetting() {
-//        dataEmptyView = binding.root.findViewById<View>(R.id.include_data_empty_screen)
-//        emptyImage = dataEmptyView.findViewById<ImageView>(R.id.iv_emptyImage)
-//        emptyTextTitle = dataEmptyView.findViewById<TextView>(R.id.tv_emptyTextTitle)
-//        emptyTextSubTitle = dataEmptyView.findViewById<TextView>(R.id.tv_emptyTextSubTitle)
+        dataEmptyView = binding.root.findViewById<View>(R.id.include_data_empty_screen)
+        emptyImage = dataEmptyView.findViewById<ImageView>(R.id.iv_emptyImage)
+        emptyTextTitle = dataEmptyView.findViewById<TextView>(R.id.tv_emptyTextTitle)
+        emptyTextSubTitle = dataEmptyView.findViewById<TextView>(R.id.tv_emptyTextSubTitle)
     }
 
     fun viewModelCallback(){
@@ -70,7 +72,23 @@ class BookMemoTextFragment : Fragment() {
             textMemoList.observe(viewLifecycleOwner, Observer {
                 Log.i(TAG, "텍스트 메모 갯수: " + it.size)
                 Log.i(TAG, "텍스트 가져온 idx: ${book_idx}")
-                bookTextMemoAdapter.updataList(it)
+                if(it == null || it.size == 0) {
+                    showDataEmptyScreen()
+                    bookTextMemoAdapter.updataList(it)
+                } else {
+                    hideDataEmptyScreen()
+                    bookTextMemoAdapter.updataList(it)
+                }
+
+            })
+            isData.observe(viewLifecycleOwner, Observer {
+                Glide.with(binding.root)
+                    .load(R.drawable.ic_sentiment_neutral_24dp)
+                    .override(
+                        Converter.dpToPx(binding.root.context, 24),
+                        Converter.dpToPx(binding.root.context, 24))
+                    .into(emptyImage)
+                emptyTextTitle.text = "기록하고\n나중에 꺼내보는\n즐거움이 있어요"
             })
         }
     }

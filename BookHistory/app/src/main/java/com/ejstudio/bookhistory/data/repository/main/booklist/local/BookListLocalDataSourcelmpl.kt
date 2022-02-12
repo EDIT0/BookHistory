@@ -3,14 +3,17 @@ package com.ejstudio.bookhistory.data.repository.main.booklist.local
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.db.BookListDao
+import com.ejstudio.bookhistory.data.db.ImageMemoDao
 import com.ejstudio.bookhistory.data.db.TextMemoDao
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import io.reactivex.rxjava3.core.Completable
 
 class BookListLocalDataSourcelmpl(
     private val bookListDao: BookListDao,
-    private val textMemoDao: TextMemoDao
+    private val textMemoDao: TextMemoDao,
+    private val imageMemoDao: ImageMemoDao
 ) : BookListLocalDataSource {
 
 
@@ -74,5 +77,21 @@ class BookListLocalDataSourcelmpl(
 
     override fun deleteIdxTextMemo(textMemoIdx: Int): Completable {
         return textMemoDao.deleteIdxTextMemo(textMemoIdx)
+    }
+
+    override fun updateIdxTextMemo(textMemoIdx: Int, edit_memo_contents: String): Completable {
+        return textMemoDao.updateIdxTextMemo(textMemoIdx, edit_memo_contents)
+    }
+
+    override fun insertImageMemo(idx: Int, bookIdx: Int, memoImagePath: String, save_datetime: String) : Completable {
+        return imageMemoDao.insertImageMemo(ImageMemoEntity(idx, bookIdx, memoImagePath, save_datetime))
+    }
+
+    override fun getImageMemo(bookListIdx: Int): LiveData<List<ImageMemoEntity>> {
+        return imageMemoDao.getTotalImageMemo(bookListIdx)
+    }
+
+    override fun deleteIdxImageMemo(imageMemoIdx: Int): Completable {
+        return imageMemoDao.deleteIdxImageMemo(imageMemoIdx)
     }
 }

@@ -3,14 +3,21 @@ package com.ejstudio.bookhistory.data.repository.main.booklist
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLocalDataSource
 import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSource
 import com.ejstudio.bookhistory.domain.repository.BookListRepository
+import com.ejstudio.bookhistory.util.ImageSenderModule
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
+import java.lang.Exception
 
 class BookListRepositorylmpl(
     private val bookListLocalDataSource: BookListLocalDataSource,
@@ -108,6 +115,77 @@ class BookListRepositorylmpl(
                     bookListLocalDataSource.deleteIdxTextMemo(textMemoIdx)
                         .subscribe {
                             Log.i(TAG, "로컬 메모 삭제 성공")
+                        }
+                    Single.just(true)
+                } else {
+                    Single.just(false)
+                }
+            }
+    }
+
+    override fun updateIdxTextMemo(textMemoIdx: Int, edit_memo_contents: String): Single<Boolean> {
+        return bookListRemoteDataSource.updateIdxTextMemo(textMemoIdx, edit_memo_contents)
+            .flatMap {
+                if(it.returnvalue.toBoolean()) {
+                    Log.i(TAG, "서버 메모 업데이트 성공")
+                    bookListLocalDataSource.updateIdxTextMemo(textMemoIdx, edit_memo_contents)
+                        .subscribe {
+                            Log.i(TAG, "로컬 메모 업데이트 성공")
+                        }
+                    Single.just(true)
+                } else {
+                    Single.just(false)
+                }
+            }
+    }
+
+    override fun insertImageMemo(bookIdx: Int, file: File, fileName: String): Single<Boolean> {
+        return bookListRemoteDataSource.insertImageMemo(bookIdx, file, fileName.trim())
+            .flatMap {
+//                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx} ${it.booklist_idx} ${it.memo_image.trim()} ${it.save_datetime}")
+//                bookListLocalDataSource.insertImageMemo(it.idx, it.booklist_idx, it.memo_image.trim(), it.save_datetime)
+
+                val imageSenderModule = ImageSenderModule.getInstance()
+                var (server, body) = imageSenderModule.SendImageModule(file, it.memo_image.trim())
+                server.imageSenderToServer("name2.png", body).enqueue(object: Callback<String> {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        Log.d(TAG,"에러")
+                        Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx} ${it.booklist_idx} ${it.memo_image.trim()} ${it.save_datetime}")
+                        bookListLocalDataSource.insertImageMemo(it.idx, it.booklist_idx, it.memo_image.trim(), it.save_datetime)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터 성공")
+                            }, {
+                                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터 에러: " + it.message.toString())
+                            })
+
+                    }
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response?.isSuccessful) {
+                            Log.d(TAG,""+response?.body().toString())
+                        } else {
+                        }
+                    }
+                })
+
+                Single.just(true)
+            }
+    }
+
+    override fun getImageMemo(bookListIdx: Int): LiveData<List<ImageMemoEntity>> {
+        return bookListLocalDataSource.getImageMemo(bookListIdx)
+    }
+
+    override fun deleteIdxImageMemo(imageMemoIdx: Int): Single<Boolean> {
+        Log.i(TAG, "삭제 호출함: " + imageMemoIdx.toString().trim().toInt())
+        return bookListRemoteDataSource.deleteIdxImageMemo(imageMemoIdx.toString().trim().toInt())
+            .flatMap {
+                if(it.returnvalue.toBoolean()) {
+                    Log.i(TAG, "서버 이미지 메모 삭제 성공")
+                    bookListLocalDataSource.deleteIdxImageMemo(imageMemoIdx)
+                        .subscribe {
+                            Log.i(TAG, "로컬 이미지 메모 삭제 성공")
                         }
                     Single.just(true)
                 } else {

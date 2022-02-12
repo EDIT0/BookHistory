@@ -37,4 +37,7 @@ interface TextMemoDao {
 
     @Query("DELETE FROM TextMemoEntity WHERE idx = :textMemoIdx")
     fun deleteIdxTextMemo(textMemoIdx: Int): Completable
+
+    @Query("UPDATE TextMemoEntity SET memo_contents = :edit_memo_contents WHERE idx = :textMemoIdx")
+    fun updateIdxTextMemo(textMemoIdx: Int, edit_memo_contents: String): Completable
 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.view.activity.main.booklist.SeeImageMemoActivity">
+
+    <data>
+
+        <variable
+            name="seeImageMemoViewModel"
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeImageMemoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <View
+            android:id="@+id/actionBarView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_close_24dp"
+            android:onClick="@{() -> seeImageMemoViewModel.backButton()}"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+            app:layout_constraintStart_toStartOf="@+id/actionBarView"
+            app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+
+        <ImageButton
+            android:id="@+id/ib_shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_share_white_24dp"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginEnd="13dp"
+            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+            app:layout_constraintEnd_toStartOf="@+id/ib_deleteButton"
+            app:layout_constraintStart_toStartOf="@+id/actionBarView"
+            app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+
+        <ImageButton
+            android:id="@+id/ib_deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:onClick="@{() -> seeImageMemoViewModel.deleteImageMemo()}"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_delete_outline_white_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+            app:layout_constraintEnd_toEndOf="@+id/actionBarView"
+            app:layout_constraintStart_toEndOf="@+id/ib_shareButton"
+            app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBarView" />
+
+        <View
+            android:id="@+id/bottomView"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -41,6 +41,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.BookDetailPageViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeImageMemoViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeTextMemoViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.WriteTextMemoViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
@@ -48,6 +49,8 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.Sear
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kakao.sdk.common.KakaoSdk
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -92,7 +95,11 @@ val networkModule: Module = module {
     single { NetworkManager(get()) }
 }
 
+
 val apiModule: Module = module {
+    val gson : Gson = GsonBuilder()
+        .setLenient()
+        .create()
 
     single<ApiInterface> { get<Retrofit>().create(ApiInterface::class.java) }
 
@@ -101,11 +108,11 @@ val apiModule: Module = module {
             .baseUrl(ApiClient.BASE_URL)
             .client(get())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
-    single<GsonConverterFactory> { GsonConverterFactory.create() }
+    single<GsonConverterFactory> { GsonConverterFactory.create(gson) }
 
     single<OkHttpClient> {
         OkHttpClient.Builder()
@@ -122,6 +129,9 @@ val apiModule: Module = module {
 //                    .addHeader("X-Naver-Client-Id", "33chRuAiqlSn5hn8tIme")
 //                    .addHeader("X-Naver-Client-Secret", "fyfwt9PCUN")
 //                    .addHeader("Connection", "close")
+                    .addHeader("Connection", "close")
+//                    .addHeader("Content-Type", "application/json")
+//                    .addHeader("Cache-Control", "no-cache")
                     .build()
                 proceed(newRequest)
             }
@@ -139,9 +149,10 @@ val viewModelModule: Module = module {
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
-    viewModel { BookViewModel(get(), get(), get(), get()) }
+    viewModel { BookViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { WriteTextMemoViewModel(get()) }
-    viewModel { SeeTextMemoViewModel(get(), get()) }
+    viewModel { SeeTextMemoViewModel(get(), get(), get()) }
+    viewModel { SeeImageMemoViewModel(get()) }
 }
 
 val useCaseModule: Module = module {
@@ -174,6 +185,10 @@ val useCaseModule: Module = module {
     single { InsertTextMemoUseCase(get()) }
     single { GetIdxTextMemoUseCase(get()) }
     single { DeleteIdxTextMemoUseCase(get()) }
+    single { UpdateIdxTextMemoUseCase(get()) }
+    single { GetImageMemoUseCase(get()) }
+    single { InsertImageMemoUseCase(get()) }
+    single { DeleteIdxImageMemoUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -193,7 +208,7 @@ val localDataModule: Module = module {
     single<MyBookDatabase> {
         Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").fallbackToDestructiveMigration().build()
     }
-    single<BookListLocalDataSource> { BookListLocalDataSourcelmpl(get(), get()) }
+    single<BookListLocalDataSource> { BookListLocalDataSourcelmpl(get(), get(), get()) }
 }
 
 val remoteDataModule: Module = module {

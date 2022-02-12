@@ -34,7 +34,7 @@ class WriteTextMemoViewModel(
         if(!memo_contents.trim().equals("")) {
             Log.i(TAG, "저장할 메모: " + book_idx + " / " + memo_contents)
             compositeDisposable.add(
-                insertTextMemoUseCase.execute(book_idx, memo_contents)
+                insertTextMemoUseCase.execute(book_idx, memo_contents.trim())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { showProgress() }

@@ -1,10 +1,12 @@
 package com.ejstudio.bookhistory.presentation.view.activity.main.booklist
 
 import android.app.Dialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -25,14 +27,20 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     private val TAG: String? = SeeTextMemoActivity::class.java.simpleName
     public val seeTextMemoViewModel: SeeTextMemoViewModel by viewModel()
     lateinit var deleteDialog: Dialog
+    private lateinit var manager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.seeTextMemoViewModel = seeTextMemoViewModel
 
+        keyBoardSetting()
         recvIntent()
         viewModelCallback()
+    }
+
+    fun keyBoardSetting() {
+        manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     fun recvIntent() {
@@ -44,13 +52,21 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     fun viewModelCallback() {
         with(seeTextMemoViewModel) {
             backButton.observe(this@SeeTextMemoActivity, Observer {
-                activityBackButton()
+                if(isEditMode.value.toString().toBoolean()) {
+                    Log.i(TAG, "텍스트 길이 ${memo_contents.value.toString().length}")
+                    textSynchronization()
+                    isEditMode.value = false
+                    manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+                } else {
+                    activityBackButton()
+                }
             })
             textMemo.observe(this@SeeTextMemoActivity, Observer {
                 if(it != null) {
                     Log.i(TAG, "결과: ${it.idx} ${it.booklist_idx} ${it.memo_contents} ${it.save_datetime}")
 
                     memo_contents.value = it.memo_contents
+                    textSynchronization()
                 }
             })
             deleteTextMemo.observe(this@SeeTextMemoActivity, Observer {
@@ -61,7 +77,13 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
                 deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.INVISIBLE
                 showDeleteDialog()
             })
-
+            editButton.observe(this@SeeTextMemoActivity, Observer {
+                isEditMode.value = true
+                binding.etContents.requestFocus()
+                Log.i(TAG, "텍스트 길이 ${binding.etContents.text.length}")
+                binding.etContents.setSelection(binding.etContents.text.length)
+                manager.showSoftInput(binding.etContents, InputMethodManager.SHOW_IMPLICIT);
+            })
         }
     }
 

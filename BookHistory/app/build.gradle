@@ -85,4 +85,13 @@ dependencies {
     implementation("androidx.room:room-rxjava3:2.3.0")
     // Room GUI
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    // Permission
+    implementation 'gun0912.ted:tedpermission:2.0.0'
+
+    // Zoom In/Out
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // OCR
+    implementation 'com.rmtheis:tess-two:9.1.0'
 }
