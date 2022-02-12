@@ -8,6 +8,7 @@ import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLocalDataSource
 import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSource
 import com.ejstudio.bookhistory.domain.repository.BookListRepository
+import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.BookActivity
 import com.ejstudio.bookhistory.util.ImageSenderModule
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -156,6 +157,11 @@ class BookListRepositorylmpl(
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
                                 Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터 성공")
+                                Log.i(TAG, "파일 삭제: ${BookActivity.deleteImagePath.path}")
+                                var deleteFile: File? = File(BookActivity.deleteImagePath.path)
+                                deleteFile?.delete()
+                                deleteFile = null
+                                BookActivity.deleteImagePath.path = ""
                             }, {
                                 Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터 에러: " + it.message.toString())
                             })

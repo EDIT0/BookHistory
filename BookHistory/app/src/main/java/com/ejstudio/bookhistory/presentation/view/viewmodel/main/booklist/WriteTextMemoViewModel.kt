@@ -18,6 +18,9 @@ class WriteTextMemoViewModel(
     private val _backButton: MutableLiveData<Unit> = MutableLiveData()
     val backButton: LiveData<Unit> get() = _backButton
 
+    private val _clickOCR: MutableLiveData<Unit> = MutableLiveData()
+    val clickOCR: LiveData<Unit> get() = _clickOCR
+
     private val _showToast: MutableLiveData<Unit> = MutableLiveData()
     val showToast: LiveData<Unit> get() = _showToast
     var toastMessage = ""
@@ -52,6 +55,10 @@ class WriteTextMemoViewModel(
             toastMessage = "내용을 입력하세요"
             _showToast.value = Unit
         }
+    }
+
+    fun clickOCR() {
+        _clickOCR.value = Unit
     }
 
 }

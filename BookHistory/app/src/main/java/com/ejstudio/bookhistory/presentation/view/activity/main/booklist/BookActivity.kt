@@ -45,6 +45,13 @@ import android.R.attr.orientation
 
 import android.R.attr.bitmap
 import android.graphics.Matrix
+import android.os.Environment
+import android.R.id
+import java.lang.Exception
+import android.R.attr.data
+
+
+
 
 
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
@@ -58,8 +65,15 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
     var photoURI: Uri? = null // 카메라 원본이미지 Uri를 저장할 변수
     val FLAG_REQ_CAMERA = 200
+    var CROP_FROM_CAMERA = 111
 
     var exif: ExifInterface? = null
+
+    lateinit var deleteFile: File
+
+    object deleteImagePath{
+        var path = ""
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +83,11 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         recvIntent()
         viewModelCallback()
         viewPagerAndTabLayoutSetting()
+
+//        val dir: File = File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + "/Pictures", "/BookHistory")
+//        if (!dir.exists()) {
+//            dir.mkdirs()
+//        }
     }
 
     fun recvIntent() {
@@ -243,6 +262,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        Log.i(TAG, "onActivityResult() 호출")
+
         if(resultCode == Activity.RESULT_OK) {
             when(requestCode){
                 FLAG_REQ_CAMERA -> {
@@ -252,14 +273,15 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 //                        binding.textImage.setImageBitmap(bitmap)
                         Log.i(TAG, "이미지 비트맵: ${bitmap}")
 
-                        var path = absolutelyPath(photoURI!!) // 파일 경로 얻기
+                        deleteImagePath.path = absolutelyPath(photoURI!!) // 파일 경로 얻기
 
+//                        soundDoodleInit("")
 
                         /*
                         * 사진 각도 맞춤
                         * */
                         try {
-                            exif = ExifInterface(path)
+                            exif = ExifInterface(deleteImagePath.path)
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
@@ -267,58 +289,68 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                         val bmRotated: Bitmap = rotateBitmap(bitmap!!, orientation)!!
 
                         photoURI = getBitmapToUri(bmRotated) // bitmap에서 uri로 변경
-
+                        deleteFile = File(deleteImagePath.path) // 1. 사진 찍으면 생성된 이미지 파일 삭제
+                        deleteFile.delete()
+                        deleteImagePath.path = absolutelyPath(photoURI!!)
 //                        val resizedBmp = Bitmap.createScaledBitmap(bitmap!!, bitmap.width / 5, bitmap.height/5, true)
 //                        photoURI = getImageUri(resizedBmp)
                         // 사진 리사이징
-                        var resizeBitmap = resize(this, photoURI!!, 100)
+                        var resizeBitmap = resize(this, photoURI!!, 200)
                         photoURI = getBitmapToUri(resizeBitmap!!)
+                        deleteFile = File(deleteImagePath.path) // 2. 각도 조절한 이미지 파일 삭제
+                        deleteFile.delete()
+                        deleteImagePath.path = absolutelyPath(photoURI!!)
 
-                        path = absolutelyPath(photoURI!!)
+//                        val file = File(deleteImagePath.path)
+//                        var fileName = file.getName()
+//                        fileName = "${UserInfo.email}.png"
+//
+//                        Log.i(TAG,"photoURI: "+photoURI)
+//                        Log.i(TAG,"이미지 경로: "+ deleteImagePath.path)
+//                        Log.i(TAG,"이미지 제목 ${fileName}")
+//
+//                        bookViewModel.insertImageMemo(file, fileName)
 
-                        val file = File(path)
-                        var fileName = file.getName()
-                        fileName = "${UserInfo.email}.png"
+                        // 3. 리사이즈한 이미지는 이미지 저장 완료 후 삭제
 
-                        Log.i(TAG,"photoURI: "+photoURI)
-                        Log.i(TAG,"이미지 경로: "+ path)
-                        Log.i(TAG,"이미지 제목 ${fileName}")
+                        var intent = Intent("com.android.camera.action.CROP");
+                        intent.setDataAndType(photoURI, "image/*");
+                        intent.putExtra("scale", true);
+                        intent.putExtra("return-data", true);
+                        startActivityForResult(intent, CROP_FROM_CAMERA); // CROP_FROM_CAMERA case문 이동
 
-                        bookViewModel.insertImageMemo(file, fileName)
-
-
-
-
-//                        val cropPictureIntent = Intent("com.android.camera.action.CROP")
-//                        cropPictureIntent.setDataAndType(photoURI, "image/*")
-//                        startActivityForResult(cropPictureIntent, CROP_FROM_CAMERA)
+//                        deleteFile = File(deleteImagePath.path)
+//                        deleteFile.delete()
 
                     }
                 }
                 CROP_FROM_CAMERA -> {
+                    if(data?.extras != null) {
+                        var extras: Bundle = data?.extras!!
+                        Log.i(TAG, "크롭 데이터: ${extras.get("data")}")
 
-//                    if(data?.extras?.get("data") != null) {
-//                        var photoBitmap = data?.extras?.get("data") as Bitmap // CROP된 BITMAP
-//
-//                        var uri = getBitmapToUri(photoBitmap)
-//
-//                        var path = absolutelyPath(uri!!)
-//                        val file = File(path)
-//                        var fileName = file.getName()
-//                        fileName = "${UserInfo.email}.png"
-//
-//                        Log.i(TAG, "photoURI: " + photoURI)
-//                        Log.i(TAG, "이미지 경로: " + path)
-//                        Log.i(TAG, "이미지 제목 ${fileName}")
-//                        bookViewModel.insertImageMemo(file, fileName)
-//                        uri = null
-//                    }
-//                    photoURI = null // 사용 후 null 처리
+                        photoURI = getBitmapToUri(extras.get("data") as Bitmap) // bitmap에서 uri로 변경
+                        deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
+                        deleteFile.delete()
+                        deleteImagePath.path = absolutelyPath(photoURI!!)
+
+                        val file = File(deleteImagePath.path)
+                        var fileName = file.getName()
+                        fileName = "${UserInfo.email}.png"
+
+                        Log.i(TAG, "photoURI: " + photoURI)
+                        Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
+                        Log.i(TAG, "이미지 제목 ${fileName}")
+
+                        bookViewModel.insertImageMemo(file, fileName)
+                        photoURI = null // 사용 후 null 처리
+                    } else {
+                        Log.i(TAG, "크롭 데이터 null")
+                    }
                 }
             }
         }
     }
-    var CROP_FROM_CAMERA = 111
 
     var permissionlistener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() { // 권한 허가시 실행 할 내용
@@ -352,14 +384,15 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         createImageUri("imagefolder"+ Calendar.getInstance().getTime(), "image/jpeg")?.let { uri ->
             photoURI = uri
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            Log.i(TAG, "카메라 이미지 uri ${photoURI}")
             startActivityForResult(takePictureIntent, FLAG_REQ_CAMERA)
         }
     }
 
     fun createImageUri(filename: String, mimeType: String) : Uri? {
         var values = ContentValues()
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-        values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+//        values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+//        values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
         return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
     }
 
@@ -458,6 +491,21 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         } catch (e: OutOfMemoryError) {
             e.printStackTrace()
             null
+        }
+    }
+
+    fun soundDoodleInit(path: String?) {
+        val dir = File(path)
+        val childFileList = dir.listFiles()
+        if (dir.exists()) {
+            for (childFile in childFileList) {
+                if (childFile.isDirectory) {
+                    soundDoodleInit(childFile.absolutePath)
+                } else {
+                    childFile.delete()
+                }
+            }
+            dir.delete()
         }
     }
 
