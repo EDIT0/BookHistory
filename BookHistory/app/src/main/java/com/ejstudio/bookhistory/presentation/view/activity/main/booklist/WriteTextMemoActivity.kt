@@ -98,6 +98,11 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
         onBackPressed()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.not_move_activity, R.anim.rightout_activity)
+    }
+
 //    fun goToCamera() {
 //        checkPermissions()
 //    }

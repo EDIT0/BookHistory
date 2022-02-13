@@ -3,8 +3,10 @@ package com.ejstudio.bookhistory.presentation.view.adapter.main.booklist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.databinding.BookListItemBinding
 import com.ejstudio.bookhistory.presentation.view.DiffUtil.main.BookListDiffUtil
@@ -51,6 +53,7 @@ class BookListAdapter: RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items.get(position))
+        holder.binding.root.animation = AnimationUtils.loadAnimation(holder.binding.root.context, R.anim.attach_in)
     }
 
     fun updataList(newList: List<BookListEntity>) {

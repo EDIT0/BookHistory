@@ -158,12 +158,18 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         onBackPressed()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftin_activity, R.anim.rightout_activity)
+    }
+
     fun goToSearchResultActivity(keyword: String) {
         val intent: Intent = Intent(this, SearchResultActivity::class.java)
 //        searchViewModel.inputSearch.value.toString().trim()
         intent.putExtra("searchKeyword", keyword)
         searchViewModel.inputSearch.value = ""
         startActivity(intent)
+        overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
     override fun onResume() {

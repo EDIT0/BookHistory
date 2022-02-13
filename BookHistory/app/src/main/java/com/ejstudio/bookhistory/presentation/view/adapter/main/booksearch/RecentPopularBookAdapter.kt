@@ -3,8 +3,10 @@ package com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.RecentPopularBookItemBinding
 import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.presentation.view.DiffUtil.main.RecentPopularBookDiffUtil
@@ -51,6 +53,7 @@ class RecentPopularBookAdapter : RecyclerView.Adapter<RecentPopularBookAdapter.V
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items.get(position).doc)
+        holder.binding.root.animation = AnimationUtils.loadAnimation(holder.binding.root.context, R.anim.fade_in)
     }
 
     fun updataList(newList: List<RecentPopularBookModel.Response.Doc>) {

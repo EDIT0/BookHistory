@@ -154,9 +154,15 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.
         intent.putExtra("translators", searchResultViewModel.bookList.value!!.get(position).translators as ArrayList<SearchBookModel.Document>)
         intent.putExtra("url", searchResultViewModel.bookList.value!!.get(position).url.toString())
         startActivity(intent)
+        overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
     fun activityBackButton() {
         onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftin_activity, R.anim.rightout_activity)
     }
 }

@@ -228,6 +228,11 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         onBackPressed()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
+    }
+
     fun showDeleteDialog() {
         deleteDialog.show()
 
@@ -253,6 +258,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         intent.putExtra("book_idx", bookViewModel.book_idx)
         intent.putExtra("bookTitle", bookViewModel.bookTitle.value)
         startActivity(intent)
+        overridePendingTransition(R.anim.rightin_activity,R.anim.not_move_activity)
     }
 
     fun goToCamera() {

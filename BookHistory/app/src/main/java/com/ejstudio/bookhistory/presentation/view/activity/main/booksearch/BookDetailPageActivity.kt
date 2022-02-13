@@ -74,6 +74,11 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
         onBackPressed()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.leftin_activity, R.anim.rightout_activity)
+    }
+
     fun goToContentsSeeDetail() {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(bookDetailPageViewModel.url))
         startActivity(browserIntent)

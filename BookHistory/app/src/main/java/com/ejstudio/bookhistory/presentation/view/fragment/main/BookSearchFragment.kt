@@ -136,12 +136,14 @@ class BookSearchFragment : Fragment() {
             intent.putExtra("recentSearchs", "리사이클러뷰 아이템 중 하나")
         }
         startActivity(Intent(activity, SearchActivity::class.java))
+        requireActivity().overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
     fun goToSearchResultActivity(keyword: String) {
         val intent: Intent = Intent(activity, SearchResultActivity::class.java)
         intent.putExtra("searchKeyword", keyword)
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
 
 }

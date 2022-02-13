@@ -66,6 +66,11 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
         onBackPressed()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
+    }
+
     fun showDeleteDialog() {
         deleteDialog.show()
 

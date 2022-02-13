@@ -247,6 +247,7 @@ class BookListFragment : Fragment() {
                     }
                 }
                 startActivity(intent)
+                requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.not_move_activity)
             }
         })
     }

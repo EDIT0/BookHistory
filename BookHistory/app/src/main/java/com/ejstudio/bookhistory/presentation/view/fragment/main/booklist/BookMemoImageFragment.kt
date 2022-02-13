@@ -120,6 +120,7 @@ class BookMemoImageFragment : Fragment() {
         intent.putExtra("imageUrl", bookViewModel.imageMemoList.value?.get(position)?.memo_image)
         intent.putExtra("bookTitle", bookViewModel.bookTitle.value.toString().trim())
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.not_move_activity)
     }
 
 

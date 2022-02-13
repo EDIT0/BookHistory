@@ -107,5 +107,6 @@ class BookMemoTextFragment : Fragment() {
         intent.putExtra("textMemoIdx", bookViewModel.textMemoList.value?.get(position)?.idx)
         intent.putExtra("bookTitle", bookViewModel.bookTitle.value.toString().trim())
         startActivity(intent)
+        requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.not_move_activity)
     }
 }
