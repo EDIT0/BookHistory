@@ -8,6 +8,7 @@ import com.ejstudio.bookhistory.data.db.TextMemoDao
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
+import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.core.Completable
 
 class BookListLocalDataSourcelmpl(
@@ -68,7 +69,7 @@ class BookListLocalDataSourcelmpl(
     }
 
     override fun insertTextMemo(idx: Int, bookIdx: Int, memoContents: String, save_datetime: String) {
-        return textMemoDao.insertTextMemo(TextMemoEntity(idx, bookIdx, memoContents, save_datetime))
+        return textMemoDao.insertTextMemo(TextMemoEntity(idx, bookIdx, memoContents, save_datetime, UserInfo.email))
     }
 
     override fun getIdxTextMemo(textMemoIdx: Int): LiveData<TextMemoEntity> {
@@ -84,7 +85,7 @@ class BookListLocalDataSourcelmpl(
     }
 
     override fun insertImageMemo(idx: Int, bookIdx: Int, memoImagePath: String, save_datetime: String) : Completable {
-        return imageMemoDao.insertImageMemo(ImageMemoEntity(idx, bookIdx, memoImagePath, save_datetime))
+        return imageMemoDao.insertImageMemo(ImageMemoEntity(idx, bookIdx, memoImagePath, save_datetime, UserInfo.email))
     }
 
     override fun getImageMemo(bookListIdx: Int): LiveData<List<ImageMemoEntity>> {

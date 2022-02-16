@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
+import com.ejstudio.bookhistory.domain.model.TextImageMemoModel
 import io.reactivex.rxjava3.core.Completable
 
 @Dao
@@ -40,4 +41,40 @@ interface TextMemoDao {
 
     @Query("UPDATE TextMemoEntity SET memo_contents = :edit_memo_contents WHERE idx = :textMemoIdx")
     fun updateIdxTextMemo(textMemoIdx: Int, edit_memo_contents: String): Completable
+
+    @Query("SELECT BookListEntity.title, TextMemoEntity.idx, TextMemoEntity.booklist_idx, TextMemoEntity.memo_contents, TextMemoEntity.save_datetime, TextMemoEntity.email " +
+            "from TextMemoEntity, BookListEntity " +
+            "WHERE TextMemoEntity.email= :email and BookListEntity.idx = TextMemoEntity.booklist_idx " +
+            "union " +
+            "SELECT BookListEntity.title, ImageMemoEntity.idx, ImageMemoEntity.booklist_idx, ImageMemoEntity.memo_image, ImageMemoEntity.save_datetime, ImageMemoEntity.email " +
+            "from ImageMemoEntity, BookListEntity " +
+            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx")
+    fun getEmailTotalTextImageMemo(email: String): LiveData<List<TextImageMemoModel>>
+
+    @Query("SELECT * FROM (SELECT BookListEntity.title, TextMemoEntity.idx, TextMemoEntity.booklist_idx, TextMemoEntity.memo_contents, TextMemoEntity.save_datetime, TextMemoEntity.email " +
+            "from TextMemoEntity, BookListEntity " +
+            "WHERE TextMemoEntity.email= :email and BookListEntity.idx = TextMemoEntity.booklist_idx and TextMemoEntity.save_datetime LIKE '%' || :calendarDate || '%' " +
+            "union " +
+            "SELECT BookListEntity.title, ImageMemoEntity.idx, ImageMemoEntity.booklist_idx, ImageMemoEntity.memo_image, ImageMemoEntity.save_datetime, ImageMemoEntity.email " +
+            "from ImageMemoEntity, BookListEntity " +
+            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx and ImageMemoEntity.save_datetime LIKE '%' || :calendarDate || '%') a order by save_datetime desc")
+    fun getCalendarDateMemoList(email: String, calendarDate: String) : LiveData<List<TextImageMemoModel>>
+
+
+//    @Query("SELECT BookListEntity.title, TextMemoEntity.idx, TextMemoEntity.booklist_idx, TextMemoEntity.memo_contents, TextMemoEntity.save_datetime, TextMemoEntity.email " +
+//            "from TextMemoEntity, BookListEntity " +
+//            "WHERE TextMemoEntity.email= :email and BookListEntity.idx = TextMemoEntity.booklist_idx and TextMemoEntity.save_datetime LIKE '%' || :calendarDate || '%' " +
+//            "union " +
+//            "SELECT BookListEntity.title, ImageMemoEntity.idx, ImageMemoEntity.booklist_idx, ImageMemoEntity.memo_image, ImageMemoEntity.save_datetime, ImageMemoEntity.email " +
+//            "from ImageMemoEntity, BookListEntity " +
+//            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx and ImageMemoEntity.save_datetime LIKE '%' || :calendarDate || '%'")
+//    fun getCalendarDateMemoList(email: String, calendarDate: String) : LiveData<List<TextImageMemoModel>>
+
+//    select bookhistory_textmemo.idx, bookhistory_textmemo.booklist_idx, bookhistory_textmemo.memo_contents, bookhistory_textmemo.save_datetime
+//    from bookhistory_textmemo
+//    WHERE bookhistory_textmemo.email="akdmadl34@naver.com"
+//    UNION
+//    select bookhistory_imagememo.idx, bookhistory_imagememo.booklist_idx, bookhistory_imagememo.memo_image, bookhistory_imagememo.save_datetime
+//    from bookhistory_imagememo
+//    WHERE bookhistory_imagememo.email="akdmadl34@naver.com"
 }

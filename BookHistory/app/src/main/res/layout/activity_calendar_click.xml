@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.view.activity.main.mybookhistory.CalendarClickActivity">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="calendarClickViewModel"
+            type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.mybookhistory.CalendarClickViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#14212121">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/calendar_memo_activity_background">
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/rc_dateTextImageMemo"
+                app:layout_constraintTop_toBottomOf="@+id/tv_dateName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <include
+                android:id="@+id/include_data_empty_screen"
+                layout="@layout/data_empty_screen"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#fcfcfc"
+                android:visibility="@{calendarClickViewModel.isData() ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/topView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/rc_dateTextImageMemo"/>
+
+            <View
+                android:id="@+id/topLine"
+                android:layout_width="45dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_day"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/bottom_sheet_top"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!--        <androidx.viewpager2.widget.ViewPager2-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="0dp"-->
+            <!--            android:id="@+id/dateMemoViewPager2"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/topLine"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="#595959"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/topLine"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_dateName"
+                tools:text="10"/>
+
+            <TextView
+                android:id="@+id/tv_dateName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#7f7f7f"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_day"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/rc_dateTextImageMemo"
+                tools:text="화요일"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -12,7 +12,8 @@ data class ImageMemoEntity(
     var idx: Int,
     val booklist_idx: Int,
     val memo_image: String,
-    val save_datetime: String
+    val save_datetime: String,
+    val email: String
 ) {
 
 }

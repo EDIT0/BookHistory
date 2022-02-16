@@ -127,7 +127,8 @@ interface ApiInterface {
     @POST("main/InsertTextMemo.php")
     fun insertTextMemo(
         @Field("bookIdx") bookIdx: Int,
-        @Field("memoContents") memoContents: String
+        @Field("memoContents") memoContents: String,
+        @Field("email") email: String
     ) : Single<TextMemoEntity>
 
     @FormUrlEncoded
@@ -147,7 +148,8 @@ interface ApiInterface {
     @POST("main/InsertImageMemo.php")
     fun insertImageMemo(
         @Field("bookIdx") bookIdx: Int,
-        @Field("imageMemoPath") imageMemoPath: String
+        @Field("imageMemoPath") imageMemoPath: String,
+        @Field("email") email: String
     ) : Single<ImageMemoEntity>
 
     @Multipart

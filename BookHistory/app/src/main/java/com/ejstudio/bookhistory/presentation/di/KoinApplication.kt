@@ -21,14 +21,22 @@ import com.ejstudio.bookhistory.data.repository.main.booksearch.local.SearchBook
 import com.ejstudio.bookhistory.data.repository.main.booksearch.local.SearchBookLocalDataSourcelmpl
 import com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote.SearchBookRemoteDataSource
 import com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote.SearchBookRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.mybookhistory.MyBookHistoryRepositorylmpl
+import com.ejstudio.bookhistory.data.repository.main.mybookhistory.local.MyBookHistoryLocalDataSource
+import com.ejstudio.bookhistory.data.repository.main.mybookhistory.local.MyBookHistoryLocalDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.mybookhistory.remote.MyBookHistoryRemoteDataSource
+import com.ejstudio.bookhistory.data.repository.main.mybookhistory.remote.MyBookHistoryRemoteDataSourcelmpl
 import com.ejstudio.bookhistory.domain.repository.BookListRepository
 import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
+import com.ejstudio.bookhistory.domain.repository.MyBookHistoryRepository
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
 import com.ejstudio.bookhistory.domain.usecase.main.*
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.*
+import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -46,6 +54,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeTex
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.WriteTextMemoViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.mybookhistory.CalendarClickViewModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
@@ -145,7 +154,7 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
@@ -153,6 +162,7 @@ val viewModelModule: Module = module {
     viewModel { WriteTextMemoViewModel(get()) }
     viewModel { SeeTextMemoViewModel(get(), get(), get()) }
     viewModel { SeeImageMemoViewModel(get()) }
+    viewModel { CalendarClickViewModel(get()) }
 }
 
 val useCaseModule: Module = module {
@@ -189,12 +199,15 @@ val useCaseModule: Module = module {
     single { GetImageMemoUseCase(get()) }
     single { InsertImageMemoUseCase(get()) }
     single { DeleteIdxImageMemoUseCase(get()) }
+    single { GetEmailTotalTextImageMemoUseCase(get()) }
+    single { GetCalendarDateMemoUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
     single<LoginRepository> { LoginRepositorylmpl(get(), get()) }
     single<BookSearchRepository> { BookSearchRepositorylmpl(get(),get()) }
     single<BookListRepository> { BookListRepositorylmpl(get(), get()) }
+    single<MyBookHistoryRepository> { MyBookHistoryRepositorylmpl(get(), get()) }
 }
 
 val localDataModule: Module = module {
@@ -209,6 +222,7 @@ val localDataModule: Module = module {
         Room.databaseBuilder(get(), MyBookDatabase::class.java, "MyBookDatabase").fallbackToDestructiveMigration().build()
     }
     single<BookListLocalDataSource> { BookListLocalDataSourcelmpl(get(), get(), get()) }
+    single<MyBookHistoryLocalDataSource> { MyBookHistoryLocalDataSourcelmpl(get()) }
 }
 
 val remoteDataModule: Module = module {
@@ -217,6 +231,7 @@ val remoteDataModule: Module = module {
     single<LoginRemoteDataSource> { LoginRemoteDataSourcelmpl(get(), get(), get()) }
     single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
     single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl(get()) }
+    single<MyBookHistoryRemoteDataSource> { MyBookHistoryRemoteDataSourcelmpl() }
 }
 
 val activityMoudel: Module = module {

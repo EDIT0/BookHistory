@@ -12,7 +12,8 @@ data class TextMemoEntity(
     var idx: Int,
     val booklist_idx: Int,
     val memo_contents: String,
-    val save_datetime: String
+    val save_datetime: String,
+    val email: String
 ) {
 
 }

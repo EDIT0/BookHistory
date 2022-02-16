@@ -1,24 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.view.fragment.main.MyBookHistoryFragment">
+
     <data>
+
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="my book history" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:mcv_selectionColor="#ffffff"
+            app:mcv_selectionMode="single" />
 
-    </FrameLayout>
+        <!--        <com.kizitonwose.calendarview.CalendarView-->
+        <!--            android:id="@+id/calendarView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            app:cv_dayViewResource="@layout/calendar_day_layout"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintVertical_bias="0"/>-->
+
+        <!--        <com.applikeysolutions.cosmocalendar.view.CalendarView-->
+        <!--            android:id="@+id/calendarView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:connectedDayIconPosition="top"-->
+        <!--            app:currentDayTextColor="#f79256"-->
+        <!--            app:firstDayOfTheWeek="sunday"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:orientation="horizontal"-->
+        <!--            app:selectedDayBackgroundColor="#fff2dc"-->
+        <!--            app:selectedDayTextColor="#000000"-->
+        <!--            app:selectionType="single"-->
+        <!--            app:weekendDayTextColor="#ef4550"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintVertical_bias="0"/>-->
+        <!--        app:selectedDayBackgroundEndColor="#f79256"-->
+        <!--        app:selectedDayBackgroundStartColor="#f79256"-->
+        <!--        app:currentDayIconRes="@drawable/calendar_select_background"-->
+        <!--        app:currentDaySelectedIconRes="@drawable/calendar_select_background"-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

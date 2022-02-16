@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.model.BookListEntity
-import com.ejstudio.bookhistory.data.model.RecentSearchesEntity
+import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.domain.model.RecommendBookModel
-import com.ejstudio.bookhistory.domain.model.SearchBookModel
+import com.ejstudio.bookhistory.domain.model.TextImageMemoModel
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetBeforeReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetEndReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetReadingBookUseCase
@@ -16,12 +16,16 @@ import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetAlwaysPopularB
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecentPopularBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecommendBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetTotalBookUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainViewModel(
     private val getTotalBookUseCase : GetTotalBookUseCase,
@@ -30,7 +34,8 @@ class MainViewModel(
     private val getEndReadBookUseCase: GetEndReadBookUseCase,
     private val getRecentPopularBookUseCase: GetRecentPopularBookUseCase,
     private val getRecommendBookUseCase : GetRecommendBookUseCase,
-    private val getAlwaysPopularBookUseCase : GetAlwaysPopularBookUseCase
+    private val getAlwaysPopularBookUseCase : GetAlwaysPopularBookUseCase,
+    private val getEmailTotalTextImageMemoUseCase : GetEmailTotalTextImageMemoUseCase
 ): BaseViewModel() {
 
     private val TAG = MainViewModel::class.java.simpleName
@@ -44,6 +49,7 @@ class MainViewModel(
     var before60days = ""
     var page = 1
     var pageSize = 10
+    var calendarDate = MutableLiveData<String>()
 
     init {
         getDate(-60) // 현 시간 기준 60일 전 날짜 구하기
@@ -67,6 +73,35 @@ class MainViewModel(
 
         Log.i(TAG, "날짜 찍기 : " + before60days + " / " + todayDate)
     }
+
+//    private fun get365Date(day: Int) : String {
+//        cal.add(Calendar.DAY_OF_MONTH, day)
+//        Log.i(TAG, "1년 전 날짜: ${day} " + SimpleDateFormat("yyyy-MM-dd").format(cal.time))
+//        return SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+//    }
+//    var calendarDateMemoList = ArrayList<String>()
+//    fun setViewPagerDateItem(day: Int, clickDate: Date) {
+//        try {
+//            calendarDateMemoList.clear()
+//        }catch (e : Exception) {}
+//
+//        cal.time = clickDate // 기준일 정하고
+//        val transFormat = SimpleDateFormat("yyyy-MM-dd")
+//        val to: Date = transFormat.parse(get365Date(-day)) // 기준일에 1년전을 구하고
+//        cal.time = to // 구한 값을 기준으로 설정정
+//
+//       for(i in 0 until day) {
+//            cal.add(Calendar.DATE, 1)
+//            calendarDateMemoList.add(SimpleDateFormat("yyyy-MM-dd").format(cal.time))
+//            Log.i(TAG, "숫자 올라갑니다. ${i} ${SimpleDateFormat("yyyy-MM-dd").format(cal.time)}")
+//        }
+//
+//        for(i in 0 until day) {
+//            cal.add(Calendar.DATE, 1)
+//            calendarDateMemoList.add(SimpleDateFormat("yyyy-MM-dd").format(cal.time))
+//            Log.i(TAG, "숫자 올라갑니다. ${i} ${SimpleDateFormat("yyyy-MM-dd").format(cal.time)}")
+//        }
+//    }
 
     // 책 전체 리스트
     private val _totalBookList = getTotalBookUseCase.execute(UserInfo.email)
@@ -95,6 +130,17 @@ class MainViewModel(
     // 언제나 인기있는 책
     private val _alwaysPopularBookList = ArrayList<RecentPopularBookModel.Response.Doc>()
     val alwaysPopularBookList = MutableLiveData<ArrayList<RecentPopularBookModel.Response.Doc>>()
+
+    // 글, 이미지 메모 리스트
+    private val _totalTextImageMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email)
+    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
+
+
+
+
+    // 달력에서 선택한 날짜의 글, 이미지 메모 리스트
+//    private val _getDateTextMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, date)
+//    val getDateTextMemoList: LiveData<List<TextMemoEntity>> get() = _getDateTextMemoList
 
     fun changeList(state: String) {
         when (state) {

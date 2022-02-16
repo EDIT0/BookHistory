@@ -6,6 +6,7 @@ import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
 import com.ejstudio.bookhistory.domain.model.UpdateBookReadingStateModel
 import com.ejstudio.bookhistory.util.ImageSenderModule
+import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.core.Single
 import java.io.File
 
@@ -21,7 +22,7 @@ class BookListRemoteDataSourcelmpl(
     }
 
     override fun insertTextMemo(bookIdx: Int, memoContents: String): Single<TextMemoEntity> {
-        return apiInterface.insertTextMemo(bookIdx, memoContents)
+        return apiInterface.insertTextMemo(bookIdx, memoContents, UserInfo.email)
     }
 
     override fun deleteIdxTextMemo(textMemoIdx: Int): Single<CheckTrueOrFalseModel> {
@@ -33,7 +34,7 @@ class BookListRemoteDataSourcelmpl(
     }
 
     override fun insertImageMemo(bookIdx: Int, file: File, fileName: String): Single<ImageMemoEntity> {
-        return apiInterface.insertImageMemo(bookIdx, fileName)
+        return apiInterface.insertImageMemo(bookIdx, fileName, UserInfo.email)
     }
 
     override fun deleteIdxImageMemo(imageMemoIdx: Int): Single<CheckTrueOrFalseModel> {

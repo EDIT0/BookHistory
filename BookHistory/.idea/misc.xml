@@ -14,9 +14,14 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/actionbar_background_shadow.xml" value="0.26979166666666665" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/book_background_round.xml" value="0.15520833333333334" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/book_background_shadow.xml" value="0.15520833333333334" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/bottom_sheet_top.xml" value="0.15260416666666668" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/bottom_toolbar_background_shadow.xml" value="0.26979166666666665" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/calendar_memo_activity_background.xml" value="0.13697916666666668" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/calendar_select_background.xml" value="0.26979166666666665" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/checkbox_design.xml" value="0.14583333333333334" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/default_button_background.xml" value="0.26979166666666665" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/dotted_line_horizontal.xml" value="0.14583333333333334" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/event_decorator_circle.xml" value="0.14947916666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_arrow_back_24dp.xml" value="0.15520833333333334" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_arrow_back_black_24dp.xml" value="0.13489583333333333" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_arrow_white_24dp.xml" value="0.12604166666666666" />
@@ -48,6 +53,7 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/font/font.xml" value="0.15729166666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_book.xml" value="0.21564885496183206" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_book_detail_page.xml" value="0.3248811410459588" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_calendar_click.xml" value="0.152" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_find_password.xml" value="0.264" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_find_password2.xml" value="0.15765472312703582" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_login.xml" value="0.176" />
@@ -65,7 +71,11 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/book_list_item.xml" value="0.264" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/book_memo_image_item.xml" value="0.264" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/book_memo_text_item.xml" value="0.264" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/calendar_day_layout.xml" value="0.13333333333333333" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/data_empty_screen.xml" value="0.2" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/date_image_memo_item.xml" value="0.2" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/date_memo_item.xml" value="0.13645833333333332" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/date_text_memo_item.xml" value="0.152" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/dialog_delete_idx_book_info.xml" value="0.4" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_book_info_bottom_sheet_dialog.xml" value="0.2" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_book_list.xml" value="0.1755994358251058" />
@@ -75,13 +85,15 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_book_memo_text.xml" value="0.10989583333333333" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_book_menu_change_bottom_sheet_dialog.xml" value="0.1" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_book_search.xml" value="0.264" />
-        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_my_book_history.xml" value="0.12604166666666666" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_calendar_click_bottom_sheet_dialog.xml" value="0.264" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_my_book_history.xml" value="0.264" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_setting.xml" value="0.12604166666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/fragment_tos_bottom_sheet_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/recent_popular_book_item.xml" value="0.536" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/recent_searches_item.xml" value="0.6" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/recommend_book_item.xml" value="0.1140625" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/search_book_item.xml" value="0.3939745075318656" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/viewpager_date_item.xml" value="0.25461613216715256" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/menu/bottom_nav_bar.xml" value="0.25364583333333335" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/menu/bottom_nav_menu.xml" value="0.12604166666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/xml/activity_book_motion.xml" value="0.2536231884057971" />

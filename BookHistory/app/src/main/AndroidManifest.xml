@@ -19,9 +19,12 @@
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.view.activity.main.mybookhistory.CalendarClickActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.activity.main.booklist.SeeImageMemoActivity"
             android:exported="false"
-            android:theme="@style/seeImageMemo"/>
+            android:theme="@style/seeImageMemo" />
         <activity
             android:name=".presentation.view.activity.main.booklist.SeeTextMemoActivity"
             android:exported="false" />
