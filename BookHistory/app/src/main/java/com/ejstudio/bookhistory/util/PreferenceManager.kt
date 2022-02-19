@@ -6,6 +6,7 @@ import android.util.Log
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -20,6 +21,7 @@ class PreferenceManager(context: Context) : KoinComponent {
         const val EMAIL = "EMAIL"
         const val PASSWORD = "PASSWORD"
         const val KAKAO_USER_TOKEN = "KAKAO_USER_TOKEN"
+        const val PROTECT_DUPLICATE_LOGIN_TOKEN = "PROTECT_DUPLICATE_LOGIN_TOKEN"
     }
 
     private val TAG = PreferenceManager::class.java.simpleName
@@ -64,6 +66,21 @@ class PreferenceManager(context: Context) : KoinComponent {
                         it.onNext(false)
                     }
                 }
+        }
+    }
+
+    fun requestLogout() : Single<Boolean> {
+        val editor = loginPreferences.edit()
+
+        if(editor != null) {
+            editor.remove(PASSWORD)
+            editor.remove(AUTO_LOGIN_KEY)
+            editor.remove(EMAIL)
+            editor.remove(KAKAO_USER_TOKEN)
+            editor.apply()
+            return Single.just(true)
+        } else {
+            return Single.just(false)
         }
     }
 

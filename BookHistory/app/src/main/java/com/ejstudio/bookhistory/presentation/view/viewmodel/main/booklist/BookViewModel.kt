@@ -109,7 +109,7 @@ class BookViewModel(
             .subscribe({
                 Log.i(TAG, "책 삭제 성공")
             }, {
-                Log.i(TAG, it.message.toString())
+                Log.i(TAG, "책 삭제 오류 " + it.message.toString())
             })
     }
 

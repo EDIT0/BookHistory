@@ -57,6 +57,7 @@ class BookListRepositorylmpl(
                         })
                     Single.just(true)
                 } else {
+                    Log.i(TAG, "삭제 실패")
                     Single.just(false)
                 }
             }

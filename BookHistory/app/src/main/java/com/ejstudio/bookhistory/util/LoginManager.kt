@@ -23,12 +23,12 @@ class LoginManager(context: Context) : KoinComponent {
     private val loginPreferences: SharedPreferences = context.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
 
     // 일반 로그인
-    fun loginAuth(email: String, password: String): Observable<Boolean> = Observable.create<Boolean> {
+    fun loginAuth(email: String, password: String, protectDuplicateLoginToken: String): Observable<Boolean> = Observable.create<Boolean> {
         if(email == null || password == null) {
             it.onNext(false)
             Log.i(TAG, email + " " + password);
         } else {
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email!!, password!!)
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(loginActivity) { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
@@ -38,6 +38,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.putString(PreferenceManager.EMAIL, email)
                         editor.putString(PreferenceManager.PASSWORD, password)
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                        editor.putString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, protectDuplicateLoginToken)
                         editor.apply()
 
 //                        global.email = authEmail.toString()
@@ -55,7 +56,7 @@ class LoginManager(context: Context) : KoinComponent {
     }
 
     // 가입 후 바로 로그인
-    fun createEmailUser(email:String, password: String): Observable<Boolean> = Observable.create<Boolean> {
+    fun createEmailUser(email:String, password: String, protectDuplicateLoginToken: String): Observable<Boolean> = Observable.create<Boolean> {
         if(email == null || password == null) {
             it.onNext(false)
         } else {
@@ -70,6 +71,7 @@ class LoginManager(context: Context) : KoinComponent {
                         editor.putString(PreferenceManager.EMAIL, email)
                         editor.putString(PreferenceManager.PASSWORD, password)
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                        editor.putString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, protectDuplicateLoginToken)
                         editor.remove("KAKAO_USER_TOKEN");
                         editor.apply()
 

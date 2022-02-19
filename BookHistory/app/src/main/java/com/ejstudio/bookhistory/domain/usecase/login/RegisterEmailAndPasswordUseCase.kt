@@ -9,8 +9,8 @@ class RegisterEmailAndPasswordUseCase(
 ) {
     private val TAG = RegisterEmailAndPasswordUseCase::class.java.simpleName
 
-    fun execute(email: String, password: String) : Observable<Unit> {
+    fun execute(email: String, password: String, protectDuplicateLoginToken: String) : Observable<Unit> {
         Log.i(TAG, "호출")
-        return loginRepository.registerEmailAndPassword(email, password)
+        return loginRepository.registerEmailAndPassword(email, password, protectDuplicateLoginToken)
     }
 }

@@ -5,6 +5,7 @@ import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.PreferenceManager
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import io.reactivex.rxjava3.core.Single
 
 class LoginRemoteDataSourcelmpl(
@@ -19,28 +20,32 @@ class LoginRemoteDataSourcelmpl(
         get() = preferenceManager.isAutoLogin
         set(value) {}
 
-    override fun loginAuth(email: String, password: String): Observable<Boolean> {
-        return loginManager.loginAuth(email, password)
+    override fun loginAuth(email: String, password: String, protectDuplicateLoginToken: String): Observable<Boolean> {
+        return loginManager.loginAuth(email, password, protectDuplicateLoginToken)
     }
 
     override fun sendEmail(email: String, randomNumber: String): Observable<String> {
         return apiInterface.emailSender(email, randomNumber)
     }
 
-    override fun createEmailUser(email: String, password: String): Observable<Boolean> {
-        return loginManager.createEmailUser(email, password)
+    override fun createEmailUser(email: String, password: String, protectDuplicateLoginToken: String): Observable<Boolean> {
+        return loginManager.createEmailUser(email, password, protectDuplicateLoginToken)
     }
 
     override fun checkEmail(email: String): Single<CheckTrueOrFalseModel> {
         return apiInterface.checkEmail(email)
     }
 
-    override fun registerEmailAndPassword(email: String, password: String): Observable<Unit> {
-        return apiInterface.registerEmailAndPassword(email, password)
+    override fun registerEmailAndPassword(email: String, password: String, protectDuplicateLoginToken: String): Observable<Unit> {
+        return apiInterface.registerEmailAndPassword(email, password, protectDuplicateLoginToken)
     }
 
     override fun sendFindPasswordEmail(email: String): Observable<Boolean> {
         return loginManager.sendFindPasswordEmail(email)
+    }
+
+    override fun updateProtectDuplicateLoginToken(email: String, protectDuplicateLoginToken: String): Single<CheckTrueOrFalseModel> {
+        return apiInterface.updateProtectDuplicateLoginToken(email, protectDuplicateLoginToken)
     }
 
 

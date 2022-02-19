@@ -26,10 +26,12 @@ import com.ejstudio.bookhistory.data.repository.main.mybookhistory.local.MyBookH
 import com.ejstudio.bookhistory.data.repository.main.mybookhistory.local.MyBookHistoryLocalDataSourcelmpl
 import com.ejstudio.bookhistory.data.repository.main.mybookhistory.remote.MyBookHistoryRemoteDataSource
 import com.ejstudio.bookhistory.data.repository.main.mybookhistory.remote.MyBookHistoryRemoteDataSourcelmpl
-import com.ejstudio.bookhistory.domain.repository.BookListRepository
-import com.ejstudio.bookhistory.domain.repository.BookSearchRepository
-import com.ejstudio.bookhistory.domain.repository.LoginRepository
-import com.ejstudio.bookhistory.domain.repository.MyBookHistoryRepository
+import com.ejstudio.bookhistory.data.repository.main.setting.SettingRepositorylmpl
+import com.ejstudio.bookhistory.data.repository.main.setting.local.SettingLocalDataSource
+import com.ejstudio.bookhistory.data.repository.main.setting.local.SettingLocalDataSourcelmpl
+import com.ejstudio.bookhistory.data.repository.main.setting.remote.SettingRemoteDataSource
+import com.ejstudio.bookhistory.data.repository.main.setting.remote.SettingRemoteDataSourcelmpl
+import com.ejstudio.bookhistory.domain.repository.*
 import com.ejstudio.bookhistory.domain.usecase.*
 import com.ejstudio.bookhistory.domain.usecase.login.*
 import com.ejstudio.bookhistory.domain.usecase.main.*
@@ -37,6 +39,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.*
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
@@ -150,11 +153,11 @@ val apiModule: Module = module {
 
 val viewModelModule: Module = module {
     viewModel { SplashViewModel(get(), get()) }
-    viewModel { LoginViewModel(get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
@@ -201,6 +204,8 @@ val useCaseModule: Module = module {
     single { DeleteIdxImageMemoUseCase(get()) }
     single { GetEmailTotalTextImageMemoUseCase(get()) }
     single { GetCalendarDateMemoUseCase(get()) }
+    single { RequestLogoutUseCase(get()) }
+    single { UpdateProtectDuplicateLoginTokenUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -208,6 +213,7 @@ val repositoryModule: Module = module {
     single<BookSearchRepository> { BookSearchRepositorylmpl(get(),get()) }
     single<BookListRepository> { BookListRepositorylmpl(get(), get()) }
     single<MyBookHistoryRepository> { MyBookHistoryRepositorylmpl(get(), get()) }
+    single<SettingRepository> { SettingRepositorylmpl(get(), get()) }
 }
 
 val localDataModule: Module = module {
@@ -223,6 +229,7 @@ val localDataModule: Module = module {
     }
     single<BookListLocalDataSource> { BookListLocalDataSourcelmpl(get(), get(), get()) }
     single<MyBookHistoryLocalDataSource> { MyBookHistoryLocalDataSourcelmpl(get()) }
+    single<SettingLocalDataSource> { SettingLocalDataSourcelmpl(get()) }
 }
 
 val remoteDataModule: Module = module {
@@ -232,6 +239,7 @@ val remoteDataModule: Module = module {
     single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
     single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl(get()) }
     single<MyBookHistoryRemoteDataSource> { MyBookHistoryRemoteDataSourcelmpl() }
+    single<SettingRemoteDataSource> { SettingRemoteDataSourcelmpl() }
 }
 
 val activityMoudel: Module = module {

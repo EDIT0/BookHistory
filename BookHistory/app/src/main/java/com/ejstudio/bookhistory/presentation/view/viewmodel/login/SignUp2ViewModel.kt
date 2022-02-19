@@ -37,6 +37,9 @@ class SignUp2ViewModel(
     var password = MutableLiveData<String>()
     var checkPassword = MutableLiveData<String>()
 
+    val currentTime: Long = System.currentTimeMillis()
+    var protectDuplicateLoginToken = ""
+
 
     fun tosCheck() {
         _tosValue.value = !_tosValue.value.toString().toBoolean()
@@ -49,10 +52,12 @@ class SignUp2ViewModel(
 
     fun createUser() {
         if(_tosValue.value.toString().toBoolean()) {
-            compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!)
+            protectDuplicateLoginToken = email + currentTime
+            compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
                 .subscribe {
                     Log.i(TAG, "메시지: " + it)
                     if (it.toString().toBoolean()) {
+
                         registerEmailAndPassword() // 서버에 가입한 아이디 등록
                         _goToMain.value = Unit
                     } else {
@@ -69,8 +74,8 @@ class SignUp2ViewModel(
     }
 
     fun registerEmailAndPassword() {
-        Log.i(TAG, "registerEmailAndPassword() $email / ${password.value}")
-        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, password.value!!)
+        Log.i(TAG, "registerEmailAndPassword() $email / ${password.value} / ${protectDuplicateLoginToken}")
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
             .subscribe{
 
             }

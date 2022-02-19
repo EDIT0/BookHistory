@@ -50,7 +50,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     fun goToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        var intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("WhatIsTheTypeOfLogin", MainActivity.AUTO_LOGIN)
+        startActivity(intent)
         finish()
     }
 }

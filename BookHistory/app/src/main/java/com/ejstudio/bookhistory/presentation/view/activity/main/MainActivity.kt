@@ -25,6 +25,11 @@ import org.koin.core.component.inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), KoinComponent {
 
+    companion object {
+        const val NORMAL_LOGIN = "NORMAL_LOGIN"
+        const val AUTO_LOGIN = "AUTO_LOGIN"
+    }
+
     private val TAG: String? = MainActivity::class.java.simpleName
     public val mainViewModel: MainViewModel by viewModel()
 
@@ -48,6 +53,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         Log.i(TAG, "코드0: ${mainViewModel.hashCode()}")
 
         Log.i(TAG, "로그인 계정: " + UserInfo.email)
+
+        /*
+        * 중복 로그인이 불가하므로 로그인 시 (자동로그인 제외) 서버 중복로그인방지토큰을 업데이트 한다. 또한, 내부저장소에 중복로그인방지토큰을 저장한다.
+        * 그 후
+        * 1. 자동로그인 일 경우
+        * 서버에서 가져온 토큰과 현재 내부 토큰을 비교하여 같으면 로그인을 유지시키고, 다르면 로그아웃 시킨다.
+        * 2. 일반 로그인 or 카카오로그인으로 들어온 경우
+        * 서버에서 가져온 토큰과 현재 내부 토큰을 비교하여 (토큰은 있을 수도 있고 없을 수도 있음) 같으면 로그인시키고,
+        * 다르면 방금 로그인한 유저의 내부 DB를 초기화하고, 서버에서 값을 가져와 내부 DB에 적용시킨다.
+        * */
+        var kindOfLogin = intent.getStringExtra("WhatIsTheTypeOfLogin")
+        Log.i(TAG, "로그인 방식: $kindOfLogin")
+
+        mainViewModel.getProtectDuplicateLoginToken() // 서버 토큰 가져오기
+
+        if(kindOfLogin.equals(AUTO_LOGIN)) {
+            // 자동로그인 일 경우
+
+        } else if(kindOfLogin.equals(NORMAL_LOGIN)) {
+            // 일반로그인 일 경우
+
+        }
 
         /*
         * 하위 프래그먼트

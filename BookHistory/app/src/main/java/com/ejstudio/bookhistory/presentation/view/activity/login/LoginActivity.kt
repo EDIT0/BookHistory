@@ -79,7 +79,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     fun goToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        Log.i(TAG, "누가먼저?")
+        var intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("WhatIsTheTypeOfLogin", MainActivity.NORMAL_LOGIN)
+        startActivity(intent)
         finish()
         overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }
@@ -128,9 +131,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                             // 기존 가입 이력이 있는지 확인
                             loginViewModel.checkKakaoUserId(user?.id.toString())
 
+                            val currentTime: Long = System.currentTimeMillis()
+                            val protectDuplicateLoginToken = user?.id.toString() + currentTime
+
                             val editor = loginPreferences.edit()
                             editor.putString(PreferenceManager.KAKAO_USER_TOKEN, user?.id.toString())
                             editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
+                            editor.putString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, protectDuplicateLoginToken)
                             editor.remove("EMAIL");
                             editor.remove("PASSWORD");
                             editor.commit();
@@ -138,7 +145,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                             UserInfo.email = user?.id.toString()
 
-                            Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id}이메일: ${user?.kakaoAccount?.email}""".trimIndent())
+                            // 중복로그인 방지 토큰 서버에 저장
+                            loginViewModel.updateProtectDuplicateLoginToken(user?.id.toString(), protectDuplicateLoginToken)
+
+
+                            Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id} 이메일: ${user?.kakaoAccount?.email}""".trimIndent())
                         }
                     }
                 }

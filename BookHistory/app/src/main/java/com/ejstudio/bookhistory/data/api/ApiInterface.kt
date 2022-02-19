@@ -38,7 +38,8 @@ interface ApiInterface {
     @POST("login/RegisterEmailAndPassword.php")
     fun registerEmailAndPassword(
         @Field("email") email: String,
-        @Field("pw") password:String
+        @Field("pw") password:String,
+        @Field("protectDuplicateLoginToken") protectDuplicateLoginToken: String
     ) : Observable<Unit>
 
     @FormUrlEncoded
@@ -163,5 +164,12 @@ interface ApiInterface {
     @POST("main/DeleteIdxImageMemo.php")
     fun deleteIdxImageMemo(
         @Field("imageMemoIdx") imageMemoIdx: Int
+    ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("login/UpdateProtectDuplicateLoginToken.php")
+    fun updateProtectDuplicateLoginToken(
+        @Field("email") email: String,
+        @Field("protectDuplicateLoginToken") protectDuplicateLoginToken: String
     ) : Single<CheckTrueOrFalseModel>
 }

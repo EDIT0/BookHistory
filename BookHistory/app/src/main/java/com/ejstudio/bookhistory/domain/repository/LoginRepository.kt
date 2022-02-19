@@ -10,8 +10,9 @@ interface LoginRepository {
 
     fun loginAuth(email: String, password: String) : Observable<Boolean>
     fun sendEmail(email: String, randomNumber: String): Observable<String>
-    fun createEmailUser(email: String, password: String) : Observable<Boolean>
+    fun createEmailUser(email: String, password: String, protectDuplicateLoginToken: String) : Observable<Boolean>
     fun checkEmail(email: String) : Single<CheckTrueOrFalseModel>
-    fun registerEmailAndPassword(email: String, password: String) : Observable<Unit>
+    fun registerEmailAndPassword(email: String, password: String, protectDuplicateLoginToken: String) : Observable<Unit>
     fun sendFindPasswordEmail(email: String) : Observable<Boolean>
+    fun updateProtectDuplicateLoginToken(userId: String, protectDuplicateLoginToken: String)
 }

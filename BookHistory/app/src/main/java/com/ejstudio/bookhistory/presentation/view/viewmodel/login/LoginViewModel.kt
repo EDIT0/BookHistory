@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.usecase.login.CheckEmailUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.IsLoginAuthUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.RegisterEmailAndPasswordUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.UpdateProtectDuplicateLoginTokenUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -13,7 +14,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class LoginViewModel(
     private val isLoginAuthUseCase: IsLoginAuthUseCase,
     private val checkEmailUseCase: CheckEmailUseCase,
-    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase
+    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase,
+    private val updateProtectDuplicateLoginUseCase: UpdateProtectDuplicateLoginTokenUseCase
 ) : BaseViewModel() {
 
     private val TAG: String? = LoginViewModel::class.java.simpleName
@@ -71,11 +73,15 @@ class LoginViewModel(
     }
 
     fun registerKakaoUserId(kakaoUserId: String) {
-        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(kakaoUserId, "카카오로그인")
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(kakaoUserId, "카카오로그인", "")
             .subscribe {
 
             }
         )
+    }
+
+    fun updateProtectDuplicateLoginToken(userId: String, protectDuplicateLoginToken: String) {
+        updateProtectDuplicateLoginUseCase.execute(userId, protectDuplicateLoginToken)
     }
 
     fun goToSignUp() {

@@ -153,6 +153,9 @@ class CalendarClickActivity : BaseActivity<ActivityCalendarClickBinding>(R.layou
                     .into(emptyImage)
                 emptyTextTitle.text = "오늘은\n쉬어가는 날~"
             })
+            backButton.observe(this@CalendarClickActivity, Observer {
+                activityBackButton()
+            })
         }
     }
 

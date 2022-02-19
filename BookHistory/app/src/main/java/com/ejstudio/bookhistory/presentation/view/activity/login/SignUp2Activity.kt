@@ -115,7 +115,9 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
     }
 
     private fun goToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        var intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("WhatIsTheTypeOfLogin", MainActivity.NORMAL_LOGIN)
+        startActivity(intent)
         finish()
         overridePendingTransition(R.anim.rightin_activity, R.anim.leftout_activity)
     }

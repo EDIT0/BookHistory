@@ -18,6 +18,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecommendBookU
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetTotalBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -35,7 +36,8 @@ class MainViewModel(
     private val getRecentPopularBookUseCase: GetRecentPopularBookUseCase,
     private val getRecommendBookUseCase : GetRecommendBookUseCase,
     private val getAlwaysPopularBookUseCase : GetAlwaysPopularBookUseCase,
-    private val getEmailTotalTextImageMemoUseCase : GetEmailTotalTextImageMemoUseCase
+    private val getEmailTotalTextImageMemoUseCase : GetEmailTotalTextImageMemoUseCase,
+    private val requestLogoutUseCase: RequestLogoutUseCase
 ): BaseViewModel() {
 
     private val TAG = MainViewModel::class.java.simpleName
@@ -74,6 +76,29 @@ class MainViewModel(
         Log.i(TAG, "날짜 찍기 : " + before60days + " / " + todayDate)
     }
 
+    fun getProtectDuplicateLoginToken() {
+        // TODO 해야함
+//        compositeDisposable.add(
+//            getRecentPopularBookUseCase.execute(before60days, todayDate, page, pageSize)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe { showProgress() }
+//                .doAfterTerminate {
+//                    hideProgress()
+//                }
+//                .subscribe({ it ->
+//                    if (it.response.resultNum == 0) {
+//                    } else {
+//                        Log.i(TAG, "요즘 많이 읽는 책 응답: " + it.response.docs.get(0).doc.bookname)
+//                        _recentPopularBookList.addAll(it.response.docs)
+//                        recentPopularBookList.value = _recentPopularBookList
+//                    }
+//                }, {
+//                    Log.i(TAG, "요즘 많이 읽는 책 응답 에러: " + it.message.toString())
+//                })
+//        )
+    }
+
 //    private fun get365Date(day: Int) : String {
 //        cal.add(Calendar.DAY_OF_MONTH, day)
 //        Log.i(TAG, "1년 전 날짜: ${day} " + SimpleDateFormat("yyyy-MM-dd").format(cal.time))
@@ -102,6 +127,12 @@ class MainViewModel(
 //            Log.i(TAG, "숫자 올라갑니다. ${i} ${SimpleDateFormat("yyyy-MM-dd").format(cal.time)}")
 //        }
 //    }
+
+    private val _logoutSuccess : MutableLiveData<Unit> = MutableLiveData()
+    val logoutSuccess: LiveData<Unit> get() = _logoutSuccess
+
+    private val _logoutFail : MutableLiveData<Unit> = MutableLiveData()
+    val logoutFail: LiveData<Unit> get() = _logoutFail
 
     // 책 전체 리스트
     private val _totalBookList = getTotalBookUseCase.execute(UserInfo.email)
@@ -234,6 +265,29 @@ class MainViewModel(
 //    fun goToSearch() {
 //        _goToSearch.value = Unit
 //    }
+
+    fun accountLogout() {
+        compositeDisposable.add(
+            requestLogoutUseCase.execute()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showProgress() }
+                .doAfterTerminate {
+                    hideProgress()
+                }
+                .subscribe { it, exception ->
+                    Log.i(TAG, "로그아웃: " + it)
+                    if (it.toString().toBoolean()) {
+                        Log.i(TAG, "로그아웃 성공")
+                        _logoutSuccess.value = Unit
+                    } else {
+                        Log.i(TAG, "로그아웃 실패")
+                        _logoutFail.value = Unit
+
+                    }
+                }
+        )
+    }
 
     companion object {
         const val BEFORE_READ = "BEFORE_READ"
