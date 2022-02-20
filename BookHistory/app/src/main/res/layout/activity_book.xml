@@ -19,7 +19,7 @@
         android:fitsSystemWindows="true"
         app:layoutDescription="@xml/activity_book_motion"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
-    <!--        app:layoutDescription="@xml/activity_book_motion"-->
+        <!--        app:layoutDescription="@xml/activity_book_motion"-->
         <!--        app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"-->
 
         <ImageView
@@ -59,7 +59,9 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
+            app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageButton
             android:id="@+id/ib_backButton_black"
@@ -80,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@={bookViewModel.bookTitle}"
@@ -265,11 +267,11 @@
             app:layout_constraintTop_toBottomOf="@id/bookInfoBackgroundView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintVertical_bias="0"
                 android:orientation="vertical"
-                android:id="@+id/layout">
+                app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -299,9 +301,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="40dp"
-            android:onClick="@{() -> bookViewModel.clickFloating()}"
             android:background="@drawable/write_floating_background"
             android:elevation="3dp"
+            android:onClick="@{() -> bookViewModel.clickFloating()}"
             android:padding="15dp"
             android:src="@drawable/ic_baseline_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -311,337 +313,337 @@
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
-<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--        android:id="@+id/main_content"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+    <!--        android:id="@+id/main_content"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
 
-<!--        <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:id="@+id/appbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="250dp"-->
-<!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+    <!--        <com.google.android.material.appbar.AppBarLayout-->
+    <!--            android:id="@+id/appbar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="250dp"-->
+    <!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
 
-<!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--                android:id="@+id/collapsing_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+    <!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
+    <!--                android:id="@+id/collapsing_toolbar"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
 
-<!--                <com.google.android.material.tabs.TabLayout-->
-<!--                    android:id="@+id/tabLayout"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="?attr/actionBarSize"-->
-<!--                    android:layout_gravity="bottom"-->
-<!--                    app:tabMode="fixed"-->
-<!--                    app:tabContentStart="0dp"/>-->
-
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/bookInfoBackgroundView"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="250dp"-->
-<!--                    android:background="#D37B7B"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0"-->
-<!--                    app:layout_constraintVertical_chainStyle="packed"-->
-<!--                    tools:src="@drawable/ic_launcher_background" />-->
-
-<!--                <View-->
-<!--                    android:id="@+id/bookInfoBackgroundViewTransparency"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="250dp"-->
-<!--                    android:background="#4D424242"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0"-->
-<!--                    app:layout_constraintVertical_chainStyle="packed" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_backButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.backButton()}"-->
-<!--                    android:src="@drawable/ic_arrow_white_24dp"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/tv_actionBarTitle"-->
-<!--                    app:layout_constraintHorizontal_bias="0"-->
-<!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_backButton_black"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.backButton()}"-->
-<!--                    android:src="@drawable/ic_arrow_back_24dp"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_backButton"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/ib_backButton"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/ib_backButton"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/ib_backButton" />-->
+    <!--                <com.google.android.material.tabs.TabLayout-->
+    <!--                    android:id="@+id/tabLayout"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="?attr/actionBarSize"-->
+    <!--                    android:layout_gravity="bottom"-->
+    <!--                    app:tabMode="fixed"-->
+    <!--                    app:tabContentStart="0dp"/>-->
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_actionBarTitle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginTop="18dp"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:text="@={bookViewModel.bookTitle}"-->
-<!--                    android:textColor="#000000"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/ib_actionBarBookInfoButton"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/ib_backButton"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
+    <!--                <ImageView-->
+    <!--                    android:id="@+id/bookInfoBackgroundView"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="250dp"-->
+    <!--                    android:background="#D37B7B"-->
+    <!--                    android:scaleType="centerCrop"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent"-->
+    <!--                    app:layout_constraintVertical_bias="0"-->
+    <!--                    app:layout_constraintVertical_chainStyle="packed"-->
+    <!--                    tools:src="@drawable/ic_launcher_background" />-->
+
+    <!--                <View-->
+    <!--                    android:id="@+id/bookInfoBackgroundViewTransparency"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="250dp"-->
+    <!--                    android:background="#4D424242"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent"-->
+    <!--                    app:layout_constraintVertical_bias="0"-->
+    <!--                    app:layout_constraintVertical_chainStyle="packed" />-->
+
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_backButton"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginStart="20dp"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.backButton()}"-->
+    <!--                    android:src="@drawable/ic_arrow_white_24dp"-->
+    <!--                    app:layout_constraintEnd_toStartOf="@+id/tv_actionBarTitle"-->
+    <!--                    app:layout_constraintHorizontal_bias="0"-->
+    <!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
+
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_backButton_black"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.backButton()}"-->
+    <!--                    android:src="@drawable/ic_arrow_back_24dp"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_backButton"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/ib_backButton"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/ib_backButton"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/ib_backButton" />-->
 
 
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_menuChange"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.changeMenu()}"-->
-<!--                    android:src="@drawable/ic_more_vert_white_24dp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/ib_deleteBook"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_menuChange_black"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.changeMenu()}"-->
-<!--                    android:src="@drawable/ic_more_vert_24dp"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_menuChange"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/ib_menuChange"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/ib_menuChange"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/ib_menuChange" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_deleteBook"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.deleteBook()}"-->
-<!--                    android:src="@drawable/ic_delete_outline_white_24dp"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/ib_menuChange"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/ib_libraryMap"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_deleteBook_black"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.deleteBook()}"-->
-<!--                    android:src="@drawable/ic_delete_outline_24dp"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_deleteBook"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/ib_deleteBook"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/ib_deleteBook"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/ib_deleteBook" />-->
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_actionBarTitle"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginStart="5dp"-->
+    <!--                    android:layout_marginTop="18dp"-->
+    <!--                    android:ellipsize="end"-->
+    <!--                    android:singleLine="true"-->
+    <!--                    android:text="@={bookViewModel.bookTitle}"-->
+    <!--                    android:textColor="#000000"-->
+    <!--                    android:textSize="20sp"-->
+    <!--                    android:textStyle="bold"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintEnd_toStartOf="@+id/ib_actionBarBookInfoButton"-->
+    <!--                    app:layout_constraintStart_toEndOf="@+id/ib_backButton"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
 
 
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_libraryMap"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:src="@drawable/ic_location_white_24dp"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/ib_deleteBook"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/ib_actionBarBookInfoButton"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_menuChange"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:layout_marginEnd="10dp"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.changeMenu()}"-->
+    <!--                    android:src="@drawable/ic_more_vert_white_24dp"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintStart_toEndOf="@+id/ib_deleteBook"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
 
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_libraryMap_black"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:src="@drawable/ic_location_24dp"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/ib_libraryMap"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/ib_libraryMap"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/ib_libraryMap" />-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_menuChange_black"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.changeMenu()}"-->
+    <!--                    android:src="@drawable/ic_more_vert_24dp"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_menuChange"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/ib_menuChange"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/ib_menuChange"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/ib_menuChange" />-->
 
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_deleteBook"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:layout_marginEnd="10dp"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.deleteBook()}"-->
+    <!--                    android:src="@drawable/ic_delete_outline_white_24dp"-->
+    <!--                    app:layout_constraintEnd_toStartOf="@+id/ib_menuChange"-->
+    <!--                    app:layout_constraintStart_toEndOf="@+id/ib_libraryMap"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
 
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_actionBarBookInfoButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:onClick="@{() -> bookViewModel.showBookInfo()}"-->
-<!--                    android:src="@drawable/ic_expand_more_black_24dp"-->
-<!--                    android:visibility="invisible"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/ib_libraryMap"-->
-<!--                    app:layout_constraintHorizontal_bias="1"-->
-<!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/tv_actionBarTitle"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_title"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:maxLines="3"-->
-<!--                    android:paddingStart="20dp"-->
-<!--                    android:paddingEnd="20dp"-->
-<!--                    android:text="@={bookViewModel.bookTitle}"-->
-<!--                    android:textColor="#ffffff"-->
-<!--                    android:textSize="25sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/ib_backButton"-->
-<!--                    tools:text="제목" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_authors"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="5dp"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:maxLines="2"-->
-<!--                    android:paddingStart="20dp"-->
-<!--                    android:paddingEnd="20dp"-->
-<!--                    android:text="@={bookViewModel.bookAuthors}"-->
-<!--                    android:textColor="#ffffff"-->
-<!--                    android:textSize="15sp"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/tv_title"-->
-<!--                    app:layout_constraintHorizontal_bias="0"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/tv_title"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/tv_title"-->
-<!--                    tools:text="지은이" />-->
-
-<!--                <View-->
-<!--                    android:id="@+id/bookInfoView"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:onClick="@{() -> bookViewModel.showBookInfo()}"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/tv_authors"-->
-<!--                    app:layout_constraintVertical_bias="1" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_bookInfoTitle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="책소개"-->
-<!--                    android:textColor="#ffffff"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoView"-->
-<!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoView"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoView" />-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/ib_bookInfoButton"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:src="@drawable/ic_expand_more_white_24dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoView"-->
-<!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoView"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoView" />-->
-
-<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:src="@drawable/ic_launcher_foreground"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:text="안녕하세요"/>&ndash;&gt;-->
-
-<!--                <androidx.appcompat.widget.Toolbar-->
-<!--                    android:id="@+id/toolbar"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="?attr/actionBarSize"-->
-<!--                    android:background="?attr/colorPrimary"-->
-<!--                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
-<!--                    app:layout_collapseMode="parallax" />-->
-
-<!--            </com.google.android.material.appbar.CollapsingToolbarLayout>>-->
-
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
-
-<!--        <androidx.core.widget.NestedScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:clipToPadding="false"-->
-<!--            android:fillViewport="true"-->
-<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:animateLayoutChanges="true"-->
-<!--                android:layout_marginBottom="?attr/actionBarSize">-->
-
-<!--                <androidx.viewpager2.widget.ViewPager2-->
-<!--                    android:id="@+id/viewPager2_container"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--        </androidx.core.widget.NestedScrollView>-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_deleteBook_black"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.deleteBook()}"-->
+    <!--                    android:src="@drawable/ic_delete_outline_24dp"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_deleteBook"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/ib_deleteBook"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/ib_deleteBook"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/ib_deleteBook" />-->
 
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/ib_floatingButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:layout_marginBottom="40dp"-->
-<!--            android:onClick="@{() -> bookViewModel.clickFloating()}"-->
-<!--            android:background="@drawable/write_floating_background"-->
-<!--            android:elevation="3dp"-->
-<!--            android:padding="15dp"-->
-<!--            android:src="@drawable/ic_edit_24dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_libraryMap"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:layout_marginEnd="10dp"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:src="@drawable/ic_location_white_24dp"-->
+    <!--                    app:layout_constraintEnd_toStartOf="@+id/ib_deleteBook"-->
+    <!--                    app:layout_constraintStart_toEndOf="@+id/ib_actionBarBookInfoButton"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
 
-<!--        &lt;!&ndash;<com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="end|bottom"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:src="@drawable/ic_launcher_foreground"-->
-<!--            app:layout_anchor="@id/tabs"-->
-<!--            app:layout_anchorGravity="center|left|start"-->
-<!--            app:fabSize="mini"-->
-<!--            app:borderWidth="0dp" />&ndash;&gt;-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_libraryMap_black"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:src="@drawable/ic_location_24dp"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/ib_libraryMap"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/ib_libraryMap"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/ib_libraryMap" />-->
 
 
-<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_actionBarBookInfoButton"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:layout_marginEnd="10dp"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:onClick="@{() -> bookViewModel.showBookInfo()}"-->
+    <!--                    android:src="@drawable/ic_expand_more_black_24dp"-->
+    <!--                    android:visibility="invisible"-->
+    <!--                    app:layout_constraintEnd_toStartOf="@+id/ib_libraryMap"-->
+    <!--                    app:layout_constraintHorizontal_bias="1"-->
+    <!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
+    <!--                    app:layout_constraintStart_toEndOf="@+id/tv_actionBarTitle"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_title"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="20dp"-->
+    <!--                    android:ellipsize="end"-->
+    <!--                    android:maxLines="3"-->
+    <!--                    android:paddingStart="20dp"-->
+    <!--                    android:paddingEnd="20dp"-->
+    <!--                    android:text="@={bookViewModel.bookTitle}"-->
+    <!--                    android:textColor="#ffffff"-->
+    <!--                    android:textSize="25sp"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@+id/ib_backButton"-->
+    <!--                    tools:text="제목" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_authors"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="5dp"-->
+    <!--                    android:ellipsize="end"-->
+    <!--                    android:maxLines="2"-->
+    <!--                    android:paddingStart="20dp"-->
+    <!--                    android:paddingEnd="20dp"-->
+    <!--                    android:text="@={bookViewModel.bookAuthors}"-->
+    <!--                    android:textColor="#ffffff"-->
+    <!--                    android:textSize="15sp"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/tv_title"-->
+    <!--                    app:layout_constraintHorizontal_bias="0"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/tv_title"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_title"-->
+    <!--                    tools:text="지은이" />-->
+
+    <!--                <View-->
+    <!--                    android:id="@+id/bookInfoView"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="40dp"-->
+    <!--                    android:layout_marginStart="20dp"-->
+    <!--                    android:layout_marginEnd="10dp"-->
+    <!--                    android:onClick="@{() -> bookViewModel.showBookInfo()}"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"-->
+    <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_authors"-->
+    <!--                    app:layout_constraintVertical_bias="1" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/tv_bookInfoTitle"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="책소개"-->
+    <!--                    android:textColor="#ffffff"-->
+    <!--                    android:textSize="14sp"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoView"-->
+    <!--                    app:layout_constraintStart_toStartOf="@+id/bookInfoView"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoView" />-->
+
+    <!--                <ImageButton-->
+    <!--                    android:id="@+id/ib_bookInfoButton"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:src="@drawable/ic_expand_more_white_24dp"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="@+id/bookInfoView"-->
+    <!--                    app:layout_constraintEnd_toEndOf="@+id/bookInfoView"-->
+    <!--                    app:layout_constraintTop_toTopOf="@+id/bookInfoView" />-->
+
+    <!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:src="@drawable/ic_launcher_foreground"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    android:text="안녕하세요"/>&ndash;&gt;-->
+
+    <!--                <androidx.appcompat.widget.Toolbar-->
+    <!--                    android:id="@+id/toolbar"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="?attr/actionBarSize"-->
+    <!--                    android:background="?attr/colorPrimary"-->
+    <!--                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+    <!--                    app:layout_collapseMode="parallax" />-->
+
+    <!--            </com.google.android.material.appbar.CollapsingToolbarLayout>>-->
+
+    <!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+    <!--        <androidx.core.widget.NestedScrollView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:clipToPadding="false"-->
+    <!--            android:fillViewport="true"-->
+    <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:animateLayoutChanges="true"-->
+    <!--                android:layout_marginBottom="?attr/actionBarSize">-->
+
+    <!--                <androidx.viewpager2.widget.ViewPager2-->
+    <!--                    android:id="@+id/viewPager2_container"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--        </androidx.core.widget.NestedScrollView>-->
+
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/ib_floatingButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginEnd="20dp"-->
+    <!--            android:layout_marginBottom="40dp"-->
+    <!--            android:onClick="@{() -> bookViewModel.clickFloating()}"-->
+    <!--            android:background="@drawable/write_floating_background"-->
+    <!--            android:elevation="3dp"-->
+    <!--            android:padding="15dp"-->
+    <!--            android:src="@drawable/ic_edit_24dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <!--        &lt;!&ndash;<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--            android:id="@+id/fab"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="end|bottom"-->
+    <!--            android:layout_margin="8dp"-->
+    <!--            android:src="@drawable/ic_launcher_foreground"-->
+    <!--            app:layout_anchor="@id/tabs"-->
+    <!--            app:layout_anchorGravity="center|left|start"-->
+    <!--            app:fabSize="mini"-->
+    <!--            app:borderWidth="0dp" />&ndash;&gt;-->
+
+
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 </layout>

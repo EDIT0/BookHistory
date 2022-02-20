@@ -99,8 +99,8 @@ class BookListRepositorylmpl(
     override fun insertTextMemo(bookIdx: Int, memoContents: String): Single<Boolean> {
         return bookListRemoteDataSource.insertTextMemo(bookIdx, memoContents)
             .flatMap {
-                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx} ${it.booklist_idx} ${it.memo_contents} ${it.save_datetime}")
-                bookListLocalDataSource.insertTextMemo(it.idx, it.booklist_idx, it.memo_contents, it.save_datetime)
+                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${it.memo_contents?:""} ${it.save_datetime!!}")
+                bookListLocalDataSource.insertTextMemo(it.idx!!, it.booklist_idx!!, it.memo_contents?:"", it.save_datetime!!)
                 Single.just(true)
             }
     }
@@ -148,12 +148,12 @@ class BookListRepositorylmpl(
 //                bookListLocalDataSource.insertImageMemo(it.idx, it.booklist_idx, it.memo_image.trim(), it.save_datetime)
 
                 val imageSenderModule = ImageSenderModule.getInstance()
-                var (server, body) = imageSenderModule.SendImageModule(file, it.memo_image.trim())
+                var (server, body) = imageSenderModule.SendImageModule(file, it.memo_image?.trim()!!)
                 server.imageSenderToServer("name2.png", body).enqueue(object: Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         Log.d(TAG,"에러")
-                        Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx} ${it.booklist_idx} ${it.memo_image.trim()} ${it.save_datetime}")
-                        bookListLocalDataSource.insertImageMemo(it.idx, it.booklist_idx, it.memo_image.trim(), it.save_datetime)
+                        Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${it.memo_image.trim()} ${it.save_datetime!!}")
+                        bookListLocalDataSource.insertImageMemo(it.idx!!, it.booklist_idx!!, it.memo_image.trim(), it.save_datetime!!)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({

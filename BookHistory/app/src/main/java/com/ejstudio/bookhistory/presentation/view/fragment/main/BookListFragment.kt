@@ -87,13 +87,13 @@ class BookListFragment : Fragment() {
                     var str: StringBuilder = StringBuilder()
                     if(it.size > 10) {
                         for(i in 0 until 10) {
-                            if(it.get(i).isbn.trim().length == 13) {
+                            if(it.get(i).isbn?.trim()?.length == 13) {
                                 continue
                             }
                             if(i == 9) {
-                                str.append(it.get(i).isbn.substring(0,10).trim())
+                                str.append(it.get(i).isbn?.substring(0,10)?.trim())
                             } else {
-                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                                str.append(it.get(i).isbn?.substring(0,10)?.trim() + ";")
                             }
                         }
                         Log.i(TAG, " ${recommendBookList.value?.size} isbn = " + str.toString())
@@ -102,16 +102,16 @@ class BookListFragment : Fragment() {
                         }
                     } else {
                         for(i in 0 until it.size) {
-                            if(it.get(i).isbn.trim().length == 13) {
+                            if(it.get(i).isbn?.trim()?.length == 13) {
                                 continue
                             }
                             if(i == 0) {
-                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                                str.append(it.get(i).isbn?.substring(0,10)?.trim() + ";")
                             }
                             else if(i == (it.size-1)) {
-                                str.append(it.get(i).isbn.substring(0,10).trim())
+                                str.append(it.get(i).isbn?.substring(0,10)?.trim())
                             } else {
-                                str.append(it.get(i).isbn.substring(0,10).trim() + ";")
+                                str.append(it.get(i).isbn?.substring(0,10)?.trim() + ";")
                             }
                         }
                         Log.i(TAG, " ${recommendBookList.value?.size} isbn = " + str.toString())

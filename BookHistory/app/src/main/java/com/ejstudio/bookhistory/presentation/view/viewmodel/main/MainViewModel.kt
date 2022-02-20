@@ -9,6 +9,9 @@ import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.domain.model.RecommendBookModel
 import com.ejstudio.bookhistory.domain.model.TextImageMemoModel
+import com.ejstudio.bookhistory.domain.usecase.login.GetProtectDuplicateLoginTokenFromServerUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.GetTotalUserInfoUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.InitRoomForCurrentUserUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetBeforeReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetEndReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetReadingBookUseCase
@@ -37,7 +40,10 @@ class MainViewModel(
     private val getRecommendBookUseCase : GetRecommendBookUseCase,
     private val getAlwaysPopularBookUseCase : GetAlwaysPopularBookUseCase,
     private val getEmailTotalTextImageMemoUseCase : GetEmailTotalTextImageMemoUseCase,
-    private val requestLogoutUseCase: RequestLogoutUseCase
+    private val requestLogoutUseCase: RequestLogoutUseCase,
+    private val getProtectDuplicateLoginTokenFromServerUseCase: GetProtectDuplicateLoginTokenFromServerUseCase,
+    private val initRoomForCurrentUserUseCase: InitRoomForCurrentUserUseCase,
+    private val getTotalUserInfoUseCase: GetTotalUserInfoUseCase
 ): BaseViewModel() {
 
     private val TAG = MainViewModel::class.java.simpleName
@@ -76,26 +82,66 @@ class MainViewModel(
         Log.i(TAG, "날짜 찍기 : " + before60days + " / " + todayDate)
     }
 
-    fun getProtectDuplicateLoginToken() {
-        // TODO 해야함
+    fun getProtectDuplicateLoginToken(email: String, preferencesToken: String) {
+        compositeDisposable.add(
+            getProtectDuplicateLoginTokenFromServerUseCase.execute(email)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showProgress() }
+                .doAfterTerminate {
+                    hideProgress()
+                }
+                .subscribe { it, exception ->
+                    Log.i(TAG, "내부토큰: " + preferencesToken + " / 서버토큰: ${it.returnvalue}")
+                    if(it.returnvalue.equals(preferencesToken)) {
+                        Log.i(TAG, "내부토큰과 서버토큰 같은지 비교: true")
+                        _tokenTrue.value = Unit
+                    } else {
+                        Log.i(TAG, "내부토큰과 서버토큰 같은지 비교: false")
+                        _tokenFalse.value = Unit
+                    }
+                }
+        )
+    }
+
+    fun initRoomForCurrentUser(email: String) {
+        compositeDisposable.add(
+            initRoomForCurrentUserUseCase.execute(email)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showProgress() }
+                .doAfterTerminate {
+                    hideProgress()
+                }
+                .subscribe(
+                    {
+                        Log.i(TAG, "현재 로그인한 유저 Room 정보 삭제됌")
+                        _requestTotalUserInfo.value = Unit
+                    }, {
+                        Log.i(TAG, "현재 로그인한 유저 Room 정보 삭제 실패 ${it.message.toString()}")
+                    }
+                )
+        )
+    }
+
+    // 유저에 대한 모든 책, 메모 정보들을 서버로부터 불러온다.
+    fun getTotalUserInfo(email: String) {
 //        compositeDisposable.add(
-//            getRecentPopularBookUseCase.execute(before60days, todayDate, page, pageSize)
+            getTotalUserInfoUseCase.execute(email)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .doOnSubscribe { showProgress() }
 //                .doAfterTerminate {
 //                    hideProgress()
 //                }
-//                .subscribe({ it ->
-//                    if (it.response.resultNum == 0) {
-//                    } else {
-//                        Log.i(TAG, "요즘 많이 읽는 책 응답: " + it.response.docs.get(0).doc.bookname)
-//                        _recentPopularBookList.addAll(it.response.docs)
-//                        recentPopularBookList.value = _recentPopularBookList
+//                .subscribe(
+//                    {
+//                        Log.i(TAG, "현재 로그인한 유저 Room 정보 삭제됌")
+//                        _requestTotalUserInfo.value = Unit
+//                    }, {
+//                        Log.i(TAG, "현재 로그인한 유저 Room 정보 삭제 실패 ${it.message.toString()}")
 //                    }
-//                }, {
-//                    Log.i(TAG, "요즘 많이 읽는 책 응답 에러: " + it.message.toString())
-//                })
+//                )
 //        )
     }
 
@@ -133,6 +179,16 @@ class MainViewModel(
 
     private val _logoutFail : MutableLiveData<Unit> = MutableLiveData()
     val logoutFail: LiveData<Unit> get() = _logoutFail
+
+    private val _tokenTrue : MutableLiveData<Unit> = MutableLiveData()
+    val tokenTrue: LiveData<Unit> get() = _tokenTrue
+
+    private val _tokenFalse : MutableLiveData<Unit> = MutableLiveData()
+    val tokenFalse: LiveData<Unit> get() = _tokenFalse
+
+    // 룸 디비 삭제 후 서버에서 모든 책과 메모 정보들을 가지고와서 룸 디비에 insert시킨다.
+    private val _requestTotalUserInfo : MutableLiveData<Unit> = MutableLiveData()
+    val requestTotalUserInfo: LiveData<Unit> get() = _requestTotalUserInfo
 
     // 책 전체 리스트
     private val _totalBookList = getTotalBookUseCase.execute(UserInfo.email)

@@ -1,14 +1,17 @@
 package com.ejstudio.bookhistory.data.repository.login
 
 import android.util.Log
+import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSource
 import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.Exception
 
 class LoginRepositorylmpl(
     private val loginLocalDataSource: LoginLocalDataSource,
@@ -72,6 +75,70 @@ class LoginRepositorylmpl(
         loginRemoteDataSource.updateProtectDuplicateLoginToken(userId, protectDuplicateLoginToken)
             .subscribe { t1, t2 ->
                 Log.i(TAG, "카카오 중복로그인 방지 토큰: ${t1.returnvalue}")
+            }
+    }
+
+    override fun getProtectDuplicateLoginTokenFromServer(email: String): Single<CheckTrueOrFalseModel> {
+        return loginRemoteDataSource.getProtectDuplicateLoginTokenFromServer(email)
+    }
+
+    override fun initRoomForCurrentUser(email: String): Completable {
+        return loginLocalDataSource.initRoomForCurrentUser(email)
+    }
+
+    override fun getTotalUserInfo(email: String) {
+        // (동기화) 책 리스트 적용
+        loginRemoteDataSource.getEmailTotalBookList(email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { it, exception ->
+                try {
+                    Log.i(TAG, "서버에서 온 전체 책 리스트 ${it}")
+                }catch (e: Exception){}
+                if(it.totalBookListModel != null && it.totalBookListModel.size != 0) {
+                    loginLocalDataSource.insertTotalBookList(it.totalBookListModel)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Log.i(TAG, "서버에서 온 전체 책 리스트 룸에 적용 완료")
+
+                            // (동기화) 글 메모 리스트 적용
+                            loginRemoteDataSource.getEmailTotalBookTextMemoList(email)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe { it, exception ->
+                                    if(it.totalBookTextMemoListModel != null && it.totalBookTextMemoListModel.size != 0) {
+                                        loginLocalDataSource.insertTotalBookTextMemoList(it.totalBookTextMemoListModel)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe({
+                                                Log.i(TAG, "서버에서 온 전체 책 리스트의 텍스트 메모 룸에 적용 완료")
+                                            }, {
+                                                Log.i(TAG, "서버에서 온 전체 책 리스트의 텍스트 메모 룸에 적용 실패 ${it.message.toString()}")
+                                            })
+                                    }
+                                }
+
+                            // (동기화) 사진 메모 리스트 적용
+                            loginRemoteDataSource.getEmailTotalBookImageMemoList(email)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe { it, exception ->
+                                    if(it.totalBookImageMemoListModel != null && it.totalBookImageMemoListModel.size != 0) {
+                                        loginLocalDataSource.insertTotalBookImageMemoList(it.totalBookImageMemoListModel)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe({
+                                                Log.i(TAG, "서버에서 온 전체 책 리스트의 이미지 메모 룸에 적용 완료")
+                                            }, {
+                                                Log.i(TAG, "서버에서 온 전체 책 리스트의 이미지 메모 룸에 적용 실패 ${it.message.toString()}")
+                                            })
+                                    }
+                                }
+                        }, {
+                            Log.i(TAG, "서버에서 온 전체 책 리스트 룸에 적용 실패 ${it.message.toString()}")
+                        })
+                }
             }
     }
 }

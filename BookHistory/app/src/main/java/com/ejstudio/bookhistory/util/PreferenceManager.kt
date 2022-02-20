@@ -38,6 +38,10 @@ class PreferenceManager(context: Context) : KoinComponent {
 
     var isAutoLogin: Observable<Boolean> = Observable.create<Boolean> {
 
+        // 로그인 시 중복로그인 확인을 위해 기존 내부에 저장되어 있던 토큰 값을 저장해 둔다.
+        var prefProtectDuplicateLoginToken = loginPreferences.getString(PROTECT_DUPLICATE_LOGIN_TOKEN, "")
+        UserInfo.protectDuplicateLoginToken = prefProtectDuplicateLoginToken!!
+
         var prefEmail = loginPreferences.getString(EMAIL, null)
         var prefPassword = loginPreferences.getString(PASSWORD, null)
         var prefKakaoToken = loginPreferences.getString(KAKAO_USER_TOKEN, null)

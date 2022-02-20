@@ -12,6 +12,9 @@ interface TextMemoDao {
     @Insert
     fun insertTextMemo(textMemoEntity: TextMemoEntity)
 
+    @Insert
+    fun insertTotalBookTextMemoList(textMemoList: List<TextMemoEntity>) : Completable
+
     /*@Update
     fun update(bookEntity: BookEntity)*/
 

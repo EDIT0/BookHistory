@@ -157,7 +157,7 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
@@ -206,6 +206,9 @@ val useCaseModule: Module = module {
     single { GetCalendarDateMemoUseCase(get()) }
     single { RequestLogoutUseCase(get()) }
     single { UpdateProtectDuplicateLoginTokenUseCase(get()) }
+    single { GetProtectDuplicateLoginTokenFromServerUseCase(get()) }
+    single { InitRoomForCurrentUserUseCase(get()) }
+    single { GetTotalUserInfoUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -218,7 +221,7 @@ val repositoryModule: Module = module {
 
 val localDataModule: Module = module {
     single { PreferenceManager(get()) }
-    single<LoginLocalDataSource> { LoginLocalDataSourcelmpl(get()) }
+    single<LoginLocalDataSource> { LoginLocalDataSourcelmpl(get(), get(), get(), get()) }
     single<SearchBookLocalDataSource> { SearchBookLocalDataSourcelmpl(get(), get()) }
     single<RecentSearchesDao> { get<MyBookDatabase>().RecentSearchesDao() }
     single<BookListDao> { get<MyBookDatabase>().bookListDao() }

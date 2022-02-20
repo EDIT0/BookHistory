@@ -131,6 +131,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                             // 기존 가입 이력이 있는지 확인
                             loginViewModel.checkKakaoUserId(user?.id.toString())
 
+                            // 로그인 시 중복로그인 확인을 위해 기존 내부에 저장되어 있던 토큰 값을 저장해 둔다.
+                            var prefProtectDuplicateLoginToken = loginPreferences.getString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, "")
+                            UserInfo.protectDuplicateLoginToken = prefProtectDuplicateLoginToken!!
+
                             val currentTime: Long = System.currentTimeMillis()
                             val protectDuplicateLoginToken = user?.id.toString() + currentTime
 

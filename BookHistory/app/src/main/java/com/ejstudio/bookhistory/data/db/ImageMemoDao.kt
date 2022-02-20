@@ -11,6 +11,9 @@ interface ImageMemoDao {
     @Insert
     fun insertImageMemo(imageMemoEntity: ImageMemoEntity) : Completable
 
+    @Insert
+    fun insertTotalBookImageMemoList(imageMemoList: List<ImageMemoEntity>) : Completable
+
     /*@Update
     fun update(bookEntity: BookEntity)*/
 

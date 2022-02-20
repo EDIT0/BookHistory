@@ -106,18 +106,18 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
             bookInfo.observe(this@BookActivity, Observer {
                 if(it != null) {
                     Log.i(TAG, "현재 선택한 책: " + it.title + " ${it.thumbnail}")
-                    bookThumbnail = it.thumbnail
+                    bookThumbnail = it.thumbnail?:""
                     bookTitle.value = it.title
                     bookAuthors.value = it.authors
                     Glide.with(binding.root.context)
                         .load(it.thumbnail)
                         .error(R.drawable.img_bookcover_null)
                         .into(binding.bookInfoBackgroundView)
-                    bookPublisher = it.publisher
-                    bookDatetime = it.datetime
-                    bookContents = it.contents
-                    bookUrl = it.url
-                    bookReadingState = it.reading_state
+                    bookPublisher = it.publisher?:""
+                    bookDatetime = it.datetime?:""
+                    bookContents = it.contents?:""
+                    bookUrl = it.url?:""
+                    bookReadingState = it.reading_state?:""
                     _selectedMenu.value = bookReadingState
                 }
             })

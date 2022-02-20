@@ -34,7 +34,12 @@ class LoginManager(context: Context) : KoinComponent {
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = FirebaseAuth.getInstance().currentUser
 
+                        // 로그인 시 중복로그인 확인을 위해 기존 내부에 저장되어 있던 토큰 값을 저장해 둔다.
+                        var prefProtectDuplicateLoginToken = loginPreferences.getString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, "")
+                        UserInfo.protectDuplicateLoginToken = prefProtectDuplicateLoginToken?:""
+
                         val editor = loginPreferences.edit()
+
                         editor.putString(PreferenceManager.EMAIL, email)
                         editor.putString(PreferenceManager.PASSWORD, password)
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
@@ -66,6 +71,8 @@ class LoginManager(context: Context) : KoinComponent {
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = FirebaseAuth.getInstance().currentUser
 //                        global.email = email.toString()
+
+                        UserInfo.protectDuplicateLoginToken = protectDuplicateLoginToken
 
                         val editor = loginPreferences.edit()
                         editor.putString(PreferenceManager.EMAIL, email)

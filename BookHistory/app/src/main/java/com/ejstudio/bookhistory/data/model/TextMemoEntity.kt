@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey
 )
 data class TextMemoEntity(
     @PrimaryKey(autoGenerate = false)
-    var idx: Int,
-    val booklist_idx: Int,
-    val memo_contents: String,
-    val save_datetime: String,
-    val email: String
+    var idx: Int?,
+    val booklist_idx: Int?,
+    val memo_contents: String?,
+    val save_datetime: String?,
+    val email: String?
 ) {
 
 }

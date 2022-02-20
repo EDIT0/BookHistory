@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.data.api
 
+import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.*
@@ -172,4 +173,29 @@ interface ApiInterface {
         @Field("email") email: String,
         @Field("protectDuplicateLoginToken") protectDuplicateLoginToken: String
     ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("login/GetProtectDuplicateLoginToken.php")
+    fun getProtectDuplicateLoginTokenFromServer(
+        @Field("email") email: String
+    ) : Single<CheckTrueOrFalseModel>
+
+    @FormUrlEncoded
+    @POST("login/GetEmailTotalBookList.php")
+    fun getEmailTotalBookList(
+        @Field("email") email: String
+    ) : Single<TotalBookListModel>
+
+    @FormUrlEncoded
+    @POST("login/GetEmailTotalBookTextMemoList.php")
+    fun getEmailTotalBookTextMemoList(
+        @Field("email") email: String
+    ) : Single<TotalBookTextMemoListModel>
+
+    @FormUrlEncoded
+    @POST("login/GetEmailTotalBookImageMemoList.php")
+    fun getEmailTotalBookImageMemoList(
+        @Field("email") email: String
+    ) : Single<TotalBookImageMemoListModel>
+
 }

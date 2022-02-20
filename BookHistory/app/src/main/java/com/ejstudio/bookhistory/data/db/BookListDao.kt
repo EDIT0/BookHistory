@@ -12,6 +12,9 @@ interface BookListDao {
     @Insert
     fun insertBook(bookListEntity: BookListEntity) : Completable
 
+    @Insert
+    fun insertTotalBookList(bookList: List<BookListEntity>) : Completable
+
     /*@Update
     fun update(bookEntity: BookEntity)*/
 
@@ -62,4 +65,27 @@ interface BookListDao {
 
     @Query("SELECT COUNT(*) FROM BookListEntity WHERE EXISTS ( SELECT * FROM BookListEntity WHERE email = :email and isbn = :isbn)")
     fun isExistBook(email: String, isbn: String): Int
+
+    @Query("DELETE FROM BookListEntity WHERE email = :email")
+    fun initRoomForCurrentUser(email: String) : Completable
+
+
+
+
+//    @Query("DELETE FROM BookListEntity WHERE email=:email")
+//    abstract fun deleteUserById(email: String)
+//
+//    @Query("DELETE FROM TextMemoEntity WHERE email=:email")
+//    abstract fun cascadeDeletionsTextFromUser(email: String)
+//
+//    @Query("DELETE FROM ImageMemoEntity WHERE email=:email")
+//    abstract fun cascadeDeletionsImageFromUser(email: String)
+//
+//    @Transaction
+//    @Query("")
+//    fun deleteUserWithCascade(email: String) {
+//        cascadeDeletionsImageFromUser(email)
+//        cascadeDeletionsTextFromUser(email)
+//        deleteUserById(email)
+//    }
 }

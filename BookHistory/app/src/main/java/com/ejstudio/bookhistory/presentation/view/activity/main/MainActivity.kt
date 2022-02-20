@@ -1,10 +1,14 @@
 package com.ejstudio.bookhistory.presentation.view.activity.main
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
 import com.ejstudio.bookhistory.databinding.ActivityMainBinding
@@ -17,6 +21,7 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFra
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.LoginViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import com.ejstudio.bookhistory.util.PreferenceManager
 import com.ejstudio.bookhistory.util.UserInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,6 +50,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     lateinit var fragmentManager: FragmentManager
 
+    var kindOfLogin = ""
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
@@ -63,18 +71,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         * 서버에서 가져온 토큰과 현재 내부 토큰을 비교하여 (토큰은 있을 수도 있고 없을 수도 있음) 같으면 로그인시키고,
         * 다르면 방금 로그인한 유저의 내부 DB를 초기화하고, 서버에서 값을 가져와 내부 DB에 적용시킨다.
         * */
-        var kindOfLogin = intent.getStringExtra("WhatIsTheTypeOfLogin")
+        kindOfLogin = intent.getStringExtra("WhatIsTheTypeOfLogin")?:"ERROR"
         Log.i(TAG, "로그인 방식: $kindOfLogin")
 
-        mainViewModel.getProtectDuplicateLoginToken() // 서버 토큰 가져오기
+        preferences = binding.root.context.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
+        var preferencesToken = UserInfo.protectDuplicateLoginToken
 
-        if(kindOfLogin.equals(AUTO_LOGIN)) {
-            // 자동로그인 일 경우
+        mainViewModel.getProtectDuplicateLoginToken(UserInfo.email, preferencesToken) // 서버 토큰 가져오기
 
-        } else if(kindOfLogin.equals(NORMAL_LOGIN)) {
-            // 일반로그인 일 경우
 
-        }
+        viewModelCallback()
 
         /*
         * 하위 프래그먼트
@@ -128,5 +134,39 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             }
 
         })
+    }
+
+    fun viewModelCallback() {
+        with(mainViewModel) {
+            tokenTrue.observe(this@MainActivity, Observer {
+                // 중복로그인이 아님을 확인하였으므로 내부에 저장해놓은 값을 지정해준다.
+                UserInfo.protectDuplicateLoginToken = preferences.getString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, "")!!
+            })
+            tokenFalse.observe(this@MainActivity, Observer {
+                if(kindOfLogin.equals(AUTO_LOGIN)) {
+                    // 자동로그인 일 경우
+                    goToLoginActivity()
+                } else if(kindOfLogin.equals(NORMAL_LOGIN)) {
+                    // 일반로그인 일 경우
+                    /*
+                    * 다른 곳에서 로그인한 기록이 있지만, 여기서 새로 로그인하였으므로 내부에 저장해놓은 값을 지정해주고
+                    * 현재 기기에 룸 디비를 초기화(현재 유저 정보만)하고 다시 서버에서 가져온다. (동기화를 위해)
+                    * */
+                    UserInfo.protectDuplicateLoginToken = preferences.getString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, "")!!
+                    mainViewModel.initRoomForCurrentUser(UserInfo.email)
+                }
+            })
+            requestTotalUserInfo.observe(this@MainActivity, Observer {
+                mainViewModel.getTotalUserInfo(UserInfo.email)
+            })
+        }
+    }
+
+    fun goToLoginActivity() {
+        UserInfo.email = ""
+        var goToLoginActivity = Intent(binding.root.context, LoginActivity::class.java)
+        goToLoginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        goToLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(goToLoginActivity)
     }
 }

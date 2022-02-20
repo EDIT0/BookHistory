@@ -1,7 +1,11 @@
 package com.ejstudio.bookhistory.data.repository.login.remote
 
 import com.ejstudio.bookhistory.data.api.ApiInterface
+import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
+import com.ejstudio.bookhistory.domain.model.TotalBookImageMemoListModel
+import com.ejstudio.bookhistory.domain.model.TotalBookListModel
+import com.ejstudio.bookhistory.domain.model.TotalBookTextMemoListModel
 import com.ejstudio.bookhistory.util.LoginManager
 import com.ejstudio.bookhistory.util.PreferenceManager
 import io.reactivex.rxjava3.core.Observable
@@ -46,6 +50,22 @@ class LoginRemoteDataSourcelmpl(
 
     override fun updateProtectDuplicateLoginToken(email: String, protectDuplicateLoginToken: String): Single<CheckTrueOrFalseModel> {
         return apiInterface.updateProtectDuplicateLoginToken(email, protectDuplicateLoginToken)
+    }
+
+    override fun getProtectDuplicateLoginTokenFromServer(email: String): Single<CheckTrueOrFalseModel> {
+        return apiInterface.getProtectDuplicateLoginTokenFromServer(email)
+    }
+
+    override fun getEmailTotalBookList(email: String): Single<TotalBookListModel> {
+        return apiInterface.getEmailTotalBookList(email)
+    }
+
+    override fun getEmailTotalBookTextMemoList(email: String): Single<TotalBookTextMemoListModel> {
+        return apiInterface.getEmailTotalBookTextMemoList(email)
+    }
+
+    override fun getEmailTotalBookImageMemoList(email: String): Single<TotalBookImageMemoListModel> {
+        return apiInterface.getEmailTotalBookImageMemoList(email)
     }
 
 
