@@ -198,4 +198,10 @@ interface ApiInterface {
         @Field("email") email: String
     ) : Single<TotalBookImageMemoListModel>
 
+    @FormUrlEncoded
+    @POST("login/RemoveUserAccount.php")
+    fun removeUserAccount(
+        @Field("email") email: String
+    ) : Single<CheckTrueOrFalseModel>
+
 }

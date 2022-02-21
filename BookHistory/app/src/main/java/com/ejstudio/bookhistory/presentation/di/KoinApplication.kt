@@ -39,6 +39,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.*
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.setting.RemoveUserAccountUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
@@ -157,7 +158,7 @@ val viewModelModule: Module = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignUp2ViewModel(get(), get()) }
     viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
     viewModel { BookDetailPageViewModel(get()) }
@@ -209,6 +210,7 @@ val useCaseModule: Module = module {
     single { GetProtectDuplicateLoginTokenFromServerUseCase(get()) }
     single { InitRoomForCurrentUserUseCase(get()) }
     single { GetTotalUserInfoUseCase(get()) }
+    single { RemoveUserAccountUseCase(get()) }
 }
 
 val repositoryModule: Module = module {
@@ -242,7 +244,7 @@ val remoteDataModule: Module = module {
     single<SearchBookRemoteDataSource> { SearchBookRemoteDataSourcelmpl(get()) }
     single<BookListRemoteDataSource> { BookListRemoteDataSourcelmpl(get()) }
     single<MyBookHistoryRemoteDataSource> { MyBookHistoryRemoteDataSourcelmpl() }
-    single<SettingRemoteDataSource> { SettingRemoteDataSourcelmpl() }
+    single<SettingRemoteDataSource> { SettingRemoteDataSourcelmpl(get()) }
 }
 
 val activityMoudel: Module = module {

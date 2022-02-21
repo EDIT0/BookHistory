@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.model.BookListEntity
-import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.RecentPopularBookModel
 import com.ejstudio.bookhistory.domain.model.RecommendBookModel
 import com.ejstudio.bookhistory.domain.model.TextImageMemoModel
 import com.ejstudio.bookhistory.domain.usecase.login.GetProtectDuplicateLoginTokenFromServerUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.GetTotalUserInfoUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.InitRoomForCurrentUserUseCase
+import com.ejstudio.bookhistory.domain.usecase.login.SendFindPasswordEmailUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetBeforeReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetEndReadBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetReadingBookUseCase
@@ -19,14 +19,15 @@ import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetAlwaysPopularB
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecentPopularBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetRecommendBookUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.GetTotalBookUseCase
-import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetCalendarDateMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.mybookhistory.GetEmailTotalTextImageMemoUseCase
+import com.ejstudio.bookhistory.domain.usecase.main.setting.RemoveUserAccountUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
 import com.ejstudio.bookhistory.util.UserInfo
+import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -43,7 +44,9 @@ class MainViewModel(
     private val requestLogoutUseCase: RequestLogoutUseCase,
     private val getProtectDuplicateLoginTokenFromServerUseCase: GetProtectDuplicateLoginTokenFromServerUseCase,
     private val initRoomForCurrentUserUseCase: InitRoomForCurrentUserUseCase,
-    private val getTotalUserInfoUseCase: GetTotalUserInfoUseCase
+    private val getTotalUserInfoUseCase: GetTotalUserInfoUseCase,
+    private val sendFindPasswordEmailUseCase: SendFindPasswordEmailUseCase,
+    private val removeUserAccountUseCase: RemoveUserAccountUseCase
 ): BaseViewModel() {
 
     private val TAG = MainViewModel::class.java.simpleName
@@ -322,7 +325,7 @@ class MainViewModel(
 //        _goToSearch.value = Unit
 //    }
 
-    fun accountLogout() {
+    fun accountLogout(type: String) {
         compositeDisposable.add(
             requestLogoutUseCase.execute()
                 .subscribeOn(Schedulers.io())
@@ -335,7 +338,17 @@ class MainViewModel(
                     Log.i(TAG, "로그아웃: " + it)
                     if (it.toString().toBoolean()) {
                         Log.i(TAG, "로그아웃 성공")
-                        _logoutSuccess.value = Unit
+
+                        if(type.equals(SettingFragment.CHANGE_PASSWORD)) {
+                            sendFindPasswordEmail()
+                        } else if(type.equals(SettingFragment.LOGOUT)) {
+                            _logoutSuccess.value = Unit
+                        } else if(type.equals(SettingFragment.REMOVE_ACCOUNT)) {
+                            removeUserAccount()
+                        }
+
+
+
                     } else {
                         Log.i(TAG, "로그아웃 실패")
                         _logoutFail.value = Unit
@@ -343,6 +356,50 @@ class MainViewModel(
                     }
                 }
         )
+    }
+
+    fun sendFindPasswordEmail() {
+        Log.i(TAG, "(비밀번호 찾기) 보낼 이메일 주소: "+UserInfo.email)
+        compositeDisposable.add(sendFindPasswordEmailUseCase.execute(UserInfo.email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { showProgress() }
+            .doAfterTerminate {
+                hideProgress()
+            }
+            .subscribe({
+                Log.i(TAG, "이메일을 보냈는가?: ${it.toString().toBoolean()}")
+                if(it.toString().toBoolean()) {
+                    _logoutSuccess.value = Unit
+//                    _goToFindPassword2.value = Unit
+                } else {
+//                    snackbarMessage = "다시 시도해주세요."
+//                    _requestSnackbar.value = Unit
+                }
+            }, {
+                Log.i(TAG, "에러: $it ${it.message}")
+//                snackbarMessage = "다시 시도해주세요."
+//                _requestSnackbar.value = Unit
+            })
+        )
+    }
+
+    fun removeUserAccount() {
+        removeUserAccountUseCase.execute(UserInfo.email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { showProgress() }
+            .doAfterTerminate {
+                hideProgress()
+//                _backButton.value = Unit
+            }
+            .subscribe({
+                Log.i(TAG, "유저 삭제 성공")
+                FirebaseAuth.getInstance().currentUser?.delete()
+                _logoutSuccess.value = Unit
+            }, {
+                Log.i(TAG, "유저 삭제 오류 " + it.message.toString())
+            })
     }
 
     companion object {

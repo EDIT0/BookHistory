@@ -13,15 +13,21 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
-import com.ejstudio.bookhistory.databinding.FragmentBookListBinding
 import com.ejstudio.bookhistory.databinding.FragmentSettingBinding
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.UserInfo
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingFragment : Fragment() {
+
+    companion object {
+        const val LOGOUT = "LOGOUT"
+        const val CHANGE_PASSWORD = "CHANGE_PASSWORD"
+        const val REMOVE_ACCOUNT = "REMOVE_ACCOUNT"
+    }
+
+
 
     lateinit var binding: FragmentSettingBinding
 //    private val mainViewModel: MainViewModel by viewModel()
@@ -53,30 +59,59 @@ class SettingFragment : Fragment() {
     }
 
     fun buttonClickListener() {
+        binding.tvChangePW.setOnClickListener {
+            dialog = Dialog(binding.root.context)
+            dialog.setContentView(R.layout.dialog_delete_idx_book_info)
+            val title = "이메일을 확인해주세요"
+            val subTitle = "링크를 통해 비밀번호를 변경합니다\n변경을 누르면 즉시 로그아웃 됩니다"
+            showDeleteDialog(title, subTitle, CHANGE_PASSWORD)
+        }
         binding.tvLogout.setOnClickListener {
-            dialog = Dialog(binding.root.context);       // Dialog 초기화
-//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
-            dialog.setContentView(R.layout.dialog_delete_idx_book_info);
+            dialog = Dialog(binding.root.context)       // Dialog 초기화
+//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 제거
+            dialog.setContentView(R.layout.dialog_delete_idx_book_info)
             val title = ""
             val subTitle = "로그아웃 하시겠습니까?"
-            showDeleteDialog(title, subTitle)
+            showDeleteDialog(title, subTitle, LOGOUT)
+        }
+        binding.tvRemoveAccount.setOnClickListener {
+            dialog = Dialog(binding.root.context)
+            dialog.setContentView(R.layout.dialog_delete_idx_book_info)
+            val title = "회원탈퇴 하시겠습니까?"
+            val subTitle = "모든 정보가 즉시 삭제됩니다"
+            showDeleteDialog(title, subTitle, REMOVE_ACCOUNT)
         }
     }
 
-    fun showDeleteDialog(title: String, subTitle: String) {
+    fun showDeleteDialog(title: String, subTitle: String, type: String) {
         dialog.findViewById<TextView>(R.id.dialog_tv_title).setText(title)
         dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText(subTitle)
 
         dialog.show()
 
         val dialog_cancel: Button = dialog.findViewById(R.id.dialog_cancel)
+        val dialog_confirmation: Button = dialog.findViewById(R.id.dialog_confirmation)
+
+        when(type) {
+            CHANGE_PASSWORD -> {
+                dialog_confirmation.setText("변경")
+            }
+            LOGOUT -> {
+                dialog_confirmation.setText("로그아웃")
+            }
+            REMOVE_ACCOUNT -> {
+                dialog_confirmation.setText("회원탈퇴")
+            }
+        }
+
+
         dialog_cancel.setOnClickListener {
             dialog.dismiss()
         }
 
-        val dialog_confirmation: Button = dialog.findViewById(R.id.dialog_confirmation)
+
         dialog_confirmation.setOnClickListener {
-            mainViewModel.accountLogout()
+            mainViewModel.accountLogout(type)
             dialog.dismiss()
         }
     }

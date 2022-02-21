@@ -30,11 +30,23 @@ import com.ejstudio.bookhistory.util.Converter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
 import java.lang.StringBuilder
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.AdRequest
+
+import com.google.android.gms.ads.MobileAds
+
+
+
+
+
+
 
 
 class BookListFragment : Fragment() {
 
     private val TAG: String? = BookListFragment::class.java.simpleName
+
+    private var mAdView: AdView? = null
 
     lateinit var binding: FragmentBookListBinding
 //    private val mainViewModel: MainViewModel by viewModel()
@@ -55,12 +67,22 @@ class BookListFragment : Fragment() {
 
         Log.i(TAG, "코드1: ${mainViewModel.hashCode()}")
 
+        settingAdView()
         settingRecyclerView()
         dataEmptyScreenSetting()
         viewModelCallback()
         buttonClickListener()
 
+
         return binding.root
+    }
+
+    fun settingAdView() {
+        MobileAds.initialize(binding.root.context)
+        mAdView = binding.adView
+        val adRequest: AdRequest = AdRequest.Builder().build()
+
+        mAdView!!.loadAd(adRequest)
     }
 
     fun settingRecyclerView() {

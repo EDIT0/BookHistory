@@ -5,7 +5,9 @@
     tools:context=".presentation.view.fragment.main.BookListFragment">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
@@ -38,8 +40,8 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
             app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView"
-            tools:text="상태 표시"/>
-<!--        android:text="@={mainViewModel._selectedMenu}"-->
+            tools:text="상태 표시" />
+        <!--        android:text="@={mainViewModel._selectedMenu}"-->
         <ImageView
             android:id="@+id/ib_selectionImage"
             android:layout_width="wrap_content"
@@ -55,30 +57,63 @@
             android:layout_width="match_parent"
             android:layout_height="0.75dp"
             android:background="#cccccc"
-            app:layout_constraintBottom_toTopOf="@+id/rc_bookList"
+            app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_bookList"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/nested_scrollview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ads:adSize="BANNER"
+                    android:layout_marginVertical="10dp"
+                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+                    app:layout_constraintBottom_toTopOf="@+id/rc_bookList"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+<!--ca-app-pub-8761696495202698/2821208109--> <!--광고 단위 ID-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_bookList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/adView" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/include_data_empty_screen"
+            layout="@layout/data_empty_screen"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{mainViewModel.isData() ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1" />
-
-        <include
-            android:id="@+id/include_data_empty_screen"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            layout="@layout/data_empty_screen"
-            android:visibility="@{mainViewModel.isData() ? View.GONE : View.VISIBLE}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

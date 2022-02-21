@@ -25,11 +25,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.ejstudio.bookhistory.util.OffsetItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 
 
 class BookSearchFragment : Fragment() {
 
     private val TAG = BookSearchFragment::class.java.simpleName
+
+    private var mAdView: AdView? = null
+
     lateinit var binding: FragmentBookSearchBinding
 //    private val mainViewModel: MainViewModel by viewModel()
     lateinit var mainViewModel: MainViewModel
@@ -45,11 +51,20 @@ class BookSearchFragment : Fragment() {
         mainViewModel = (activity as MainActivity).mainViewModel
         binding.mainViewModel = mainViewModel
 
+        settingAdView()
         settingRecyclerView()
         viewModelCallback()
         buttonClickListener()
 
         return binding.root
+    }
+
+    fun settingAdView() {
+        MobileAds.initialize(binding.root.context)
+        mAdView = binding.adView
+        val adRequest: AdRequest = AdRequest.Builder().build()
+
+        mAdView!!.loadAd(adRequest)
     }
 
     fun settingRecyclerView() {

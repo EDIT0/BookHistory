@@ -33,6 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     companion object {
         const val NORMAL_LOGIN = "NORMAL_LOGIN"
         const val AUTO_LOGIN = "AUTO_LOGIN"
+        const val FIRST_LOGIN = "FIRST_LOGIN"
     }
 
     private val TAG: String? = MainActivity::class.java.simpleName
@@ -141,6 +142,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             tokenTrue.observe(this@MainActivity, Observer {
                 // 중복로그인이 아님을 확인하였으므로 내부에 저장해놓은 값을 지정해준다.
                 UserInfo.protectDuplicateLoginToken = preferences.getString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, "")!!
+
+                // 혹시나 같은 이메일로 재가입 할 경우 룸 디비에 데이터 남아 있는 것 방지
+                if(kindOfLogin.equals(FIRST_LOGIN)) {
+                    mainViewModel.initRoomForCurrentUser(UserInfo.email)
+                }
             })
             tokenFalse.observe(this@MainActivity, Observer {
                 if(kindOfLogin.equals(AUTO_LOGIN)) {
