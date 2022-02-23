@@ -49,6 +49,11 @@ import android.os.Environment
 import android.R.id
 import java.lang.Exception
 import android.R.attr.data
+import com.theartofdev.edmodo.cropper.CropImage
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import android.R.attr.data
 
 
 
@@ -268,8 +273,52 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        /*
+        * 사진 -> 크롭 과정 중 남는 이미지 삭제
+        * */
+        if (deleteImagePath.path.length >0){
+            Log.i(TAG, "크롭취소 ${deleteImagePath.path}")
+            deleteFile = File(deleteImagePath.path)
+            deleteFile.delete()
+        }
+
+        /*
+        * 크롭 후 requestCode
+        * */
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                photoURI = result.uri
+                Log.i(TAG, "값은? " + photoURI)
+
+                deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
+                deleteFile.delete()
+
+//                deleteImagePath.path = "/data/data/com.example.appname/cache/" // 내부저장소 캐시
+                deleteImagePath.path = photoURI.toString().substring(7, photoURI.toString().length)
+                Log.i(TAG, "값은? " + photoURI.toString().substring(7, photoURI.toString().length))
+//                deleteImagePath.path = absolutelyPath(photoURI!!)
+
+                val file = File(deleteImagePath.path)
+                var fileName = file.getName()
+                fileName = "${UserInfo.email}.png"
+
+                Log.i(TAG, "photoURI: " + photoURI)
+                Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
+                Log.i(TAG, "이미지 제목 ${fileName}")
+
+                bookViewModel.insertImageMemo(file, fileName)
+                photoURI = null // 사용 후 null 처리
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+            }
+        }
+
         Log.i(TAG, "onActivityResult() 호출")
 
+        /*
+        * 사진찍기
+        * */
         if(resultCode == Activity.RESULT_OK) {
             when(requestCode){
                 FLAG_REQ_CAMERA -> {
@@ -301,7 +350,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 //                        val resizedBmp = Bitmap.createScaledBitmap(bitmap!!, bitmap.width / 5, bitmap.height/5, true)
 //                        photoURI = getImageUri(resizedBmp)
                         // 사진 리사이징
-                        var resizeBitmap = resize(this, photoURI!!, 200)
+                        var resizeBitmap = resize(this, photoURI!!, 500)
                         photoURI = getBitmapToUri(resizeBitmap!!)
                         deleteFile = File(deleteImagePath.path) // 2. 각도 조절한 이미지 파일 삭제
                         deleteFile.delete()
@@ -317,19 +366,46 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 //
 //                        bookViewModel.insertImageMemo(file, fileName)
 
+
+
+                        /*
+                        * 크롭 호출
+                        * */
+                        CropImage.activity(photoURI)
+                            .start(this)
+
                         // 3. 리사이즈한 이미지는 이미지 저장 완료 후 삭제
 
-                        var intent = Intent("com.android.camera.action.CROP");
-                        intent.setDataAndType(photoURI, "image/*");
-                        intent.putExtra("scale", true);
-                        intent.putExtra("return-data", true);
-                        startActivityForResult(intent, CROP_FROM_CAMERA); // CROP_FROM_CAMERA case문 이동
+//                        Observable.fromCallable {
+//                            var intent = Intent("com.android.camera.action.CROP")
+//                            intent.setDataAndType(photoURI, "image/*")
+//                        intent.putExtra("crop", "true");
+//                        // indicate aspect of desired crop
+//                        intent.putExtra("aspectX", 1);
+//                        intent.putExtra("aspectY", 1);
+//                        // indicate output X and Y
+//                        intent.putExtra("outputX", 300);
+//                        intent.putExtra("outputY", 300);
+////                            intent.putExtra("scale", true)
+//                            intent.putExtra("return-data", true);
+//                            startActivityForResult(intent, CROP_FROM_CAMERA); // CROP_FROM_CAMERA case문 이동
+//                        }
+//                            .subscribeOn(Schedulers.newThread())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe {
+//                                Log.i(TAG, "끝이다.")
+//                            }
+
 
 //                        deleteFile = File(deleteImagePath.path)
 //                        deleteFile.delete()
 
                     }
                 }
+
+                /*
+                * 크롭 코드 였던 것..
+                * */
                 CROP_FROM_CAMERA -> {
                     if(data?.extras != null) {
                         var extras: Bundle = data?.extras!!

@@ -41,10 +41,17 @@ class SettingFragment : Fragment() {
         mainViewModel = (activity as MainActivity).mainViewModel
         binding.mainViewModel = mainViewModel
 
+        settingButton()
         viewModelCallback()
         buttonClickListener()
 
         return binding.root
+    }
+
+    fun settingButton() {
+        if(!UserInfo.email.contains("@")) {
+            binding.tvChangePW.visibility = View.GONE
+        }
     }
 
     fun viewModelCallback() {

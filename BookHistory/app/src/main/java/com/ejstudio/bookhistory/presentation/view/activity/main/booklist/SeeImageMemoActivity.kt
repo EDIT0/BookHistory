@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.presentation.view.activity.main.booklist
 
+import android.R.attr
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,20 @@ import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeImageMemoViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.content.Intent
+
+import android.R.attr.path
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.activity_see_image_memo) {
 
@@ -31,6 +46,7 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
 
         recvIntent()
         viewModelCallback()
+        buttonClickListener()
         binding.imageView.setImageResource(R.drawable.img_bookcover_null);
     }
 
@@ -84,5 +100,44 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
             seeImageMemoViewModel.deleteIdxImageMemo()
             deleteDialog.dismiss()
         }
+    }
+
+    fun buttonClickListener() {
+        binding.ibShareButton.setOnClickListener {
+//            val sharingIntent = Intent(Intent.ACTION_SEND)
+//            val screenshotUri: Uri = Uri.parse(seeImageMemoViewModel.imageUrl.value.toString()) // android image path
+//
+//            sharingIntent.type = "image/png"
+//            sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
+//            startActivity(Intent.createChooser(sharingIntent, "Share image using"))
+
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val bitmap = convertBitmapFromURL(seeImageMemoViewModel.imageUrl.value.toString())
+                val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+                val bitmapUri = Uri.parse(bitmapPath)
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                intent.type = "image/png"
+                startActivity(intent)
+            }
+
+
+        }
+    }
+
+    fun convertBitmapFromURL(url: String) : Bitmap? {
+        try{
+            val url = URL(url)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input = connection.inputStream
+            val bitmap = BitmapFactory.decodeStream(input)
+            return bitmap
+
+        }catch (e: Exception) {}
+        return null
     }
 }

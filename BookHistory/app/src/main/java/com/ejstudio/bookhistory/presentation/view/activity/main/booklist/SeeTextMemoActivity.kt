@@ -21,6 +21,15 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookVi
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeTextMemoViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
+import android.widget.Toast
+
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
+
+
+
+
 
 class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.activity_see_text_memo) {
 
@@ -37,6 +46,7 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         keyBoardSetting()
         recvIntent()
         viewModelCallback()
+        buttonClickListener()
     }
 
     fun keyBoardSetting() {
@@ -52,14 +62,15 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     fun viewModelCallback() {
         with(seeTextMemoViewModel) {
             backButton.observe(this@SeeTextMemoActivity, Observer {
-                if(isEditMode.value.toString().toBoolean()) {
-                    Log.i(TAG, "텍스트 길이 ${memo_contents.value.toString().length}")
-                    textSynchronization()
-                    isEditMode.value = false
-                    manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
-                } else {
-                    activityBackButton()
-                }
+                onBackPressed()
+//                if(isEditMode.value.toString().toBoolean()) {
+//                    Log.i(TAG, "텍스트 길이 ${memo_contents.value.toString().length}")
+//                    textSynchronization()
+//                    isEditMode.value = false
+//                    manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+//                } else {
+//                    activityBackButton()
+//                }
             })
             textMemo.observe(this@SeeTextMemoActivity, Observer {
                 if(it != null) {
@@ -92,8 +103,15 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
+        if(seeTextMemoViewModel.isEditMode.value.toString().toBoolean()) {
+            Log.i(TAG, "텍스트 길이 ${seeTextMemoViewModel.memo_contents.value.toString().length}")
+            seeTextMemoViewModel.textSynchronization()
+            seeTextMemoViewModel.isEditMode.value = false
+            manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+        } else {
+            super.onBackPressed()
+            overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
+        }
     }
 
     fun showDeleteDialog() {
@@ -108,6 +126,31 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         dialog_confirmation.setOnClickListener {
             seeTextMemoViewModel.deleteIdxTextMemo()
             deleteDialog.dismiss()
+        }
+    }
+
+    fun buttonClickListener() {
+        binding.ibTextCopy.setOnClickListener {
+            val clipboardManager: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("TEXT", binding.etContents.getText().toString().trim()) //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
+            clipboardManager.setPrimaryClip(clipData)
+
+            showToast("✔")
+        }
+
+        binding.ibShareButton.setOnClickListener {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, binding.etContents.getText().toString().trim())
+            startActivity(Intent.createChooser(sharingIntent, "Share using text"))
+
+//            val sharingIntent = Intent(Intent.ACTION_SEND)
+//            sharingIntent.type = "text/plain" // 고정 text
+//
+//            sharingIntent.putExtra(Intent.EXTRA_TEXT, binding.etContents.getText().toString().trim())
+//            sharingIntent.setPackage("com.instagram.android") // 고정 text
+//
+//            startActivity(sharingIntent)
         }
     }
 }

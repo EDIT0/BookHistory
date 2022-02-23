@@ -99,4 +99,7 @@ dependencies {
 
     // Calendar
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+
+    // ImageCrop
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 }
