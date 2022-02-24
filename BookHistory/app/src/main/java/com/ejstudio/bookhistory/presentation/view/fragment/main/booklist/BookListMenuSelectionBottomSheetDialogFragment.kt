@@ -91,23 +91,23 @@ class BookListMenuSelectionBottomSheetDialogFragment : BottomSheetDialogFragment
                 binding.ivReadingCheckImage.visibility = View.INVISIBLE
                 binding.ivEndReadCheckImage.visibility = View.INVISIBLE
                 binding.tvBeforeRead.setTextColor(Color.parseColor("#ff5107"))
-                binding.tvReading.setTextColor(Color.parseColor("#7d000000"))
-                binding.tvEndRead.setTextColor(Color.parseColor("#7d000000"))
+                binding.tvReading.setTextColor(Color.parseColor("#303030"))
+                binding.tvEndRead.setTextColor(Color.parseColor("#303030"))
             }
             getString(R.string.reading) -> {
                 binding.ivBeforeReadCheckImage.visibility = View.INVISIBLE
                 binding.ivReadingCheckImage.visibility = View.VISIBLE
                 binding.ivEndReadCheckImage.visibility = View.INVISIBLE
-                binding.tvBeforeRead.setTextColor(Color.parseColor("#7d000000"))
+                binding.tvBeforeRead.setTextColor(Color.parseColor("#303030"))
                 binding.tvReading.setTextColor(Color.parseColor("#ff5107"))
-                binding.tvEndRead.setTextColor(Color.parseColor("#7d000000"))
+                binding.tvEndRead.setTextColor(Color.parseColor("#303030"))
             }
             getString(R.string.end_read) -> {
                 binding.ivBeforeReadCheckImage.visibility = View.INVISIBLE
                 binding.ivReadingCheckImage.visibility = View.INVISIBLE
                 binding.ivEndReadCheckImage.visibility = View.VISIBLE
-                binding.tvBeforeRead.setTextColor(Color.parseColor("#7d000000"))
-                binding.tvReading.setTextColor(Color.parseColor("#7d000000"))
+                binding.tvBeforeRead.setTextColor(Color.parseColor("#303030"))
+                binding.tvReading.setTextColor(Color.parseColor("#303030"))
                 binding.tvEndRead.setTextColor(Color.parseColor("#ff5107"))
             }
         }

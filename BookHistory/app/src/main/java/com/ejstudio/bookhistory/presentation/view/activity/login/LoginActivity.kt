@@ -138,6 +138,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                             val currentTime: Long = System.currentTimeMillis()
                             val protectDuplicateLoginToken = user?.id.toString() + currentTime
 
+                            loginViewModel.initProtectDuplicateLoginTokenForKakao = protectDuplicateLoginToken
+
                             val editor = loginPreferences.edit()
                             editor.putString(PreferenceManager.KAKAO_USER_TOKEN, user?.id.toString())
                             editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)

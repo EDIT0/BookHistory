@@ -83,7 +83,7 @@ class BookMemoTextFragment : Fragment() {
             })
             isData.observe(viewLifecycleOwner, Observer {
                 Glide.with(binding.root)
-                    .load(R.drawable.ic_sentiment_neutral_24dp)
+                    .load(R.drawable.ic_sentiment_satisfied_24dp)
                     .override(
                         Converter.dpToPx(binding.root.context, 24),
                         Converter.dpToPx(binding.root.context, 24))

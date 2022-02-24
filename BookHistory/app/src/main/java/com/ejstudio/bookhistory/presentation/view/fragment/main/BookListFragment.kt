@@ -35,13 +35,6 @@ import com.google.android.gms.ads.AdRequest
 
 import com.google.android.gms.ads.MobileAds
 
-
-
-
-
-
-
-
 class BookListFragment : Fragment() {
 
     private val TAG: String? = BookListFragment::class.java.simpleName

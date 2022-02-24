@@ -18,8 +18,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/iv_bookThumbnail"
-            android:layout_width="70dp"
-            android:layout_height="101.5dp"
+            android:layout_width="80.9dp"
+            android:layout_height="120dp"
             app:cardCornerRadius="5dp"
             android:elevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -29,8 +29,8 @@
             <ImageView
                 Error="@{@drawable/img_bookcover_null}"
                 setImage="@{searchBookModel.thumbnail}"
-                android:layout_width="70dp"
-                android:layout_height="101.5dp"
+                android:layout_width="80.9dp"
+                android:layout_height="120dp"
                 android:adjustViewBounds="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +49,8 @@
             android:layout_marginTop="7dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#595959"
-            android:textSize="14sp"
+            android:textColor="#303030"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_bookThumbnail"
             app:layout_constraintEnd_toStartOf="@+id/iv_image1"
             app:layout_constraintHorizontal_bias="0"
@@ -68,7 +68,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="#595959"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/layout1"
             app:layout_constraintEnd_toStartOf="@+id/iv_image1"
             app:layout_constraintHorizontal_bias="0"
@@ -96,8 +96,8 @@
                 android:layout_marginEnd="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#595959"
-                android:textSize="12sp"
+                android:textColor="#7f7f7f"
+                android:textSize="14sp"
                 tools:text="출판사" />
 
             <View
@@ -115,8 +115,8 @@
                 android:layout_marginStart="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#595959"
-                android:textSize="12sp"
+                android:textColor="#7f7f7f"
+                android:textSize="14sp"
                 tools:text="출시날짜" />
 
         </LinearLayout>

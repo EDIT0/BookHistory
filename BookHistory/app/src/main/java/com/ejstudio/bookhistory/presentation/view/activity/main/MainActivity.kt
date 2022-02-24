@@ -151,7 +151,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             tokenFalse.observe(this@MainActivity, Observer {
                 if(kindOfLogin.equals(AUTO_LOGIN)) {
                     // 자동로그인 일 경우
-                    goToLoginActivity()
+                    accountLogout("") // 로그아웃 시키고
+                    goToLoginActivity() // 로그인 화면으로
                 } else if(kindOfLogin.equals(NORMAL_LOGIN)) {
                     // 일반로그인 일 경우
                     /*

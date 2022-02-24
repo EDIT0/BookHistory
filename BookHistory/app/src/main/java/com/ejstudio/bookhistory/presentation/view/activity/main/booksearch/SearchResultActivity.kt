@@ -125,8 +125,8 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.
                     .load(R.drawable.ic_sentiment_neutral_24dp)
                     .override(Converter.dpToPx(this@SearchResultActivity, 24),Converter.dpToPx(this@SearchResultActivity, 24))
                     .into(emptyImage)
-                emptyTextTitle.text = "'[검색어]'를 찾을 수 없습니다."
-                emptyTextSubTitle.text = "단어를 철자나 띄어쓰기를 확인해주세요."
+                emptyTextTitle.text = "'검색어'를 찾을 수 없습니다"
+                emptyTextSubTitle.text = "단어의 철자나 띄어쓰기를 확인해주세요"
             })
         }
     }

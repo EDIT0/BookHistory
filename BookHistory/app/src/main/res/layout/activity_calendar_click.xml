@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#14212121">
+        android:background="#ffffff">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="@android:color/transparent"
                 android:onClick="@{() -> calendarClickViewModel.backButton()}"
@@ -96,7 +96,7 @@
                 android:id="@+id/tv_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#595959"
+                android:textColor="#303030"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_dateName"
@@ -109,8 +109,9 @@
                 android:id="@+id/tv_dateName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:textColor="#7f7f7f"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#595959"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/rc_dateTextImageMemo"
                 app:layout_constraintEnd_toEndOf="parent"

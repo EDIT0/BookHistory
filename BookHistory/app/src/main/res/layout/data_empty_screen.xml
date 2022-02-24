@@ -24,7 +24,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:textColor="#595959"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_emptyTextSubTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -56,9 +56,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import android.R.attr.data
 
 
-
-
-
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
     private val TAG: String? = BookActivity::class.java.simpleName

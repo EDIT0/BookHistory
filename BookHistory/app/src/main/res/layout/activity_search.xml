@@ -120,7 +120,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:text="최근검색어"
-                        android:textColor="#595959"
+                        android:textColor="#303030"
                         android:textSize="16sp" />
 
                     <TextView

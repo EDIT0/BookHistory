@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="#595959"
+            android:textColor="#303030"
             android:textSize="16sp"
             android:maxLines="5"
             android:ellipsize="end"

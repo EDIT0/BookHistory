@@ -86,7 +86,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@={bookViewModel.bookTitle}"
-            android:textColor="#000000"
+            android:textColor="#303030"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="invisible"

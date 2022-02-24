@@ -58,12 +58,14 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@+id/btn_addBook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView">
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView"
+            app:layout_constraintVertical_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,14 +101,15 @@
                     android:layout_marginBottom="10dp"
                     android:ellipsize="end"
                     android:maxLines="2"
+                    android:textColor="#303030"
                     android:textSize="18sp"
                     tools:text="제목" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#ffa967"
-                    android:layout_marginBottom="2dp"/>
+                <!--                <View-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:layout_marginBottom="2dp"-->
+                <!--                    android:background="#ffa967" />-->
 
 
                 <TextView
@@ -117,6 +120,7 @@
                     android:layout_marginVertical="3dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     tools:text="저자" />
 
@@ -128,6 +132,7 @@
                     android:layout_marginVertical="3dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     tools:text="출판사" />
 
@@ -139,6 +144,7 @@
                     android:layout_marginVertical="3dp"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:textColor="#595959"
                     android:textSize="14sp"
                     tools:text="출시년도" />
 
@@ -146,6 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="#c2faf9f9"
                     android:padding="10dp">
 
@@ -154,6 +161,8 @@
                         setText="@{bookDetailPageViewModel.contents}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:lineSpacingExtra="3dp"
                         android:textColor="#595959"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toTopOf="@+id/tv_seeDetail"
@@ -166,29 +175,32 @@
                         android:id="@+id/tv_seeDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{() -> bookDetailPageViewModel.contentsSeeDetail()}"
                         android:paddingVertical="5dp"
                         android:text="자세히보기"
                         android:textColor="#595959"
                         android:textSize="14sp"
-                        android:onClick="@{() -> bookDetailPageViewModel.contentsSeeDetail()}"
                         app:layout_constraintEnd_toEndOf="@+id/tv_contents"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="@+id/tv_contents"
                         app:layout_constraintTop_toBottomOf="@+id/tv_contents" />
 
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <Button
-                    android:id="@+id/btn_addBook"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="72dp"
-                    android:onClick="@{() -> bookDetailPageViewModel.addBook()}"
-                    android:text="리스트에 추가하기"
-                    android:textColor="#595959"
-                    android:textSize="18sp" />
+                <!--                <View-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="152dp"/>-->
+                <!--                <Button-->
+                <!--                    android:id="@+id/btn_addBook"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="52dp"-->
+                <!--                    android:layout_marginTop="20dp"-->
+                <!--                    android:layout_marginBottom="72dp"-->
+                <!--                    android:onClick="@{() -> bookDetailPageViewModel.addBook()}"-->
+                <!--                    android:text="리스트에 추가하기"-->
+                <!--                    android:textColor="#595959"-->
+                <!--                    android:textSize="18sp" />-->
 
             </LinearLayout>
 
@@ -205,6 +217,21 @@
         <!--            app:layout_constraintBottom_toBottomOf="parent"-->
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_addBook"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/default_button_background"
+            android:onClick="@{() -> bookDetailPageViewModel.addBook()}"
+            android:text="리스트에 추가하기"
+            android:textColor="#303030"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
             android:id="@+id/pb_loading"

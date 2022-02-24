@@ -56,6 +56,7 @@ class LoginViewModel(
         }
     }
 
+    var initProtectDuplicateLoginTokenForKakao = ""
     fun checkKakaoUserId(kakaoUserId: String) {
         compositeDisposable.add(checkEmailUseCase.execute(kakaoUserId)
             .subscribeOn(Schedulers.io())
@@ -73,7 +74,7 @@ class LoginViewModel(
     }
 
     fun registerKakaoUserId(kakaoUserId: String) {
-        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(kakaoUserId, "카카오로그인", "")
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(kakaoUserId, "카카오로그인", initProtectDuplicateLoginTokenForKakao)
             .subscribe {
 
             }
