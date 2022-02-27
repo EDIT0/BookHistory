@@ -41,11 +41,21 @@ class SettingFragment : Fragment() {
         mainViewModel = (activity as MainActivity).mainViewModel
         binding.mainViewModel = mainViewModel
 
+
+        settingUserId()
         settingButton()
         viewModelCallback()
         buttonClickListener()
 
         return binding.root
+    }
+
+    fun settingUserId() {
+        if(!UserInfo.email.contains("@")) {
+            binding.tvUserId.text = "카카오 로그인(${UserInfo.email.substring(0,3)}*****)"
+        } else {
+            binding.tvUserId.text = UserInfo.email
+        }
     }
 
     fun settingButton() {

@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -28,6 +31,7 @@ import com.ejstudio.bookhistory.databinding.ActivityWriteTextMemoBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookInfoBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookMenuChangeBottomSheetDialogFragment
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.WriteTextMemoViewModel
 import com.ejstudio.bookhistory.util.UserInfo
@@ -45,7 +49,9 @@ import java.util.*
 class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layout.activity_write_text_memo) {
 
     private val TAG: String? = WriteTextMemoActivity::class.java.simpleName
+
     public val writeTextMemoViewModel: WriteTextMemoViewModel by viewModel()
+    lateinit var dialog: Dialog
 
     var photoURI: Uri? = null // 카메라 원본이미지 Uri를 저장할 변수
     val FLAG_REQ_CAMERA = 200
@@ -83,14 +89,47 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
     fun viewModelCallback() {
         with(writeTextMemoViewModel) {
             backButton.observe(this@WriteTextMemoActivity, Observer {
-                activityBackButton()
+                if(completed_save_memo) {
+                    activityBackButton()
+                } else {
+                    dialog = Dialog(binding.root.context);       // Dialog 초기화
+//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
+                    dialog.setContentView(R.layout.dialog_delete_idx_book_info);
+                    dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("페이지에서 나가시겠습니까?")
+                    dialog.findViewById<TextView>(R.id.dialog_tv_title).setText("저장하지 않은 내용이 있습니다.")
+                    showDialog()
+                }
+//                activityBackButton()
             })
             showToast.observe(this@WriteTextMemoActivity, Observer {
                 showToast(toastMessage)
             })
+            requestSnackbar.observe(this@WriteTextMemoActivity, Observer {
+                when(snackbarMessage) {
+                    WriteTextMemoViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
+            })
 //            clickOCR.observe(this@WriteTextMemoActivity, Observer {
 //                goToCamera()
 //            })
+        }
+    }
+
+    fun showDialog() {
+        dialog.show()
+
+        val dialog_cancel: Button = dialog.findViewById(R.id.dialog_cancel)
+        dialog_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val dialog_confirmation: Button = dialog.findViewById(R.id.dialog_confirmation)
+        dialog_confirmation.setOnClickListener {
+            activityBackButton()
+            dialog.dismiss()
         }
     }
 

@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.usecase.login.CheckEmailUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.SendFindPasswordEmailUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class FindPasswordViewModel(
     private val checkEmailUseCase: CheckEmailUseCase,
-    private val sendFindPasswordEmailUseCase: SendFindPasswordEmailUseCase
+    private val sendFindPasswordEmailUseCase: SendFindPasswordEmailUseCase,
+    private val networkManager: NetworkManager
 ) : BaseViewModel(){
 
     private val TAG = FindPasswordViewModel::class.java.simpleName
@@ -30,6 +32,7 @@ class FindPasswordViewModel(
 
     fun goToFindPassword2() {
         Log.i(TAG, "버튼눌림 ")
+        if (!checkNetworkState()) return
         compositeDisposable.add(checkEmailUseCase.execute(email.value.toString())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -42,12 +45,12 @@ class FindPasswordViewModel(
                 if(it.returnvalue.toBoolean()) {
                     _completeCheckEmail.value = Unit
                 } else {
-                    snackbarMessage = "가입되지 않은 이메일입니다."
+                    snackbarMessage = MessageSet.NOT_USER.toString()
                     _requestSnackbar.value = Unit
                 }
             }, {
                 Log.i(TAG, "에러: $it ${it.message}")
-                snackbarMessage = "다시 시도해주세요."
+                snackbarMessage = MessageSet.RETRY.toString()
                 _requestSnackbar.value = Unit
             })
         )
@@ -55,6 +58,7 @@ class FindPasswordViewModel(
 
     fun sendFindPasswordEmail() {
         Log.i(TAG, "(비밀번호 찾기) 보낼 이메일 주소: "+email.value.toString())
+        if (!checkNetworkState()) return
         compositeDisposable.add(sendFindPasswordEmailUseCase.execute(email.value.toString().trim())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -67,12 +71,12 @@ class FindPasswordViewModel(
                 if(it.toString().toBoolean()) {
                     _goToFindPassword2.value = Unit
                 } else {
-                    snackbarMessage = "다시 시도해주세요."
+                    snackbarMessage = MessageSet.RETRY.toString()
                     _requestSnackbar.value = Unit
                 }
             }, {
                 Log.i(TAG, "에러: $it ${it.message}")
-                snackbarMessage = "다시 시도해주세요."
+                snackbarMessage = MessageSet.RETRY.toString()
                 _requestSnackbar.value = Unit
             })
         )
@@ -81,5 +85,21 @@ class FindPasswordViewModel(
 
     fun goToLogin() {
         _goToLogin.value = Unit
+    }
+
+    private fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        RETRY,
+        NETWORK_NOT_CONNECTED,
+        NOT_USER
     }
 }

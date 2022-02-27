@@ -20,6 +20,11 @@ class SearchResultViewModel(
 ) : BaseViewModel() {
 
     private val TAG = SearchResultViewModel::class.java.simpleName
+
+    var snackbarMessage = String()
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
+
     private val _backButton: MutableLiveData<Unit> = MutableLiveData()
     val backButton: LiveData<Unit> get() = _backButton
 
@@ -79,6 +84,7 @@ class SearchResultViewModel(
     }
 
     fun getSearchBook() {
+        if (!checkNetworkState()) return //네트워크연결 유무
         if(!isEnd) {
             compositeDisposable.add(
                 getSearchBookUseCase.execute(currentQuery, currentPage)
@@ -109,11 +115,17 @@ class SearchResultViewModel(
         }
     }
 
-    private fun checkNetworkState(): Boolean {
+    fun checkNetworkState(): Boolean {
         return if (networkManager.checkNetworkState()) {
             true
         } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
             false
         }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED
     }
 }

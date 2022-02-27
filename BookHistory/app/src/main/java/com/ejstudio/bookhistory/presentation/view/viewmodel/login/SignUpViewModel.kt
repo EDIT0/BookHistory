@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.usecase.login.SendSignUpEmailUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlin.random.Random
 
 class SignUpViewModel(
-    private val sendSignUpEmailUseCase: SendSignUpEmailUseCase
+    private val sendSignUpEmailUseCase: SendSignUpEmailUseCase,
+    private val networkManager: NetworkManager
 //    private val createEmailUserUseCase: CreateEmailUserUseCase
 ) : BaseViewModel() {
 
@@ -53,6 +55,7 @@ class SignUpViewModel(
 
             authEmail = email.value.toString()
 
+            if (!checkNetworkState()) return
             compositeDisposable.add(sendSignUpEmailUseCase.execute(email.value.toString(), randomNum.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,11 +66,26 @@ class SignUpViewModel(
                 .subscribe({
                     Log.i(TAG, "리턴: $it")
                 }, {
-                    snackbarMessage = "인증번호를 확인해주세요"
+                    snackbarMessage = MessageSet.CHECK_AUTHENTICATION_NUMBER.toString()
                     _requestSnackbar.value = Unit
                     Log.i(TAG, "에러: $it ${it.message}")
                 })
             )
         }
+    }
+
+    private fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        CHECK_AUTHENTICATION_NUMBER,
+        NETWORK_NOT_CONNECTED
     }
 }

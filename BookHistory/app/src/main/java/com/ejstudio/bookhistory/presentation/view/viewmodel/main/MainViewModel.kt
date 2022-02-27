@@ -24,6 +24,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.setting.RemoveUserAccountUse
 import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
+import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -46,10 +47,15 @@ class MainViewModel(
     private val initRoomForCurrentUserUseCase: InitRoomForCurrentUserUseCase,
     private val getTotalUserInfoUseCase: GetTotalUserInfoUseCase,
     private val sendFindPasswordEmailUseCase: SendFindPasswordEmailUseCase,
-    private val removeUserAccountUseCase: RemoveUserAccountUseCase
+    private val removeUserAccountUseCase: RemoveUserAccountUseCase,
+    private val networkManager: NetworkManager
 ): BaseViewModel() {
 
     private val TAG = MainViewModel::class.java.simpleName
+
+    var snackbarMessage = String()
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
 
     public var _selectedMenu : MutableLiveData<String> = MutableLiveData()
     val selectedMenu: LiveData<String> get() = _selectedMenu
@@ -86,6 +92,7 @@ class MainViewModel(
     }
 
     fun getProtectDuplicateLoginToken(email: String, preferencesToken: String) {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             getProtectDuplicateLoginTokenFromServerUseCase.execute(email)
                 .subscribeOn(Schedulers.io())
@@ -108,6 +115,7 @@ class MainViewModel(
     }
 
     fun initRoomForCurrentUser(email: String) {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             initRoomForCurrentUserUseCase.execute(email)
                 .subscribeOn(Schedulers.io())
@@ -130,7 +138,8 @@ class MainViewModel(
     // 유저에 대한 모든 책, 메모 정보들을 서버로부터 불러온다.
     fun getTotalUserInfo(email: String) {
 //        compositeDisposable.add(
-            getTotalUserInfoUseCase.execute(email)
+        if (!checkNetworkState()) return
+        getTotalUserInfoUseCase.execute(email)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .doOnSubscribe { showProgress() }
@@ -241,6 +250,7 @@ class MainViewModel(
     }
 
     fun getRecentPopularBookList() {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             getRecentPopularBookUseCase.execute(before60days, todayDate, page, pageSize)
                 .subscribeOn(Schedulers.io())
@@ -265,7 +275,9 @@ class MainViewModel(
     /*
     * 가지고있는 전체 책들을 가지고와서 추천 책 요청
     * */
+    var count = 0
     fun getRecommendBookList(isbn: String) {
+        if (!checkNetworkState()) return
         Log.i(TAG, "당신을 위한 추천 응답 요청 " + isbn)
         compositeDisposable.add(
             getRecommendBookUseCase.execute(isbn)
@@ -278,7 +290,10 @@ class MainViewModel(
                 .subscribe({ it ->
                     if (it.response.resultNum == 0) {
                         // TODO 응답 요청이 없으면 뭘 추천해주지?
-                        getRecommendBookList("9791165341909;")
+                            if(count == 0) {
+                                count++
+                                getRecommendBookList("9791165341909;")
+                            }
                     } else {
                         Log.i(TAG, "당신을 위한 추천 응답: " + it.response.docs.get(0).book.bookname)
                         _recommendBookList.addAll(it.response.docs)
@@ -294,6 +309,7 @@ class MainViewModel(
     * 언제나 인기있는 책
     * */
     fun getAlwaysPopularBookList() {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             getAlwaysPopularBookUseCase.execute(page, pageSize)
                 .subscribeOn(Schedulers.io())
@@ -326,6 +342,7 @@ class MainViewModel(
 //    }
 
     fun accountLogout(type: String) {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             requestLogoutUseCase.execute()
                 .subscribeOn(Schedulers.io())
@@ -359,6 +376,7 @@ class MainViewModel(
     }
 
     fun sendFindPasswordEmail() {
+        if (!checkNetworkState()) return
         Log.i(TAG, "(비밀번호 찾기) 보낼 이메일 주소: "+UserInfo.email)
         compositeDisposable.add(sendFindPasswordEmailUseCase.execute(UserInfo.email)
             .subscribeOn(Schedulers.io())
@@ -385,6 +403,7 @@ class MainViewModel(
     }
 
     fun removeUserAccount() {
+        if (!checkNetworkState()) return
         removeUserAccountUseCase.execute(UserInfo.email)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -400,6 +419,20 @@ class MainViewModel(
             }, {
                 Log.i(TAG, "유저 삭제 오류 " + it.message.toString())
             })
+    }
+
+        fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED
     }
 
     companion object {

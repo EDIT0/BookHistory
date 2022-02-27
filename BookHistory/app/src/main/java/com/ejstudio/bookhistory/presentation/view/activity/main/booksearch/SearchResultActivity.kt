@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.ejstudio.bookhistory.util.Converter
 import android.content.Intent
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 
 
 class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.activity_search_result) {
@@ -127,6 +128,14 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.
                     .into(emptyImage)
                 emptyTextTitle.text = "'검색어'를 찾을 수 없습니다"
                 emptyTextSubTitle.text = "단어의 철자나 띄어쓰기를 확인해주세요"
+            })
+            requestSnackbar.observe(this@SearchResultActivity, Observer {
+                when(snackbarMessage) {
+                    SearchResultViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
         }
     }

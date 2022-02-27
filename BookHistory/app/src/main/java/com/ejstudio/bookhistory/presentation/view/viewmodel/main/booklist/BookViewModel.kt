@@ -10,6 +10,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.ImageSenderModule
+import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -24,10 +25,16 @@ class BookViewModel(
     private val updateBookReadingStateUseCase: UpdateBookReadingStateUseCase,
     private val getTextMemoUseCase: GetTextMemoUseCase,
     private val getImageMemoUseCase: GetImageMemoUseCase,
-    private val insertImageMemo: InsertImageMemoUseCase
+    private val insertImageMemo: InsertImageMemoUseCase,
+    private val networkManager: NetworkManager
 ) : BaseViewModel() {
 
     private val TAG = BookViewModel::class.java.simpleName
+
+    var snackbarMessage = String()
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
+
     private val _backButton: MutableLiveData<Unit> = MutableLiveData()
     val backButton: LiveData<Unit> get() = _backButton
 
@@ -49,6 +56,9 @@ class BookViewModel(
     private val _clickFloaing: MutableLiveData<Unit> = MutableLiveData()
     val clickFloaing: LiveData<Unit> get() = _clickFloaing
 
+    private val _goToMap: MutableLiveData<Unit> = MutableLiveData()
+    val goToMap: LiveData<Unit> get() = _goToMap
+
     var currentTab = "TEXT" // 0번은 텍스트
 
     var book_idx = 0
@@ -62,6 +72,7 @@ class BookViewModel(
     var bookContents = String()
     var bookUrl = String()
     var bookReadingState = String()
+    var bookISBN = String()
 
     lateinit var _bookInfo: LiveData<BookListEntity>
     val bookInfo: LiveData<BookListEntity> get() = _bookInfo
@@ -98,6 +109,7 @@ class BookViewModel(
     }
 
     fun deleteIdxBookInfo() {
+        if (!checkNetworkState()) return
         deleteIdxBookInfoUseCase.execute(UserInfo.email, book_idx)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -128,6 +140,7 @@ class BookViewModel(
     fun changeSelectionMenu(state: String) {
         when (state) {
             MainViewModel.BEFORE_READ -> {
+                if (!checkNetworkState()) return
                 _selectedMenu.value = "읽을 책"
                 compositeDisposable.add(
                     updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.BEFORE_READ)
@@ -145,6 +158,7 @@ class BookViewModel(
                 )
             }
             MainViewModel.READING -> {
+                if (!checkNetworkState()) return
                 _selectedMenu.value = "읽는 중"
                 compositeDisposable.add(
                     updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.READING)
@@ -162,6 +176,7 @@ class BookViewModel(
                 )
             }
             MainViewModel.END_READ -> {
+                if (!checkNetworkState()) return
                 _selectedMenu.value = "읽은 책"
                 compositeDisposable.add(
                     updateBookReadingStateUseCase.execute(UserInfo.email, book_idx, MainViewModel.END_READ)
@@ -181,11 +196,16 @@ class BookViewModel(
         }
     }
 
+    fun goToMap() {
+        _goToMap.value = Unit
+    }
+
     fun clickFloating() {
         _clickFloaing.value = Unit
     }
 
     fun insertImageMemo(file:File, fileName: String) {
+        if (!checkNetworkState()) return
         compositeDisposable.add(
             insertImageMemo.execute(book_idx, file, fileName)
                 .subscribeOn(Schedulers.io())
@@ -200,6 +220,20 @@ class BookViewModel(
                     Log.i(TAG, "이미지 메모 저장 에러: " + it.message.toString())
                 })
         )
+    }
+
+    fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED
     }
 
     companion object {

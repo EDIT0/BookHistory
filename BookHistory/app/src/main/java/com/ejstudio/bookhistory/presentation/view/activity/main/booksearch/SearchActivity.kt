@@ -15,8 +15,7 @@ import com.ejstudio.bookhistory.presentation.view.adapter.main.booksearch.Recent
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.widget.Toast
-
-
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
@@ -96,7 +95,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
             recentSearchesList.observe(this@SearchActivity, Observer {
                 recentSearchesAdapter.updataList(it)
             })
-
+            requestSnackbar.observe(this@SearchActivity, Observer {
+                when(snackbarMessage) {
+                    SearchViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
+            })
         }
     }
 
@@ -164,6 +170,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     }
 
     fun goToSearchResultActivity(keyword: String) {
+        if (!searchViewModel.checkNetworkState()) return
         val intent: Intent = Intent(this, SearchResultActivity::class.java)
 //        searchViewModel.inputSearch.value.toString().trim()
         intent.putExtra("searchKeyword", keyword)

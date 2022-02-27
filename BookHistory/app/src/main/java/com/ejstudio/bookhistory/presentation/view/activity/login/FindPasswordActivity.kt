@@ -41,7 +41,18 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
                 onBackPressed()
             })
             requestSnackbar.observe(this@FindPasswordActivity, Observer {
-                showSnackbar(findPasswordViewModel.snackbarMessage)
+                when(snackbarMessage) {
+                    FindPasswordViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                    FindPasswordViewModel.MessageSet.RETRY.toString() -> {
+                        snackbarMessage = getString(R.string.RETRY)
+                    }
+                    FindPasswordViewModel.MessageSet.NOT_USER.toString() -> {
+                        snackbarMessage = getString(R.string.NOT_USER)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
             completeCheckEmail.observe(this@FindPasswordActivity, Observer {
                 findPasswordViewModel.sendFindPasswordEmail()
@@ -57,9 +68,9 @@ class FindPasswordActivity : BaseActivity<ActivityFindPasswordBinding>(R.layout.
 
             override fun afterTextChanged(p0: Editable?) {
                 if(binding.etInputEmail.text!!.isEmpty()) {
-                    binding.textInputLayoutInputEmail.error = "이메일을 입력해주세요."
+                    binding.textInputLayoutInputEmail.error = getString(R.string.INPUT_YOUR_EMAIL)
                 } else if(!binding.etInputEmail.text!!.contains("@") || !binding.etInputEmail.text!!.contains(".")) {
-                    binding.textInputLayoutInputEmail.error = "잘못된 형식의 이메일 주소입니다."
+                    binding.textInputLayoutInputEmail.error = getString(R.string.THIS_IS_NOT_EMAILFORM)
                 } else if(binding.etInputEmail.text!!.contains("@") && binding.etInputEmail.text!!.contains(".")) {
                     binding.textInputLayoutInputEmail.helperText = " "
                 }

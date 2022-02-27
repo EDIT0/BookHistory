@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivitySignUpBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,7 +44,15 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
                 goToSignUp2Activity()
             })
             requestSnackbar.observe(this@SignUpActivity, Observer {
-                showSnackbar(signUpViewModel.snackbarMessage)
+                when(snackbarMessage) {
+                    SignUpViewModel.MessageSet.CHECK_AUTHENTICATION_NUMBER.toString() -> {
+                        snackbarMessage = getString(R.string.CHECK_AUTHENTICATION_NUMBER)
+                    }
+                    SignUpViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
                 binding.etInputNumber.requestFocus()
             })
         }
@@ -57,9 +66,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
             override fun afterTextChanged(p0: Editable?) {
                 if(binding.etInputEmail.text!!.isEmpty()) {
-                    binding.textInputLayoutInputEmail.error = "이메일을 입력해주세요."
+                    binding.textInputLayoutInputEmail.error = getString(R.string.INPUT_YOUR_EMAIL)
                 } else if(!binding.etInputEmail.text!!.contains("@") || !binding.etInputEmail.text!!.contains(".")) {
-                    binding.textInputLayoutInputEmail.error = "잘못된 형식의 이메일 주소입니다."
+                    binding.textInputLayoutInputEmail.error = getString(R.string.THIS_IS_NOT_EMAILFORM)
                 } else if(binding.etInputEmail.text!!.contains("@") && binding.etInputEmail.text!!.contains(".")) {
                     binding.textInputLayoutInputEmail.helperText = " "
                 }
@@ -73,9 +82,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(R.layout.activity_sig
 
             override fun afterTextChanged(p0: Editable?) {
                 if(!(signUpViewModel.randomNum.toString() == signUpViewModel.number.value.toString())) {
-                    binding.textInputLayoutInputNumber.error = "인증번호를 확인해주세요."
+                    binding.textInputLayoutInputNumber.error = getString(R.string.CHECK_AUTHENTICATION_NUMBER)
                 } else {
-                    binding.textInputLayoutInputNumber.helperText = "인증되었습니다."
+                    binding.textInputLayoutInputNumber.helperText = getString(R.string.CHECKED_AUTHENTICATION)
                     binding.etInputEmail.isClickable = false
                     binding.etInputEmail.isFocusable = false
                     binding.btnSendNumber.isClickable = false

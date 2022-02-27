@@ -3,6 +3,8 @@
     package="com.ejstudio.bookhistory">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,11 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHistory"
         android:usesCleartextTraffic="true">
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
-
-
+        <activity
+            android:name=".presentation.view.activity.main.booklist.LibraryMapActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
         <activity
             android:name=".presentation.view.activity.main.mybookhistory.CalendarClickActivity"
             android:exported="false" />
@@ -95,9 +98,16 @@
             android:name=".presentation.view.activity.main.MainActivity"
             android:exported="true" />
 
+        <!-- 구글 광고 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8761696495202698~4916571171"/> <!--앱 ID-->
+            android:value="ca-app-pub-8761696495202698~4916571171" /> <!-- 앱 ID -->
+
+        <!-- 네이버 지도 -->
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="8dyzjco2eg" />
+
     </application>
 
 </manifest>

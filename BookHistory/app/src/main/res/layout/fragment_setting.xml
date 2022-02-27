@@ -40,12 +40,29 @@
                     android:textColor="#303030"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/accountManagementView"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_userId"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_userId"
+                    android:textColor="#595959"
+                    android:textSize="16sp"
+                    tools:text="유저아이디"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:gravity="center|start"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_settingTitle"
+                    app:layout_constraintBottom_toTopOf="@+id/accountManagementView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <View
                     android:id="@+id/accountManagementView"
@@ -54,7 +71,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/policyView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_settingTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_userId" />
 
                 <LinearLayout
                     android:id="@+id/accountManagementTitleLayout"

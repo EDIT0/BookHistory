@@ -12,6 +12,7 @@ import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
 import com.ejstudio.bookhistory.presentation.view.fragment.login.ToSBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUpViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_sign_up2) {
@@ -47,10 +48,23 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
     fun viewModelCallback() {
         with(signUp2ViewModel) {
             requestSnackbar.observe(this@SignUp2Activity, Observer {
-                showSnackbar(signUp2ViewModel.snackbarMessage)
+                when(snackbarMessage) {
+                    SignUp2ViewModel.MessageSet.CHECK_TOS.toString() -> {
+                        snackbarMessage = getString(R.string.CHECK_TOS)
+                    }
+                    SignUp2ViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
             requestSnackbarAction.observe(this@SignUp2Activity, Observer {
-                showSnackbarAction(signUp2ViewModel.snackbarMessage)
+                when(snackbarMessage) {
+                    SignUp2ViewModel.MessageSet.ALREADY_EXIST_USER.toString() -> {
+                        snackbarMessage = getString(R.string.ALREADY_EXIST_USER)
+                    }
+                }
+                showSnackbarAction(snackbarMessage)
             })
             goToMain.observe(this@SignUp2Activity, Observer {
                 goToMainActivity()
@@ -70,7 +84,7 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
 
             override fun afterTextChanged(p0: Editable?) {
                 if(signUp2ViewModel.password.value == null || !(signUp2ViewModel.password.value.toString().length >= 6 && signUp2ViewModel.password.value.toString().length <= 16)) {
-                    binding.textInputLayoutInputPassword.error = "패스워드는 6~16자 이내로 설정해주세요"
+                    binding.textInputLayoutInputPassword.error = getString(R.string.PASSWORD_ERROR)
                     binding.btnCreateUser.isEnabled = false
                 } else {
                     if(signUp2ViewModel.password.value.toString() == signUp2ViewModel.checkPassword.value.toString()) {
@@ -79,10 +93,10 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
                         binding.btnCreateUser.requestFocus()
                         manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
                     } else {
-                        binding.textInputLayoutInputCheckPassword.error = "비밀번호를 확인해주세요."
+                        binding.textInputLayoutInputCheckPassword.error = getString(R.string.CHECK_PASSWORD)
                         binding.btnCreateUser.isEnabled = false
                     }
-                    binding.textInputLayoutInputPassword.helperText = "사용 가능한 비밀번호입니다."
+                    binding.textInputLayoutInputPassword.helperText = getString(R.string.AVAILABLE_PASSWORD)
                 }
             }
 
@@ -96,7 +110,7 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
                 with(signUp2ViewModel) {
                     if(password.value.toString() == checkPassword.value.toString()) {
                         if(password.value == null || !(password.value.toString().length >= 6 && password.value.toString().length <= 16)) {
-                            binding.textInputLayoutInputCheckPassword.error = "비밀번호를 확인해주세요."
+                            binding.textInputLayoutInputCheckPassword.error = getString(R.string.CHECK_PASSWORD)
                             binding.btnCreateUser.isEnabled = false
                         } else {
                             binding.textInputLayoutInputCheckPassword.helperText = "확인"
@@ -105,7 +119,7 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
                             manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
                         }
                     } else {
-                        binding.textInputLayoutInputCheckPassword.error = "비밀번호를 확인해주세요."
+                        binding.textInputLayoutInputCheckPassword.error = getString(R.string.CHECK_PASSWORD)
                         binding.btnCreateUser.isEnabled = false
                     }
                 }

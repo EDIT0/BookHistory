@@ -19,6 +19,7 @@ import com.ejstudio.bookhistory.presentation.view.fragment.main.BookListFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.BookSearchFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.LoginViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.PreferenceManager
@@ -165,6 +166,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             })
             requestTotalUserInfo.observe(this@MainActivity, Observer {
                 mainViewModel.getTotalUserInfo(UserInfo.email)
+            })
+            requestSnackbar.observe(this@MainActivity, Observer {
+                when(snackbarMessage) {
+                    MainViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
         }
     }

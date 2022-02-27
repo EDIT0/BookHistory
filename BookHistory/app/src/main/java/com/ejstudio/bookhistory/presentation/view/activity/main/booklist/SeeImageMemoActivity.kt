@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.lifecycleScope
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -71,9 +72,17 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
                 deleteDialog = Dialog(binding.root.context);       // Dialog 초기화
 //                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
                 deleteDialog.setContentView(R.layout.dialog_delete_idx_book_info);
-                deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("그림을 삭제하시겠습니까?")
+                deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("사진을 삭제하시겠습니까?")
                 deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.INVISIBLE
                 showDeleteDialog()
+            })
+            requestSnackbar.observe(this@SeeImageMemoActivity, Observer {
+                when(snackbarMessage) {
+                    SeeImageMemoViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
         }
     }
@@ -112,6 +121,7 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
 //            startActivity(Intent.createChooser(sharingIntent, "Share image using"))
 
 
+            if(!seeImageMemoViewModel.checkNetworkState()) return@setOnClickListener
             lifecycleScope.launch(Dispatchers.IO) {
                 val bitmap = convertBitmapFromURL(seeImageMemoViewModel.imageUrl.value.toString())
                 val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)

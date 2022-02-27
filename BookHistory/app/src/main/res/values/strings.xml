@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">BookHistory</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="NETWORK_NOT_CONNECTED">네트워크를 확인해주세요.</string>
+
+    <string name="RETRY">다시 시도해주세요.</string>
+    <string name="NOT_USER">가입되지 않은 이메일입니다.</string>
+    <string name="CHECK_AUTHENTICATION_NUMBER">인증번호를 확인해주세요.</string>
+    <string name="CHECK_TOS">이용약관에 체크해주세요.</string>
+    <string name="ALREADY_EXIST_USER">이미 가입된 이메일입니다.</string>
+    <string name="CHECK_PASSWORD">비밀번호를 확인해주세요.</string>
+    <string name="INPUT_YOUR_EMAIL">이메일을 입력해주세요.</string>
+    <string name="THIS_IS_NOT_EMAILFORM">잘못된 형식의 이메일 주소입니다.</string>
+    <string name="CHECKED_AUTHENTICATION">인증되었습니다.</string>
+    <string name="PASSWORD_ERROR">"패스워드는 6~16자 이내로 설정해주세요."</string>
+    <string name="AVAILABLE_PASSWORD">사용 가능한 비밀번호입니다.</string>
+    <string name="NOT_INSTALLED_KAKAOTALK">카카오 계정이 존재하지 않습니다.</string>
+    <string name="CHECK_YOUR_ID_PASSWORD">이메일 또는 비밀번호를 확인해주세요.</string>
 
     <string name="before_read">읽을 책</string>
     <string name="reading">읽는 중</string>
@@ -9,5 +23,7 @@
     <string name="before_read_book_empty">읽고 싶은 책,\n잊기 전에 담아둬요</string>
     <string name="reading_book_empty">담아둔 책을 오늘 읽어볼까요?\n아래 <font color='#ffa967'>책 검색</font>에서 읽을 책을 저장해요</string>
     <string name="end_read_book_empty">완독하지 않아도 좋아요\n나만의 생각을 기록해요</string>
+    <string name="COMPLETE_ADD_BOOK">서재에 책을 담았습니다.</string>
+    <string name="ALREADY_GET_BOOK">이미 가지고 있는 책입니다.</string>
 
 </resources>

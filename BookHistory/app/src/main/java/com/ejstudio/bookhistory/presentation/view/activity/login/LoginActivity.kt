@@ -13,7 +13,9 @@ import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.ActivityLoginBinding
 import com.ejstudio.bookhistory.presentation.base.BaseActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.LoginViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.PreferenceManager
 import com.ejstudio.bookhistory.util.UserInfo
 import com.kakao.sdk.auth.model.OAuthToken
@@ -33,6 +35,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         super.onCreate(savedInstanceState)
 
         binding.loginViewModel = loginViewModel
+
         loginPreferences = this.applicationContext.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
 
         keyBoardSetting()
@@ -72,7 +75,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 goToFindPasswordActivity()
             })
             requestSnackbar.observe(this@LoginActivity, Observer {
-                showSnackbar(loginViewModel.snackbarMessage)
+                when(snackbarMessage) {
+                    LoginViewModel.MessageSet.CHECK_YOUR_ID_PASSWORD.toString() -> {
+                        snackbarMessage = getString(R.string.CHECK_YOUR_ID_PASSWORD)
+                    }
+                    LoginViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
                 manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
             })
         }
@@ -105,9 +116,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
             override fun afterTextChanged(p0: Editable?) {
                 if(binding.etInputEmail.text!!.isEmpty()) {
-                    binding.textInputLayoutEmail.error = "이메일을 입력해주세요."
+                    binding.textInputLayoutEmail.error = getString(R.string.INPUT_YOUR_EMAIL)
                 } else if(!binding.etInputEmail.text!!.contains("@") || !binding.etInputEmail.text!!.contains(".")) {
-                    binding.textInputLayoutEmail.error = "이메일 형식이 아닙니다."
+                    binding.textInputLayoutEmail.error = getString(R.string.THIS_IS_NOT_EMAILFORM)
                 } else if(binding.etInputEmail.text!!.contains("@") && binding.etInputEmail.text!!.contains(".")) {
                     binding.textInputLayoutEmail.helperText = " "
                 }
@@ -117,10 +128,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     fun kakaoLogin() {
+        if (!loginViewModel.checkNetworkState()) return
         UserApiClient.instance
             .loginWithKakaoTalk(this@LoginActivity) { oAuthToken: OAuthToken?, error: Throwable? ->
                 if (error != null) {
                     Log.e(TAG, "로그인 실패 " + error.message)
+                    showSnackbar(getString(R.string.NOT_INSTALLED_KAKAOTALK))
                 } else if (oAuthToken != null) {
                     Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.accessToken)
 
@@ -161,4 +174,5 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 }
             }
     }
+
 }

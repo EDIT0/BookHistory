@@ -26,9 +26,7 @@ import android.widget.Toast
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
-
-
-
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 
 
 class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.activity_see_text_memo) {
@@ -36,6 +34,7 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     private val TAG: String? = SeeTextMemoActivity::class.java.simpleName
     public val seeTextMemoViewModel: SeeTextMemoViewModel by viewModel()
     lateinit var deleteDialog: Dialog
+    lateinit var dialog: Dialog
     private lateinit var manager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +61,13 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
     fun viewModelCallback() {
         with(seeTextMemoViewModel) {
             backButton.observe(this@SeeTextMemoActivity, Observer {
-                onBackPressed()
+                if(completed_save_memo) {
+                    // 사용자가 메모 작성을 완료하고 체크버튼을 눌렀을 경우
+                    super.onBackPressed()
+                    overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
+                } else {
+                    onBackPressed()
+                }
 //                if(isEditMode.value.toString().toBoolean()) {
 //                    Log.i(TAG, "텍스트 길이 ${memo_contents.value.toString().length}")
 //                    textSynchronization()
@@ -95,6 +100,14 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
                 binding.etContents.setSelection(binding.etContents.text.length)
                 manager.showSoftInput(binding.etContents, InputMethodManager.SHOW_IMPLICIT);
             })
+            requestSnackbar.observe(this@SeeTextMemoActivity, Observer {
+                when(snackbarMessage) {
+                    SeeTextMemoViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
+            })
         }
     }
 
@@ -104,11 +117,16 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
 
     override fun onBackPressed() {
         if(seeTextMemoViewModel.isEditMode.value.toString().toBoolean()) {
-            Log.i(TAG, "텍스트 길이 ${seeTextMemoViewModel.memo_contents.value.toString().length}")
-            seeTextMemoViewModel.textSynchronization()
-            seeTextMemoViewModel.isEditMode.value = false
-            manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+            // 편집화면에서 백버튼 누를 시
+            dialog = Dialog(binding.root.context);       // Dialog 초기화
+//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
+            dialog.setContentView(R.layout.dialog_delete_idx_book_info);
+            dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("페이지에서 나가시겠습니까?")
+            dialog.findViewById<TextView>(R.id.dialog_tv_title).setText("저장하지 않은 내용이 있습니다.")
+            showDialog()
+
         } else {
+            // 그냥 보기 화면에서 백버튼 누를 시
             super.onBackPressed()
             overridePendingTransition(R.anim.not_move_activity, R.anim.fade_out)
         }
@@ -129,6 +147,25 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         }
     }
 
+    fun showDialog() {
+        dialog.show()
+
+        val dialog_cancel: Button = dialog.findViewById(R.id.dialog_cancel)
+        dialog_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val dialog_confirmation: Button = dialog.findViewById(R.id.dialog_confirmation)
+        dialog_confirmation.setOnClickListener {
+            // 편집화면 종료
+            Log.i(TAG, "텍스트 길이 ${seeTextMemoViewModel.memo_contents.value.toString().length}")
+            seeTextMemoViewModel.textSynchronization()
+            seeTextMemoViewModel.isEditMode.value = false
+            manager.hideSoftInputFromWindow(getCurrentFocus()?.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS)
+            dialog.dismiss()
+        }
+    }
+
     fun buttonClickListener() {
         binding.ibTextCopy.setOnClickListener {
             val clipboardManager: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -139,6 +176,7 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         }
 
         binding.ibShareButton.setOnClickListener {
+            if(!seeTextMemoViewModel.checkNetworkState()) return@setOnClickListener
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             sharingIntent.putExtra(Intent.EXTRA_TEXT, binding.etContents.getText().toString().trim())

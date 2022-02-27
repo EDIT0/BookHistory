@@ -52,10 +52,7 @@ import com.ejstudio.bookhistory.presentation.view.viewmodel.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.BookDetailPageViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeImageMemoViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.SeeTextMemoViewModel
-import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.WriteTextMemoViewModel
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.*
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchResultViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booksearch.SearchViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.mybookhistory.CalendarClickViewModel
@@ -154,19 +151,20 @@ val apiModule: Module = module {
 
 val viewModelModule: Module = module {
     viewModel { SplashViewModel(get(), get()) }
-    viewModel { LoginViewModel(get(), get(), get(), get()) }
-    viewModel { SignUpViewModel(get()) }
-    viewModel { SignUp2ViewModel(get(), get()) }
-    viewModel { FindPasswordViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SignUpViewModel(get(), get()) }
+    viewModel { SignUp2ViewModel(get(), get(), get()) }
+    viewModel { FindPasswordViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchResultViewModel(get(), get(), get()) }
-    viewModel { BookDetailPageViewModel(get()) }
-    viewModel { BookViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { WriteTextMemoViewModel(get()) }
-    viewModel { SeeTextMemoViewModel(get(), get(), get()) }
-    viewModel { SeeImageMemoViewModel(get()) }
+    viewModel { BookDetailPageViewModel(get(), get()) }
+    viewModel { BookViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { WriteTextMemoViewModel(get(), get()) }
+    viewModel { SeeTextMemoViewModel(get(), get(), get(), get()) }
+    viewModel { SeeImageMemoViewModel(get(), get()) }
     viewModel { CalendarClickViewModel(get()) }
+    viewModel { LibraryMapViewModel() }
 }
 
 val useCaseModule: Module = module {

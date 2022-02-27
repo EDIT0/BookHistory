@@ -155,6 +155,7 @@ class BookSearchFragment : Fragment() {
     }
 
     fun goToSearchResultActivity(keyword: String) {
+        if (!mainViewModel.checkNetworkState()) return
         val intent: Intent = Intent(activity, SearchResultActivity::class.java)
         intent.putExtra("searchKeyword", keyword)
         startActivity(intent)

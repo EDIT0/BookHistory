@@ -51,7 +51,7 @@
             android:background="@android:color/transparent"
             android:onClick="@{() -> bookViewModel.backButton()}"
             android:src="@drawable/ic_arrow_white_24dp"
-            motion:layout_constraintEnd_toStartOf="@+id/tv_actionBarTitle"
+
             motion:layout_constraintHorizontal_bias="0"
             motion:layout_constraintHorizontal_chainStyle="packed"
             motion:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"
@@ -78,7 +78,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@={bookViewModel.bookTitle}"
@@ -86,9 +85,10 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="invisible"
+            motion:layout_constraintBottom_toBottomOf="@+id/ib_backButton"
             motion:layout_constraintEnd_toStartOf="@+id/ib_actionBarBookInfoButton"
             motion:layout_constraintStart_toEndOf="@+id/ib_backButton"
-            motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
+            motion:layout_constraintTop_toTopOf="@+id/ib_backButton" />
 
 
         <Constraint
@@ -286,7 +286,7 @@
             android:onClick="@{() -> bookViewModel.backButton()}"
             android:src="@drawable/ic_arrow_white_24dp"
             android:visibility="invisible"
-            motion:layout_constraintEnd_toStartOf="@+id/tv_actionBarTitle"
+
             motion:layout_constraintHorizontal_bias="0"
             motion:layout_constraintHorizontal_chainStyle="packed"
             motion:layout_constraintStart_toStartOf="@+id/bookInfoBackgroundView"
@@ -312,7 +312,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
+
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@={bookViewModel.bookTitle}"
@@ -320,9 +320,10 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="visible"
+            motion:layout_constraintBottom_toBottomOf="@+id/ib_backButton"
             motion:layout_constraintEnd_toStartOf="@+id/ib_actionBarBookInfoButton"
             motion:layout_constraintStart_toEndOf="@+id/ib_backButton"
-            motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
+            motion:layout_constraintTop_toTopOf="@+id/ib_backButton" />
 
 
         <Constraint

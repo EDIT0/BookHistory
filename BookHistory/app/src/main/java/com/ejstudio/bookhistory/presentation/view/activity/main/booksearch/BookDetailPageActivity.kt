@@ -67,6 +67,20 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
             contentsSeeDetail.observe(this@BookDetailPageActivity, Observer {
                 goToContentsSeeDetail()
             })
+            requestSnackbar.observe(this@BookDetailPageActivity, Observer {
+                when(snackbarMessage) {
+                    BookDetailPageViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                    BookDetailPageViewModel.MessageSet.COMPLETE_ADD_BOOK.toString() -> {
+                        snackbarMessage = getString(R.string.COMPLETE_ADD_BOOK)
+                    }
+                    BookDetailPageViewModel.MessageSet.ALREADY_GET_BOOK.toString() -> {
+                        snackbarMessage = getString(R.string.ALREADY_GET_BOOK)
+                    }
+                }
+                showSnackbar(snackbarMessage)
+            })
         }
     }
 

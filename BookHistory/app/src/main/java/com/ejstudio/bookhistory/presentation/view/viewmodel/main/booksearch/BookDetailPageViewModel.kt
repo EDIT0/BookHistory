@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.model.SearchBookModel
 import com.ejstudio.bookhistory.domain.usecase.main.booksearch.AddBookUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class BookDetailPageViewModel(
-    private val addBookUseCase: AddBookUseCase
+    private val addBookUseCase: AddBookUseCase,
+    private val networkManager: NetworkManager
 ) : BaseViewModel() {
     private val TAG: String? = BookDetailPageViewModel::class.java.simpleName
 
@@ -48,6 +50,8 @@ class BookDetailPageViewModel(
     }
 
     fun addBook() {
+        if (!checkNetworkState()) return
+
         val bookInfo = SearchBookModel.Document(
             listOf(authors),
             contents,
@@ -75,16 +79,32 @@ class BookDetailPageViewModel(
                     Log.i(TAG, "값이 무엇인가요? ${it}")
                     if(it) {
                         // 이미 책을 가지고 있다고 알려줌
-                        snackbarMessage = "이미 가지고 있는 책입니다."
+                        snackbarMessage = MessageSet.ALREADY_GET_BOOK.toString()
                         _requestSnackbar.value = Unit
                     } else {
                         // 서버에 책 추가
-                        snackbarMessage = "서재에 책을 담았습니다."
+                        snackbarMessage = MessageSet.COMPLETE_ADD_BOOK.toString()
                         _requestSnackbar.value = Unit
                     }
                 }, {
                     Log.i(TAG, it.message.toString())
                 })
         )
+    }
+
+    private fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED,
+        COMPLETE_ADD_BOOK,
+        ALREADY_GET_BOOK
     }
 }

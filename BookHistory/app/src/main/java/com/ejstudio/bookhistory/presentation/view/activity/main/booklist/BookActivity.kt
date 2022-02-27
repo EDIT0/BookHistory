@@ -54,6 +54,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import android.R.attr.data
+import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 
 
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
@@ -120,6 +121,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                     bookContents = it.contents?:""
                     bookUrl = it.url?:""
                     bookReadingState = it.reading_state?:""
+                    bookISBN = it.isbn?:""
                     _selectedMenu.value = bookReadingState
                 }
             })
@@ -162,11 +164,23 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
             })
             clickFloaing.observe(this@BookActivity, Observer {
+                if (!bookViewModel.checkNetworkState()) return@Observer
                 if(currentTab.equals(BookViewModel.TEXT)) {
                     goToWriteTextMemoActivity()
                 } else if(currentTab.equals(BookViewModel.IMAGE)) {
                     goToCamera()
                 }
+            })
+            goToMap.observe(this@BookActivity, Observer {
+                goToLibraryMapActivity()
+            })
+            requestSnackbar.observe(this@BookActivity, Observer {
+                when(snackbarMessage) {
+                    BookViewModel.MessageSet.NETWORK_NOT_CONNECTED.toString() -> {
+                        snackbarMessage = getString(R.string.NETWORK_NOT_CONNECTED)
+                    }
+                }
+                showSnackbar(snackbarMessage)
             })
         }
     }
@@ -265,6 +279,13 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
     fun goToCamera() {
         checkPermissions()
+    }
+
+    fun goToLibraryMapActivity() {
+        var intent = Intent(this, LibraryMapActivity::class.java)
+        intent.putExtra("book_isbn", bookViewModel.bookISBN)
+        startActivity(intent)
+        overridePendingTransition(R.anim.not_move_activity,R.anim.not_move_activity)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

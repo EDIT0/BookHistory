@@ -9,7 +9,7 @@
             <padding
                 android:bottom="1dp" />
 
-            <solid android:color="#40000000" />
+            <solid android:color="#40DADADA" />
         </shape>
     </item>
     <item>
@@ -19,7 +19,7 @@
             <padding
                 android:bottom="1dp" />
 
-            <solid android:color="#40000000" />
+            <solid android:color="#40808080" />
         </shape>
     </item>
 

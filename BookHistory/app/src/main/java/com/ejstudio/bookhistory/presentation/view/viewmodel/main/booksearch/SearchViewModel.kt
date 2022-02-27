@@ -24,6 +24,11 @@ class SearchViewModel(
 ) : BaseViewModel() {
 
     private val TAG = SearchViewModel::class.java.simpleName
+
+    var snackbarMessage = String()
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
+
     private val _backButton: MutableLiveData<Unit> = MutableLiveData()
     val backButton: LiveData<Unit> get() = _backButton
 
@@ -99,12 +104,18 @@ class SearchViewModel(
         )
     }
 
-    private fun checkNetworkState(): Boolean {
+    fun checkNetworkState(): Boolean {
         return if (networkManager.checkNetworkState()) {
             true
         } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
             false
         }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED
     }
 
 }

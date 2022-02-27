@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.domain.usecase.login.CreateEmailUserUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.RegisterEmailAndPasswordUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 
 class SignUp2ViewModel(
     private val createEmailUserUseCase: CreateEmailUserUseCase,
-    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase
+    private val registerEmailAndPasswordUseCase: RegisterEmailAndPasswordUseCase,
+    private val networkManager: NetworkManager
 ) : BaseViewModel() {
 
     private val TAG: String? = SignUp2ViewModel::class.java.simpleName
@@ -51,6 +53,7 @@ class SignUp2ViewModel(
 
 
     fun createUser() {
+        if (!checkNetworkState()) return
         if(_tosValue.value.toString().toBoolean()) {
             protectDuplicateLoginToken = email + currentTime
             compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
@@ -62,20 +65,21 @@ class SignUp2ViewModel(
                         _goToMain.value = Unit
                     } else {
                         // sign up fail
-                        snackbarMessage = "이미 가입된 이메일입니다."
+                        snackbarMessage = MessageSet.ALREADY_EXIST_USER.toString()
                         _requestSnackbarAction.value = Unit
                     }
                 }
             )
         } else {
-            snackbarMessage = "이용약관에 체크해주세요."
+            snackbarMessage = MessageSet.CHECK_TOS.toString()
             _requestSnackbar.value = Unit
         }
     }
 
     fun registerEmailAndPassword() {
         Log.i(TAG, "registerEmailAndPassword() $email / ${password.value} / ${protectDuplicateLoginToken}")
-        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
+//        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
+        compositeDisposable.add(registerEmailAndPasswordUseCase.execute(email, "일반이메일로그인", protectDuplicateLoginToken)
             .subscribe{
 
             }
@@ -84,5 +88,21 @@ class SignUp2ViewModel(
 
     fun closeToSFragment() {
         _dissmissTos.value = Unit
+    }
+
+    private fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED,
+        CHECK_TOS,
+        ALREADY_EXIST_USER
     }
 }

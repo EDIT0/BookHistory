@@ -8,6 +8,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.booklist.DeleteIdxTextMemoUs
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.GetIdxTextMemoUseCase
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.UpdateIdxTextMemoUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
+import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -15,10 +16,16 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class SeeTextMemoViewModel(
     private val getIdxTextMemoUseCase: GetIdxTextMemoUseCase,
     private val deleteIdxTextMemoUseCase: DeleteIdxTextMemoUseCase,
-    private val updateIdxTextMemoUseCase: UpdateIdxTextMemoUseCase
+    private val updateIdxTextMemoUseCase: UpdateIdxTextMemoUseCase,
+    private val networkManager: NetworkManager
 ) : BaseViewModel() {
 
     private val TAG = SeeTextMemoViewModel::class.java.simpleName
+
+    var snackbarMessage = String()
+    private val _requestSnackbar: MutableLiveData<Unit> = MutableLiveData()
+    val requestSnackbar: LiveData<Unit> get() = _requestSnackbar
+
     private val _backButton: MutableLiveData<Unit> = MutableLiveData()
     val backButton: LiveData<Unit> get() = _backButton
 
@@ -28,6 +35,7 @@ class SeeTextMemoViewModel(
     private val _deleteTextMemo: MutableLiveData<Unit> = MutableLiveData()
     val deleteTextMemo: LiveData<Unit> get() = _deleteTextMemo
 
+    var completed_save_memo = false
     var textMemoIdx = 0
     var bookTitle = ""
     var memo_contents = MutableLiveData<String>()
@@ -55,6 +63,7 @@ class SeeTextMemoViewModel(
     }
 
     fun deleteIdxTextMemo() {
+        if (!checkNetworkState()) return
         deleteIdxTextMemoUseCase.execute(textMemoIdx)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -71,6 +80,7 @@ class SeeTextMemoViewModel(
     }
 
     fun saveEditMemo() {
+        if (!checkNetworkState()) return
         updateIdxTextMemoUseCase.execute(textMemoIdx, edit_memo_contents.value.toString().trim())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -78,6 +88,7 @@ class SeeTextMemoViewModel(
             .doAfterTerminate {
                 hideProgress()
                 textSynchronization()
+                completed_save_memo = true
                 _backButton.value = Unit
             }
             .subscribe({
@@ -89,5 +100,19 @@ class SeeTextMemoViewModel(
 
     fun textSynchronization() {
         edit_memo_contents.value = memo_contents.value.toString()
+    }
+
+    fun checkNetworkState(): Boolean {
+        return if (networkManager.checkNetworkState()) {
+            true
+        } else {
+            snackbarMessage = MessageSet.NETWORK_NOT_CONNECTED.toString()
+            _requestSnackbar.value = Unit
+            false
+        }
+    }
+
+    enum class MessageSet {
+        NETWORK_NOT_CONNECTED
     }
 }
