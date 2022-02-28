@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BookHistory</string>
+    <string name="app_name">독서노트</string>
     
     <string name="NETWORK_NOT_CONNECTED">네트워크를 확인해주세요.</string>
 

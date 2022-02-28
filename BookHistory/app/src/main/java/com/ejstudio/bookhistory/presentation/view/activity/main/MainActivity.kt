@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private val TAG: String? = MainActivity::class.java.simpleName
-    public val mainViewModel: MainViewModel by viewModel()
+    val mainViewModel: MainViewModel by viewModel()
 
 //    lateinit var bookListFragment: BookListFragment
 //    lateinit var bookSearchFragment: BookSearchFragment
@@ -58,6 +58,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
+
+        if(savedInstanceState != null) {
+            UserInfo.email = savedInstanceState.getString("userId")!!
+            UserInfo.protectDuplicateLoginToken =
+                savedInstanceState.getString("protectDuplicateLoginToken")!!
+            Log.i(TAG, "저장!!! onCreate() ${UserInfo.email} / ${UserInfo.protectDuplicateLoginToken}")
+        }
 
         binding.mainViewModel = mainViewModel
         Log.i(TAG, "코드0: ${mainViewModel.hashCode()}")
@@ -79,8 +86,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         preferences = binding.root.context.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
         var preferencesToken = UserInfo.protectDuplicateLoginToken
 
-        mainViewModel.getProtectDuplicateLoginToken(UserInfo.email, preferencesToken) // 서버 토큰 가져오기
-
+        if(!UserInfo.email.equals("") && !UserInfo.protectDuplicateLoginToken.equals("")) {
+            mainViewModel.getProtectDuplicateLoginToken(UserInfo.email, preferencesToken) // 서버 토큰 가져오기
+        }
 
         viewModelCallback()
 
@@ -184,5 +192,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         goToLoginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         goToLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(goToLoginActivity)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("userId", UserInfo.email)
+        outState.putString("protectDuplicateLoginToken", UserInfo.protectDuplicateLoginToken)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if(savedInstanceState != null) {
+            UserInfo.email = savedInstanceState.getString("userId")!!
+            UserInfo.protectDuplicateLoginToken = savedInstanceState.getString("protectDuplicateLoginToken")!!
+
+        }
     }
 }
