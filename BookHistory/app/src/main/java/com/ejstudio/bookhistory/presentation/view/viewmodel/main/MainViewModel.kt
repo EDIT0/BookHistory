@@ -24,6 +24,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.setting.RemoveUserAccountUse
 import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.fragment.main.SettingFragment
+import com.ejstudio.bookhistory.util.Converter
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import com.google.firebase.auth.FirebaseAuth
@@ -102,8 +103,8 @@ class MainViewModel(
                     hideProgress()
                 }
                 .subscribe { it, exception ->
-                    Log.i(TAG, "내부토큰: " + preferencesToken + " / 서버토큰: ${it.returnvalue}")
-                    if(it.returnvalue.equals(preferencesToken)) {
+                    Log.i(TAG, "내부토큰: " + preferencesToken + " / 서버토큰: ${Converter.decByKey(Converter.key, it.returnvalue)}")
+                    if(Converter.decByKey(Converter.key, it.returnvalue).equals(preferencesToken)) {
                         Log.i(TAG, "내부토큰과 서버토큰 같은지 비교: true")
                         _tokenTrue.value = Unit
                     } else {

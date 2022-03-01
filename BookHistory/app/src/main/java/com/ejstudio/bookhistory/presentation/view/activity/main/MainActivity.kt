@@ -86,9 +86,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         preferences = binding.root.context.getSharedPreferences(PreferenceManager.LOGIN_INFO, Context.MODE_PRIVATE)
         var preferencesToken = UserInfo.protectDuplicateLoginToken
 
-        if(!UserInfo.email.equals("") && !UserInfo.protectDuplicateLoginToken.equals("")) {
+//        if(!UserInfo.email.equals("") && !UserInfo.protectDuplicateLoginToken.equals("")) {
             mainViewModel.getProtectDuplicateLoginToken(UserInfo.email, preferencesToken) // 서버 토큰 가져오기
-        }
+//        }
 
         viewModelCallback()
 

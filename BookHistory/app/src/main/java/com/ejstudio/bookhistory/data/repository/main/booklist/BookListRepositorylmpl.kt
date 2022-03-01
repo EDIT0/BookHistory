@@ -9,6 +9,7 @@ import com.ejstudio.bookhistory.data.repository.main.booklist.local.BookListLoca
 import com.ejstudio.bookhistory.data.repository.main.booklist.remote.BookListRemoteDataSource
 import com.ejstudio.bookhistory.domain.repository.BookListRepository
 import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.BookActivity
+import com.ejstudio.bookhistory.util.Converter
 import com.ejstudio.bookhistory.util.ImageSenderModule
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -99,8 +100,9 @@ class BookListRepositorylmpl(
     override fun insertTextMemo(bookIdx: Int, memoContents: String): Single<Boolean> {
         return bookListRemoteDataSource.insertTextMemo(bookIdx, memoContents)
             .flatMap {
-                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${it.memo_contents?:""} ${it.save_datetime!!}")
-                bookListLocalDataSource.insertTextMemo(it.idx!!, it.booklist_idx!!, it.memo_contents?:"", it.save_datetime!!)
+                // 메모 내용 복호화
+                Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${Converter.decByKey(Converter.key, it.memo_contents).toString()} ${it.save_datetime!!}")
+                bookListLocalDataSource.insertTextMemo(it.idx!!, it.booklist_idx, Converter.decByKey(Converter.key, it.memo_contents).toString(), it.save_datetime)
                 Single.just(true)
             }
     }
@@ -148,12 +150,13 @@ class BookListRepositorylmpl(
 //                bookListLocalDataSource.insertImageMemo(it.idx, it.booklist_idx, it.memo_image.trim(), it.save_datetime)
 
                 val imageSenderModule = ImageSenderModule.getInstance()
-                var (server, body) = imageSenderModule.SendImageModule(file, it.memo_image?.trim()!!)
+                var (server, body) = imageSenderModule.SendImageModule(file, Converter.decByKey(Converter.key, it.memo_image?.trim())!!)
                 server.imageSenderToServer("name2.png", body).enqueue(object: Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         Log.d(TAG,"에러")
-                        Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${it.memo_image.trim()} ${it.save_datetime!!}")
-                        bookListLocalDataSource.insertImageMemo(it.idx!!, it.booklist_idx!!, it.memo_image.trim(), it.save_datetime!!)
+                        // 이미지 이름 복호화
+                        Log.i(TAG, "로컬 데이터베이스에 들어갈 메모 데이터: ${it.idx!!} ${it.booklist_idx!!} ${Converter.decByKey(Converter.key, it.memo_image?.trim())} ${it.save_datetime!!}")
+                        bookListLocalDataSource.insertImageMemo(it.idx!!, it.booklist_idx!!, Converter.decByKey(Converter.key, it.memo_image?.trim())!!, it.save_datetime!!)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({

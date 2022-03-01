@@ -4,25 +4,48 @@ import android.util.Log
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
 import com.ejstudio.bookhistory.domain.model.*
+import com.ejstudio.bookhistory.util.Converter
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.lang.Exception
+import kotlin.random.Random
 
 class SearchBookRemoteDataSourcelmpl(
     private val apiInterface: ApiInterface
 ) : SearchBookRemoteDataSource{
     private val TAG = SearchBookRemoteDataSourcelmpl::class.java.simpleName
 
+    var encText: String = ""
+
     override fun getSearchBook(inputSearch: String, page: Int): Observable<SearchBookModel> {
         return apiInterface.getSearchBook(inputSearch, "accuracy", page, 10)
     }
 
     override fun isExistBook(email: String, isbn: String): Single<CheckTrueOrFalseModel> {
-        return apiInterface.checkIsExistBook(email, isbn)
+        try {
+            encText = Converter.encByKey(Converter.key, email)!!
+//            decText = Converter.decByKey(Converter.key, encText)!!
+            Log.i(TAG, "이메일 암호화 결과 : $encText")
+//            Log.i(TAG, "이메일 복호화 결과 : $decText")
+        } catch (e: Exception) {
+            Log.i(TAG, "이메일 암호화 에러: " + e.printStackTrace())
+        }
+        return apiInterface.checkIsExistBook(encText, isbn)
     }
 
     override fun insertBookInfo(email: String, bookInfo: SearchBookModel.Document): Single<SaveBookInfoModel> {
+
+        try {
+            encText = Converter.encByKey(Converter.key, email)!!
+//            decText = Converter.decByKey(Converter.key, encText)!!
+            Log.i(TAG, "이메일 암호화 결과 : $encText")
+//            Log.i(TAG, "이메일 복호화 결과 : $decText")
+        } catch (e: Exception) {
+            Log.i(TAG, "이메일 암호화 에러: " + e.printStackTrace())
+        }
+
         return apiInterface.insertBookInfo(
-            email,
+            encText,
             bookInfo.authors.get(0),
             bookInfo.contents,
             bookInfo.datetime,

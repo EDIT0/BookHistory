@@ -76,6 +76,9 @@ class MyBookHistoryFragment : Fragment() {
                 if(month.length == 1) {
                     month = "0" + month
                 }
+                if(day.length == 1) {
+                    day = "0" + day
+                }
 //                mainViewModel.getCalendarDateMemoList("${date.year}-${month}-${date.day}")
 //                mainViewModel.calendarDate = "${date.year}-${month}-${date.day}"
 //                try{

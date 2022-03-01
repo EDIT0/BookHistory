@@ -28,6 +28,7 @@ interface ApiInterface {
 //        @Query("include_adult") isAdult: Boolean?)
 //            : Observable<MovieResult>
 
+    // c
     @FormUrlEncoded
     @POST("login/SignUpEmailSender.php")
     fun emailSender(
@@ -35,6 +36,7 @@ interface ApiInterface {
         @Field("num") num: String
     ): Observable<String>
 
+    // c
     @FormUrlEncoded
     @POST("login/RegisterEmailAndPassword.php")
     fun registerEmailAndPassword(
@@ -43,6 +45,7 @@ interface ApiInterface {
         @Field("protectDuplicateLoginToken") protectDuplicateLoginToken: String
     ) : Observable<Unit>
 
+    // c
     @FormUrlEncoded
     @POST("login/CheckEmail.php")
     fun checkEmail(
@@ -59,6 +62,7 @@ interface ApiInterface {
         @Query("size") size: Int
     ) : Observable<SearchBookModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/CheckIsExistBook.php")
     fun checkIsExistBook(
@@ -66,6 +70,7 @@ interface ApiInterface {
         @Field("isbn") isbn: String
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/InsertBookInfo.php")
     fun insertBookInfo(
@@ -110,6 +115,7 @@ interface ApiInterface {
         @Query("format") format: String
     ) : Single<RecentPopularBookModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/DeleteIdxBookInfo.php")
     fun deleteIdxBookInfo(
@@ -117,6 +123,7 @@ interface ApiInterface {
         @Field("idx") idx: Int
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/UpdateBookReadingState.php")
     fun updateBookReadingState(
@@ -125,6 +132,7 @@ interface ApiInterface {
         @Field("reading_state") reading_state: String
     ) : Single<UpdateBookReadingStateModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/InsertTextMemo.php")
     fun insertTextMemo(
@@ -139,6 +147,7 @@ interface ApiInterface {
         @Field("textMemoIdx") textMemoIdx: Int
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/UpdateIdxTextMemo.php")
     fun updateIdxTextMemo(
@@ -146,6 +155,7 @@ interface ApiInterface {
         @Field("edit_memo_contents") edit_memo_contents: String
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("main/InsertImageMemo.php")
     fun insertImageMemo(
@@ -167,6 +177,7 @@ interface ApiInterface {
         @Field("imageMemoIdx") imageMemoIdx: Int
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/UpdateProtectDuplicateLoginToken.php")
     fun updateProtectDuplicateLoginToken(
@@ -174,30 +185,35 @@ interface ApiInterface {
         @Field("protectDuplicateLoginToken") protectDuplicateLoginToken: String
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/GetProtectDuplicateLoginToken.php")
     fun getProtectDuplicateLoginTokenFromServer(
         @Field("email") email: String
     ) : Single<CheckTrueOrFalseModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/GetEmailTotalBookList.php")
     fun getEmailTotalBookList(
         @Field("email") email: String
     ) : Single<TotalBookListModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/GetEmailTotalBookTextMemoList.php")
     fun getEmailTotalBookTextMemoList(
         @Field("email") email: String
     ) : Single<TotalBookTextMemoListModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/GetEmailTotalBookImageMemoList.php")
     fun getEmailTotalBookImageMemoList(
         @Field("email") email: String
     ) : Single<TotalBookImageMemoListModel>
 
+    // c
     @FormUrlEncoded
     @POST("login/RemoveUserAccount.php")
     fun removeUserAccount(

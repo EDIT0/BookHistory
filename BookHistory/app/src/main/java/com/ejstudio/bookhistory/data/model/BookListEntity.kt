@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class BookListEntity(
     @PrimaryKey(autoGenerate = false)
     var idx: Int,
-    val email: String,
+    var email: String,
     val title: String?,
     val contents: String?,
     val url: String?,

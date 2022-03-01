@@ -6,6 +6,7 @@ import com.ejstudio.bookhistory.data.repository.login.local.LoginLocalDataSource
 import com.ejstudio.bookhistory.data.repository.login.remote.LoginRemoteDataSource
 import com.ejstudio.bookhistory.domain.model.CheckTrueOrFalseModel
 import com.ejstudio.bookhistory.domain.repository.LoginRepository
+import com.ejstudio.bookhistory.util.Converter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -93,6 +94,10 @@ class LoginRepositorylmpl(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { it, exception ->
                 try {
+                    // 이메일 복호화
+                    for(i in 0 until it.totalBookListModel.size) {
+                        it.totalBookListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookListModel.get(i).email)!!
+                    }
                     Log.i(TAG, "서버에서 온 전체 책 리스트 ${it}")
                 }catch (e: Exception){}
                 if(it.totalBookListModel != null && it.totalBookListModel.size != 0) {
@@ -107,6 +112,12 @@ class LoginRepositorylmpl(
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe { it, exception ->
+                                    try {
+                                        // 이메일 복호화
+                                        for (i in 0 until it.totalBookTextMemoListModel.size) {
+                                            it.totalBookTextMemoListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookTextMemoListModel.get(i).email)!!
+                                        }
+                                    }catch (e : Exception) {}
                                     if(it.totalBookTextMemoListModel != null && it.totalBookTextMemoListModel.size != 0) {
                                         loginLocalDataSource.insertTotalBookTextMemoList(it.totalBookTextMemoListModel)
                                             .subscribeOn(Schedulers.io())
@@ -124,6 +135,13 @@ class LoginRepositorylmpl(
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe { it, exception ->
+                                    // 이메일 복호화
+                                    try {
+                                        for(i in 0 until it.totalBookImageMemoListModel.size) {
+                                            it.totalBookImageMemoListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookImageMemoListModel.get(i).email)!!
+                                        }
+                                    }catch (e : Exception) {}
+
                                     if(it.totalBookImageMemoListModel != null && it.totalBookImageMemoListModel.size != 0) {
                                         loginLocalDataSource.insertTotalBookImageMemoList(it.totalBookImageMemoListModel)
                                             .subscribeOn(Schedulers.io())

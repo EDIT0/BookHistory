@@ -172,7 +172,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 }
             })
             goToMap.observe(this@BookActivity, Observer {
-                goToLibraryMapActivity()
+//                goToLibraryMapActivity()
+                goToContentsSeeDetail()
             })
             requestSnackbar.observe(this@BookActivity, Observer {
                 when(snackbarMessage) {
