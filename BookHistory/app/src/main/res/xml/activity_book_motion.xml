@@ -124,7 +124,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_delete_outline_white_24dp"
             motion:layout_constraintEnd_toStartOf="@+id/ib_menuChange"
-            motion:layout_constraintStart_toEndOf="@+id/ib_libraryMap"
+            motion:layout_constraintStart_toEndOf="@+id/ib_shoppingBag"
             motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
 
         <Constraint
@@ -141,28 +141,28 @@
 
 
         <Constraint
-            android:id="@+id/ib_libraryMap"
+            android:id="@+id/ib_shoppingBag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_location_white_24dp"
+            android:src="@drawable/ic_shopping_bag_white_24dp"
             motion:layout_constraintEnd_toStartOf="@+id/ib_deleteBook"
             motion:layout_constraintStart_toEndOf="@+id/ib_actionBarBookInfoButton"
             motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
 
         <Constraint
-            android:id="@+id/ib_libraryMap_black"
+            android:id="@+id/ib_shoppingBag_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_location_24dp"
+            android:src="@drawable/ic_shopping_bag_black_24dp"
             android:visibility="invisible"
-            motion:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap"
-            motion:layout_constraintEnd_toEndOf="@+id/ib_libraryMap"
-            motion:layout_constraintStart_toStartOf="@+id/ib_libraryMap"
-            motion:layout_constraintTop_toTopOf="@+id/ib_libraryMap" />
+            motion:layout_constraintBottom_toBottomOf="@+id/ib_shoppingBag"
+            motion:layout_constraintEnd_toEndOf="@+id/ib_shoppingBag"
+            motion:layout_constraintStart_toStartOf="@+id/ib_shoppingBag"
+            motion:layout_constraintTop_toTopOf="@+id/ib_shoppingBag" />
 
 
         <Constraint
@@ -174,7 +174,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_expand_more_gray_32dp"
             android:visibility="invisible"
-            motion:layout_constraintEnd_toStartOf="@+id/ib_libraryMap"
+            motion:layout_constraintEnd_toStartOf="@+id/ib_shoppingBag"
             motion:layout_constraintHorizontal_bias="1"
             motion:layout_constraintHorizontal_chainStyle="packed"
             motion:layout_constraintStart_toEndOf="@+id/tv_actionBarTitle"
@@ -361,7 +361,7 @@
             android:src="@drawable/ic_delete_outline_white_24dp"
             android:visibility="invisible"
             motion:layout_constraintEnd_toStartOf="@+id/ib_menuChange"
-            motion:layout_constraintStart_toEndOf="@+id/ib_libraryMap"
+            motion:layout_constraintStart_toEndOf="@+id/ib_shoppingBag"
             motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
 
         <Constraint
@@ -378,29 +378,29 @@
 
 
         <Constraint
-            android:id="@+id/ib_libraryMap"
+            android:id="@+id/ib_shoppingBag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_location_white_24dp"
+            android:src="@drawable/ic_shopping_bag_white_24dp"
             android:visibility="invisible"
             motion:layout_constraintEnd_toStartOf="@+id/ib_deleteBook"
             motion:layout_constraintStart_toEndOf="@+id/ib_actionBarBookInfoButton"
             motion:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
 
         <Constraint
-            android:id="@+id/ib_libraryMap_black"
+            android:id="@+id/ib_shoppingBag_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_location_24dp"
+            android:src="@drawable/ic_shopping_bag_black_24dp"
             android:visibility="visible"
-            motion:layout_constraintBottom_toBottomOf="@+id/ib_libraryMap"
-            motion:layout_constraintEnd_toEndOf="@+id/ib_libraryMap"
-            motion:layout_constraintStart_toStartOf="@+id/ib_libraryMap"
-            motion:layout_constraintTop_toTopOf="@+id/ib_libraryMap" />
+            motion:layout_constraintBottom_toBottomOf="@+id/ib_shoppingBag"
+            motion:layout_constraintEnd_toEndOf="@+id/ib_shoppingBag"
+            motion:layout_constraintStart_toStartOf="@+id/ib_shoppingBag"
+            motion:layout_constraintTop_toTopOf="@+id/ib_shoppingBag" />
 
 
         <Constraint
@@ -412,7 +412,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_expand_more_gray_32dp"
             android:visibility="visible"
-            motion:layout_constraintEnd_toStartOf="@+id/ib_libraryMap"
+            motion:layout_constraintEnd_toStartOf="@+id/ib_shoppingBag"
             motion:layout_constraintHorizontal_bias="1"
             motion:layout_constraintHorizontal_chainStyle="packed"
             motion:layout_constraintStart_toEndOf="@+id/tv_actionBarTitle"

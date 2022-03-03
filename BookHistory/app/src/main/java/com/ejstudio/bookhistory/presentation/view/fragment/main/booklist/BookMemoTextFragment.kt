@@ -24,6 +24,10 @@ import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.WriteTe
 import com.ejstudio.bookhistory.presentation.view.adapter.main.booklist.BookMemoTextAdapter
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.booklist.BookViewModel
 import com.ejstudio.bookhistory.util.Converter
+import androidx.recyclerview.widget.RecyclerView
+
+
+
 
 class BookMemoTextFragment : Fragment() {
 
@@ -58,6 +62,22 @@ class BookMemoTextFragment : Fragment() {
         binding.rcTextMemoList.layoutManager = layoutmanager
         binding.rcTextMemoList.adapter = bookTextMemoAdapter
 //        binding.rcTextMemoList.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+
+        // 리사이클러뷰가 상단을 찍을 시 상위 네스티드 스크롤뷰를 켠다.
+        binding.rcTextMemoList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!binding.rcTextMemoList.canScrollVertically(-1)) {
+//                    Log.i(TAG, "Top of list")
+                    BookActivity.nestedScrollingController()
+                } else if (!binding.rcTextMemoList.canScrollVertically(1)) {
+//                    Log.i(TAG, "End of list")
+//                    BookActivity.BookActivity.isRecyclerTop = false
+                } else {
+//                    Log.i(TAG, "idle")
+//                    BookActivity.BookActivity.isRecyclerTop = false
+                }
+            }
+        })
     }
 
     fun dataEmptyScreenSetting() {

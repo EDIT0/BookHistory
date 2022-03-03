@@ -2,8 +2,6 @@ package com.ejstudio.bookhistory.presentation.view.activity.main.booklist
 
 
 import android.Manifest
-import android.R.attr
-import android.R.attr.path
 import android.app.Activity
 import android.app.Dialog
 import android.content.ContentValues
@@ -41,25 +39,29 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.*
-import android.R.attr.orientation
 
-import android.R.attr.bitmap
 import android.graphics.Matrix
-import android.os.Environment
-import android.R.id
-import java.lang.Exception
-import android.R.attr.data
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.widget.NestedScrollView
 import com.theartofdev.edmodo.cropper.CropImage
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import android.R.attr.data
-import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 
 
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
     private val TAG: String? = BookActivity::class.java.simpleName
+
+    companion object {
+        lateinit var nestScroller: NestedScrollView
+        /*
+        * 네스티드 스크롤뷰 켜기
+        * 모션레이아웃이 start일 경우 true, end일 경우 false
+        * 하단 뷰페이저 안에 있는 리사이클러뷰들(메모, 이미지 리스트)이 top을 찍었을 때 이 메소드를 호출해서 네스티드 스크롤뷰를 켜준다.
+        * */
+        fun nestedScrollingController() {
+            nestScroller.isNestedScrollingEnabled = true
+        }
+    }
+
     public val bookViewModel: BookViewModel by viewModel()
     private lateinit var bookMemoViewPagerFragmentAdapter: BookMemoViewPagerFragmentAdapter
     lateinit var deleteDialog: Dialog
@@ -83,14 +85,19 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
         binding.bookViewModel = bookViewModel
 
+        nestScroller = binding.nestedScrollview
+
         recvIntent()
         viewModelCallback()
         viewPagerAndTabLayoutSetting()
+        montionLayoutTransitionListener()
 
 //        val dir: File = File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + "/Pictures", "/BookHistory")
 //        if (!dir.exists()) {
 //            dir.mkdirs()
 //        }
+
+
     }
 
     fun recvIntent() {
@@ -171,7 +178,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                     goToCamera()
                 }
             })
-            goToMap.observe(this@BookActivity, Observer {
+            goToShopping.observe(this@BookActivity, Observer {
 //                goToLibraryMapActivity()
                 goToContentsSeeDetail()
             })
@@ -238,6 +245,41 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // 이미 선택된 탭이 다시 선택 되었을 때
             }
+        })
+    }
+
+    fun montionLayoutTransitionListener() {
+        binding.motionlayout.setTransitionListener(object : MotionLayout.TransitionListener{
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+//                Log.i(TAG, "onTransitionStarted: ")
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+//                Log.i(TAG, "수치: " + progress) // start 0.0, end 1.0
+                if (motionLayout?.progress!! == 0.0.toFloat()) {
+                    // this is start
+//                    Log.i(TAG, "onTransitionChange start")
+                } else if(motionLayout?.progress!! > 0.88.toFloat()){
+                    // this is end
+//                    Log.i(TAG, "onTransitionChange end")
+
+                }
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                if(currentId == R.id.collapsed) {
+                    Log.i(TAG, "onTransitionCompleted collapsed")
+                    binding.nestedScrollview.isNestedScrollingEnabled = false
+                } else if(currentId == R.id.expanded) {
+                    Log.i(TAG, "onTransitionCompleted expanded")
+                    binding.nestedScrollview.isNestedScrollingEnabled = true
+                }
+            }
+
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                TODO("Not yet implemented")
+            }
+
         })
     }
 

@@ -9,14 +9,10 @@ import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.usecase.main.booklist.*
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
-import com.ejstudio.bookhistory.util.ImageSenderModule
 import com.ejstudio.bookhistory.util.NetworkManager
 import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 
 class BookViewModel(
@@ -56,8 +52,8 @@ class BookViewModel(
     private val _clickFloaing: MutableLiveData<Unit> = MutableLiveData()
     val clickFloaing: LiveData<Unit> get() = _clickFloaing
 
-    private val _goToMap: MutableLiveData<Unit> = MutableLiveData()
-    val goToMap: LiveData<Unit> get() = _goToMap
+    private val _goToShopping: MutableLiveData<Unit> = MutableLiveData()
+    val goToShopping: LiveData<Unit> get() = _goToShopping
 
     var currentTab = "TEXT" // 0번은 텍스트
 
@@ -196,8 +192,8 @@ class BookViewModel(
         }
     }
 
-    fun goToMap() {
-        _goToMap.value = Unit
+    fun goToShopping() {
+        _goToShopping.value = Unit
     }
 
     fun clickFloating() {

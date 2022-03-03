@@ -117,24 +117,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 when (item.itemId) {
                     R.id.tab_list -> {
                         fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                             .replace(R.id.mainFramelayout, bookListFragment)
                             .commit()
                         true
                     }
                     R.id.tab_search -> {
                         fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                             .replace(R.id.mainFramelayout, bookSearchFragment)
                             .commit()
                         true
                     }
                     R.id.tab_history -> {
                         fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                             .replace(R.id.mainFramelayout, myBookHistoryFragment)
                             .commit()
                         true
                     }
                     R.id.tab_setting -> {
                         fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                             .replace(R.id.mainFramelayout, settingFragment)
                             .commit()
                         true
