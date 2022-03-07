@@ -43,6 +43,7 @@ import java.util.*
 import android.graphics.Matrix
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.MutableLiveData
 import com.theartofdev.edmodo.cropper.CropImage
 
 
@@ -51,15 +52,7 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
     private val TAG: String? = BookActivity::class.java.simpleName
 
     companion object {
-        lateinit var nestScroller: NestedScrollView
-        /*
-        * 네스티드 스크롤뷰 켜기
-        * 모션레이아웃이 start일 경우 true, end일 경우 false
-        * 하단 뷰페이저 안에 있는 리사이클러뷰들(메모, 이미지 리스트)이 top을 찍었을 때 이 메소드를 호출해서 네스티드 스크롤뷰를 켜준다.
-        * */
-        fun nestedScrollingController() {
-            nestScroller.isNestedScrollingEnabled = true
-        }
+        var isNestedScrolling = MutableLiveData<Boolean>(true)
     }
 
     public val bookViewModel: BookViewModel by viewModel()
@@ -85,7 +78,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
         binding.bookViewModel = bookViewModel
 
-        nestScroller = binding.nestedScrollview
+//        nestScroller = binding.nestedScrollview
+        isNestedScrolling.value = true
 
         recvIntent()
         viewModelCallback()
@@ -190,6 +184,9 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 }
                 showSnackbar(snackbarMessage)
             })
+            isNestedScrolling.observe(this@BookActivity, Observer {
+                binding.nestedScrollview.isNestedScrollingEnabled = it
+            })
         }
     }
 
@@ -269,10 +266,10 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 if(currentId == R.id.collapsed) {
                     Log.i(TAG, "onTransitionCompleted collapsed")
-                    binding.nestedScrollview.isNestedScrollingEnabled = false
+                    isNestedScrolling.setValue(false)
                 } else if(currentId == R.id.expanded) {
                     Log.i(TAG, "onTransitionCompleted expanded")
-                    binding.nestedScrollview.isNestedScrollingEnabled = true
+                    isNestedScrolling.setValue(true)
                 }
             }
 

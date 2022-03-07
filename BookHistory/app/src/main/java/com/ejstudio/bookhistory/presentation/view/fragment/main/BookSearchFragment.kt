@@ -94,6 +94,11 @@ class BookSearchFragment : Fragment() {
 
         val itemDecoration3 = OffsetItemDecoration(binding.root.context, 20, 10, 20)
         binding.rcAlwaysPopularBook.addItemDecoration(itemDecoration3)
+
+
+        binding.scrollView.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.searchBackgroundView.isSelected = binding.scrollView.canScrollVertically(-1)
+        }
     }
 
     fun viewModelCallback() {

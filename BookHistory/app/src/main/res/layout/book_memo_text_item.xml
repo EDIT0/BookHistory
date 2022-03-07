@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/tv_saveDatetime"
-            setText="@{textMemoEntity.save_datetime}"
+            setText="@{textMemoEntity.save_datetime.substring(0, 16).toString()}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

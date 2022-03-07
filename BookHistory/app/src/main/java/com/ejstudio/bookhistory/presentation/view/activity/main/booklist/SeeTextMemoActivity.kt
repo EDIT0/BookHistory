@@ -44,6 +44,7 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
 
         keyBoardSetting()
         recvIntent()
+        scrollingSetting()
         viewModelCallback()
         buttonClickListener()
     }
@@ -56,6 +57,12 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         seeTextMemoViewModel.textMemoIdx = intent.getIntExtra("textMemoIdx", 0)
         seeTextMemoViewModel.bookTitle = intent.getStringExtra("bookTitle")!!
         Log.i(TAG, "책 idx: " + seeTextMemoViewModel.textMemoIdx)
+    }
+
+    fun scrollingSetting() {
+        binding.etContents.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.actionBarView.isSelected = binding.etContents.canScrollVertically(-1)
+        }
     }
 
     fun viewModelCallback() {

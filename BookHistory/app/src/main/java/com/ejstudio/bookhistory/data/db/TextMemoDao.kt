@@ -60,7 +60,7 @@ interface TextMemoDao {
             "union " +
             "SELECT BookListEntity.title, ImageMemoEntity.idx, ImageMemoEntity.booklist_idx, ImageMemoEntity.memo_image, ImageMemoEntity.save_datetime, ImageMemoEntity.email " +
             "from ImageMemoEntity, BookListEntity " +
-            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx and ImageMemoEntity.save_datetime LIKE '%' || :calendarDate || '%') a order by save_datetime desc")
+            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx and ImageMemoEntity.save_datetime LIKE '%' || :calendarDate || '%') a order by save_datetime asc")
     fun getCalendarDateMemoList(email: String, calendarDate: String) : LiveData<List<TextImageMemoModel>>
 
 

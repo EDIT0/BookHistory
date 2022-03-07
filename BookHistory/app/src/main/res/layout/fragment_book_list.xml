@@ -17,51 +17,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/actionBarBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@+id/line1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/tv_selection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:textColor="#303030"
-            android:textSize="20sp"
-            android:fontFamily="@font/seoulnamsancbl_regular"
-            app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
-            app:layout_constraintEnd_toStartOf="@+id/ib_selectionImage"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView"
-            tools:text="상태 표시" />
-        <!--        android:text="@={mainViewModel._selectedMenu}"-->
-        <ImageView
-            android:id="@+id/ib_selectionImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_expand_more_orange_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_selection"
-            app:layout_constraintStart_toEndOf="@+id/tv_selection"
-            app:layout_constraintTop_toTopOf="@+id/tv_selection" />
-
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="0.75dp"
-            android:background="#cccccc"
+            android:background="#ffffff"
+            android:gravity="start|center"
+            android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" >
+
+            <TextView
+                android:id="@+id/tv_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="#303030"
+                android:textSize="20sp"
+                android:fontFamily="@font/seoulnamsancbl_regular"
+                app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
+                app:layout_constraintEnd_toStartOf="@+id/ib_selectionImage"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/actionBarBackgroundView"
+                app:layout_constraintTop_toTopOf="@+id/actionBarBackgroundView"
+                tools:text="상태 표시" />
+            <!--        android:text="@={mainViewModel._selectedMenu}"-->
+            <ImageView
+                android:id="@+id/ib_selectionImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expand_more_orange_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_selection"
+                app:layout_constraintStart_toEndOf="@+id/tv_selection"
+                app:layout_constraintTop_toTopOf="@+id/tv_selection" />
+
+        </LinearLayout>
+
+
+
+<!--        <View-->
+<!--            android:id="@+id/line1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0.75dp"-->
+<!--            android:background="#cccccc"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />-->
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -69,7 +77,7 @@
             android:id="@+id/nested_scrollview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,6 +96,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 <!--ca-app-pub-8761696495202698/2821208109--> <!--광고 단위 ID-->
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_bookList"
                     android:layout_width="match_parent"
@@ -114,7 +123,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1" />
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

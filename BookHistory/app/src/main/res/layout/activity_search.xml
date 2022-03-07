@@ -17,81 +17,87 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/searchBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@+id/line1"
+            android:background="#ffffff"
+            android:stateListAnimator="@animator/toolbar_elevation"
+            app:layout_constraintBottom_toTopOf="@+id/recentSearchsNestedScrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed" >
 
-        <ImageButton
-            android:id="@+id/ib_backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> searchViewModel.backButton()}"
-            android:src="@drawable/ic_arrow_back_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/searchBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+            <ImageButton
+                android:id="@+id/ib_backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> searchViewModel.backButton()}"
+                android:src="@drawable/ic_arrow_back_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
+                app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/searchBackgroundView"
+                app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
 
-        <View
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/search_background"
-            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toStartOf="@+id/iv_searchButton"
-            app:layout_constraintStart_toEndOf="@+id/ib_backButton"
-            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+            <View
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/search_background"
+                app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
+                app:layout_constraintEnd_toStartOf="@+id/iv_searchButton"
+                app:layout_constraintStart_toEndOf="@+id/ib_backButton"
+                app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
 
-        <ImageView
-            android:id="@+id/iv_searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:onClick="@{() -> searchViewModel.searchButton()}"
-            android:src="@drawable/ic_search_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@+id/searchView"
-            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+            <ImageView
+                android:id="@+id/iv_searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:onClick="@{() -> searchViewModel.searchButton()}"
+                android:src="@drawable/ic_search_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
+                app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/searchView"
+                app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
 
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@android:color/transparent"
-            android:paddingHorizontal="10dp"
-            android:singleLine="true"
-            android:hint="책 제목 / 지은이 검색"
-            android:text="@={searchViewModel.inputSearch}"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toEndOf="@+id/searchView"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
-            app:layout_constraintTop_toTopOf="@+id/searchView" />
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="10dp"
+                android:singleLine="true"
+                android:hint="책 제목 / 지은이 검색"
+                android:text="@={searchViewModel.inputSearch}"
+                app:layout_constraintBottom_toBottomOf="@+id/searchView"
+                app:layout_constraintEnd_toEndOf="@+id/searchView"
+                app:layout_constraintStart_toStartOf="@+id/searchView"
+                app:layout_constraintTop_toTopOf="@+id/searchView" />
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="0.75dp"
-            android:background="#cccccc"
-            app:layout_constraintBottom_toTopOf="@+id/recentSearchsNestedScrollView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--        <View-->
+<!--            android:id="@+id/line1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0.75dp"-->
+<!--            android:background="#cccccc"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/recentSearchsNestedScrollView"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />-->
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/recentSearchsNestedScrollView"
@@ -100,7 +106,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1">
+            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,7 +144,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_recentSearchs"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"/>
             </LinearLayout>
 
 

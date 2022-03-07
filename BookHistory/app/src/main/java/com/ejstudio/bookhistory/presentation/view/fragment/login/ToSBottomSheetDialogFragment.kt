@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.presentation.view.fragment.login
 
+import android.R.attr
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +20,10 @@ import android.util.DisplayMetrics
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.R.attr.data
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 
 class ToSBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -29,12 +34,18 @@ class ToSBottomSheetDialogFragment : BottomSheetDialogFragment() {
     lateinit var binding: FragmentTosBottomSheetDialogBinding
     lateinit var root: View
 
+    var data: String = "";
+    var inputStream: InputStream? = null
+    var byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tos_bottom_sheet_dialog, container, false)
         binding.signUp2ViewModel = signUp2ViewModel
         root = binding.root
 
         viewModelCallback()
+        inputStream = resources.openRawResource(R.raw.tos)
+        binding.tvTos.text = readTxt()
 
         return root
     }
@@ -77,6 +88,23 @@ class ToSBottomSheetDialogFragment : BottomSheetDialogFragment() {
         signUp2ViewModel.dissmissTos.observe(viewLifecycleOwner, Observer {
             this.dismiss()
         })
+    }
+
+    fun readTxt(): String {
+        try {
+            var read: Int = inputStream!!.read()
+            while (read != -1) {
+                byteArrayOutputStream.write(read)
+                read = inputStream!!.read()
+            }
+            data = String(byteArrayOutputStream.toByteArray())
+            inputStream?.close()
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return data
     }
 
     override fun onDismiss(dialog: DialogInterface) {

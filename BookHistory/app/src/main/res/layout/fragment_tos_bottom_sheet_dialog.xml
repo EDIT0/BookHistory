@@ -2,11 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="signUp2ViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.login.SignUp2ViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,40 +18,40 @@
             android:id="@+id/ib_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close_black_24dp"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="28dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:background="@android:color/transparent"
             android:onClick="@{()-> signUp2ViewModel.closeToSFragment()}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_close_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_title"
             android:layout_marginTop="33dp"
-            android:textSize="18sp"
             android:fontFamily="@font/notosanskr_medium"
-            android:textColor="#303030"
             android:text="개인정보 취급방침 및 이용약관"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="#303030"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/ib_close"
-            app:layout_constraintStart_toStartOf="parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ib_close">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,15 +59,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:gravity="start|top"
+                    android:id="@+id/tv_tos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n"/>
+                    android:gravity="start|top"
+                    android:text="이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n이용약관\n"
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </ScrollView>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

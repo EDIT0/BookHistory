@@ -65,6 +65,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         binding.rcRecentSearchs.layoutManager = layoutmanager
         binding.rcRecentSearchs.adapter = recentSearchesAdapter
 
+        binding.recentSearchsNestedScrollView.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.searchBackgroundView.isSelected = binding.recentSearchsNestedScrollView.canScrollVertically(-1)
+        }
+
 //        binding.rcRecentSearchs.addOnScrollListener(object :
 //            RecyclerView.OnScrollListener() {
 //            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

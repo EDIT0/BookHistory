@@ -15,62 +15,67 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/actionBarView"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
+            android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/actionbar_background_shadow"
+            android:background="#ffffff"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed" >
 
-        <ImageButton
-            android:id="@+id/ib_backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> writeTextMemoViewModel.backButton()}"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
-            app:layout_constraintEnd_toStartOf="@+id/tv_title"
-            app:layout_constraintStart_toStartOf="@+id/actionBarView"
-            app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+            <ImageButton
+                android:id="@+id/ib_backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> writeTextMemoViewModel.backButton()}"
+                android:src="@drawable/ic_arrow_back_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+                app:layout_constraintEnd_toStartOf="@+id/tv_title"
+                app:layout_constraintStart_toStartOf="@+id/actionBarView"
+                app:layout_constraintTop_toTopOf="@+id/actionBarView" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:gravity="center|start"
-            android:singleLine="true"
-            android:text="@={writeTextMemoViewModel.bookTitle}"
-            android:textColor="#303030"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
-            app:layout_constraintEnd_toStartOf="@+id/ib_checkButton"
-            app:layout_constraintStart_toEndOf="@+id/ib_backButton"
-            app:layout_constraintTop_toTopOf="@+id/actionBarView"
-            tools:text="미움받을 용기" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:singleLine="true"
+                android:text="@={writeTextMemoViewModel.bookTitle}"
+                android:textColor="#303030"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+                app:layout_constraintEnd_toStartOf="@+id/ib_checkButton"
+                app:layout_constraintStart_toEndOf="@+id/ib_backButton"
+                app:layout_constraintTop_toTopOf="@+id/actionBarView"
+                tools:text="미움받을 용기" />
 
-        <ImageButton
-            android:id="@+id/ib_checkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="20dp"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> writeTextMemoViewModel.saveMemo()}"
-            android:src="@drawable/ic_check_orange_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
-            app:layout_constraintEnd_toEndOf="@+id/actionBarView"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@+id/tv_title"
-            app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+            <ImageButton
+                android:id="@+id/ib_checkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> writeTextMemoViewModel.saveMemo()}"
+                android:src="@drawable/ic_check_orange_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/actionBarView"
+                app:layout_constraintEnd_toEndOf="@+id/actionBarView"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@+id/tv_title"
+                app:layout_constraintTop_toTopOf="@+id/actionBarView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -92,9 +97,9 @@
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@null"
+                    android:background="#ffffff"
                     android:gravity="start|top"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:hint="메모 작성"
                     android:textColor="#595959"
                     android:textSize="16sp"

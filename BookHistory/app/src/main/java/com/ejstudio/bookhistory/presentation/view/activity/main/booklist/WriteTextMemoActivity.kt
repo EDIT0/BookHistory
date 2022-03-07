@@ -67,6 +67,7 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
         binding.writeTextMemoViewModel = writeTextMemoViewModel
 
         recvIntent()
+        scrollingSetting()
         viewModelCallback()
 
 //        dataPath = filesDir.toString()+ "/tesseract/" //언어데이터의 경로 미리 지정
@@ -84,6 +85,12 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
         writeTextMemoViewModel.book_idx = intent.getIntExtra("book_idx", 0)
         writeTextMemoViewModel.bookTitle = intent.getStringExtra("bookTitle")!!
         Log.i(TAG, "책 idx: " + writeTextMemoViewModel.book_idx)
+    }
+
+    fun scrollingSetting() {
+        binding.etContents.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.actionBarView.isSelected = binding.etContents.canScrollVertically(-1)
+        }
     }
 
     fun viewModelCallback() {

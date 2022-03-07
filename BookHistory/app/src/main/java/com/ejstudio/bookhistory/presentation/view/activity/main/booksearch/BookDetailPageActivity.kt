@@ -10,6 +10,8 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 
 
 class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.layout.activity_book_detail_page) {
@@ -24,6 +26,7 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
 
 
         recvIntent()
+        settingRecyclerView()
         viewModelCallback()
     }
 
@@ -54,6 +57,12 @@ class BookDetailPageActivity : BaseActivity<ActivityBookDetailPageBinding>(R.lay
         Log.i(TAG, "리시브 title: " + bookDetailPageViewModel.title)
         Log.i(TAG, "리시브 translators: " + bookDetailPageViewModel.translators)
         Log.i(TAG, "리시브 url: " + bookDetailPageViewModel.url)
+    }
+
+    fun settingRecyclerView() {
+        binding.scrollView.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.actionBarBackgroundView.isSelected = binding.scrollView.canScrollVertically(-1)
+        }
     }
 
     fun viewModelCallback() {

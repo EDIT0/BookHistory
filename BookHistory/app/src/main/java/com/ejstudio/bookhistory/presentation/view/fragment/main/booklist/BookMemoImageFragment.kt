@@ -77,13 +77,11 @@ class BookMemoImageFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!binding.rcImageMemoList.canScrollVertically(-1)) {
 //                    Log.i(TAG, "Top of list")
-                    BookActivity.nestedScrollingController()
+                    BookActivity.isNestedScrolling.setValue(true)
                 } else if (!binding.rcImageMemoList.canScrollVertically(1)) {
 //                    Log.i(TAG, "End of list")
-//                    BookActivity.BookActivity.isRecyclerTop = false
                 } else {
 //                    Log.i(TAG, "idle")
-//                    BookActivity.BookActivity.isRecyclerTop = false
                 }
             }
         })

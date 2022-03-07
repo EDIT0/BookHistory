@@ -15,59 +15,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/searchBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff"
+            android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed" >
 
-        <View
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="8dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/search_background"
-            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toStartOf="@+id/iv_searchButton"
-            app:layout_constraintStart_toStartOf="@+id/searchBackgroundView"
-            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <!--책 제목 / 지은이 검색-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="책 제목 / 지은이 검색"
-            android:layout_marginStart="15dp"
-            android:textColor="#858585"
-            app:layout_constraintTop_toTopOf="@+id/searchView"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"/>
+                <View
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/search_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_searchButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_search_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintEnd_toEndOf="@+id/searchBackgroundView"
-            app:layout_constraintStart_toEndOf="@+id/searchView"
-            app:layout_constraintTop_toTopOf="@+id/searchBackgroundView" />
+                <!--책 제목 / 지은이 검색-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="책 제목 / 지은이 검색"
+                    android:layout_marginStart="15dp"
+                    android:textColor="#858585"
+                    app:layout_constraintTop_toTopOf="@+id/searchView"
+                    app:layout_constraintStart_toStartOf="@+id/searchView"
+                    app:layout_constraintBottom_toBottomOf="@+id/searchView"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />
+                <ImageView
+                    android:id="@+id/iv_searchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_search_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/searchView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#cccccc"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />-->
 
         <ScrollView
             android:id="@+id/scrollView"

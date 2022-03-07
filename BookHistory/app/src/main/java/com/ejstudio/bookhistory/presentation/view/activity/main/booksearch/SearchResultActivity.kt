@@ -107,6 +107,10 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding>(R.layout.
                 }
             }
         })
+
+        binding.rcBookResult.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.searchBackgroundView.isSelected = binding.rcBookResult.canScrollVertically(-1)
+        }
     }
 
     fun viewModelCallback() {

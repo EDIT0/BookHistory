@@ -83,6 +83,10 @@ class BookListFragment : Fragment() {
         binding.rcBookList.layoutManager = layoutmanager
         binding.rcBookList.adapter = bookListAdapter
         binding.rcBookList.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+
+        binding.nestedScrollview.setOnScrollChangeListener { view, i, i2, i3, i4 ->
+            binding.actionBarBackgroundView.isSelected = binding.nestedScrollview.canScrollVertically(-1)
+        }
     }
 
     fun dataEmptyScreenSetting() {

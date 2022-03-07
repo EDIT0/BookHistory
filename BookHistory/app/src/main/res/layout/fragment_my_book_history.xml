@@ -26,7 +26,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
             app:mcv_selectionColor="#ffffff"
-            app:mcv_selectionMode="single" />
+            app:mcv_selectionMode="single"
+            app:mcv_dateTextAppearance="@style/calendarDateAppearance"
+            app:mcv_weekDayTextAppearance="@style/calendarweekAppearance"
+            app:mcv_headerTextAppearance="@style/calendarmonthAppearance"
+            />
 
         <!--        <com.kizitonwose.calendarview.CalendarView-->
         <!--            android:id="@+id/calendarView"-->
