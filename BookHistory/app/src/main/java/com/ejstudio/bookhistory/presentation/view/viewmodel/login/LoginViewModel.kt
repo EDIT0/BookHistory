@@ -45,7 +45,12 @@ class LoginViewModel(
         } else {
             Log.i(TAG, "로그인 실행한다. ${inputEmail.value} ${inputPassword.value}")
             compositeDisposable.add(isLoginAuthUseCase.execute(inputEmail.value!!, inputPassword.value!!)
+                .doOnSubscribe { showProgress() }
+                .doAfterTerminate {
+                    hideProgress()
+                }
                 .subscribe {
+                    hideProgress()
                     Log.i(TAG, "로그인 허가 메시지: " + it)
                     if (it.toString().toBoolean()) {
                         snackbarMessage = "Login Success"
@@ -65,6 +70,10 @@ class LoginViewModel(
         compositeDisposable.add(checkEmailUseCase.execute(kakaoUserId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { showProgress() }
+            .doAfterTerminate {
+                hideProgress()
+            }
             .subscribe ({ it ->
                 Log.e(TAG, "(카카오로그인) 이미 가입했는지? 있:true 없:false : ${it.returnvalue.toString().toBoolean()}")
                 if(!it.returnvalue.toString().toBoolean()) { // 가입 이력이 없으면 false, 있으면 true

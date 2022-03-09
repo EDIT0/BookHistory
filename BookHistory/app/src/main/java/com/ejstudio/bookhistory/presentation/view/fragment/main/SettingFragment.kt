@@ -3,6 +3,7 @@ package com.ejstudio.bookhistory.presentation.view.fragment.main
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,13 @@ import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.databinding.FragmentSettingBinding
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
+import com.ejstudio.bookhistory.presentation.view.fragment.login.ToSBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
 import com.ejstudio.bookhistory.util.UserInfo
+import com.kakao.sdk.user.UserApiClient
+
+
+
 
 class SettingFragment : Fragment() {
 
@@ -34,6 +40,8 @@ class SettingFragment : Fragment() {
     lateinit var mainViewModel: MainViewModel
 
     lateinit var dialog: Dialog
+
+    private lateinit var bottomSheet: ToSBottomSheetDialogFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
@@ -98,11 +106,27 @@ class SettingFragment : Fragment() {
             val subTitle = "모든 정보가 즉시 삭제됩니다"
             showDeleteDialog(title, subTitle, REMOVE_ACCOUNT)
         }
+        binding.tvTos.setOnClickListener {
+            bottomSheet = ToSBottomSheetDialogFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, "tag")
+        }
     }
 
     fun showDeleteDialog(title: String, subTitle: String, type: String) {
         dialog.findViewById<TextView>(R.id.dialog_tv_title).setText(title)
         dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText(subTitle)
+
+        if(title.length == 0) {
+            dialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.GONE
+        } else {
+            dialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.VISIBLE
+        }
+
+        if(subTitle.length == 0) {
+            dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).visibility = View.GONE
+        } else {
+            dialog.findViewById<TextView>(R.id.dialog_tv_subTitle).visibility = View.VISIBLE
+        }
 
         dialog.show()
 
@@ -128,6 +152,17 @@ class SettingFragment : Fragment() {
 
 
         dialog_confirmation.setOnClickListener {
+            if(dialog_confirmation.text.equals("회원탈퇴")) {
+                UserApiClient.instance.unlink { throwable: Throwable? ->
+                    if (throwable != null) {
+                        // @brief : 연결 끊기 실패
+                        Log.e("[카카오] 로그아웃", "연결 끊기 실패", throwable)
+                    } else {
+                        // @brief : 연결 끊기 성공
+                        Log.i("kakaoLogout", "연결 끊기 성공. SDK에서 토큰 삭제")
+                    }
+                }
+            }
             mainViewModel.accountLogout(type)
             dialog.dismiss()
         }

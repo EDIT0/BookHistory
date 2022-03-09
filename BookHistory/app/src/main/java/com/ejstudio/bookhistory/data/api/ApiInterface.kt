@@ -115,7 +115,7 @@ interface ApiInterface {
         @Query("format") format: String
     ) : Single<RecentPopularBookModel>
 
-    // c
+    // c, i
     @FormUrlEncoded
     @POST("main/DeleteIdxBookInfo.php")
     fun deleteIdxBookInfo(
@@ -155,7 +155,7 @@ interface ApiInterface {
         @Field("edit_memo_contents") edit_memo_contents: String
     ) : Single<CheckTrueOrFalseModel>
 
-    // c
+    // c, i
     @FormUrlEncoded
     @POST("main/InsertImageMemo.php")
     fun insertImageMemo(
@@ -164,6 +164,7 @@ interface ApiInterface {
         @Field("email") email: String
     ) : Single<ImageMemoEntity>
 
+    // i
     @Multipart
     @POST("main/ImageSenderToServer.php")
     fun imageSenderToServer(
@@ -171,10 +172,12 @@ interface ApiInterface {
         @Part imageFile : MultipartBody.Part
     ): Call<String>
 
+    // i
     @FormUrlEncoded
     @POST("main/DeleteIdxImageMemo.php")
     fun deleteIdxImageMemo(
-        @Field("imageMemoIdx") imageMemoIdx: Int
+        @Field("imageMemoIdx") imageMemoIdx: Int,
+        @Field("email") email: String
     ) : Single<CheckTrueOrFalseModel>
 
     // c
@@ -213,7 +216,7 @@ interface ApiInterface {
         @Field("email") email: String
     ) : Single<TotalBookImageMemoListModel>
 
-    // c
+    // c, i
     @FormUrlEncoded
     @POST("login/RemoveUserAccount.php")
     fun removeUserAccount(

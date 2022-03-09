@@ -94,10 +94,27 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
             })
             deleteTextMemo.observe(this@SeeTextMemoActivity, Observer {
                 deleteDialog = Dialog(binding.root.context);       // Dialog 초기화
-//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 타이틀 제거
-                deleteDialog.setContentView(R.layout.dialog_delete_idx_book_info);
-                deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText("글을 삭제하시겠습니까?")
-                deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.INVISIBLE
+//                deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 제거
+                deleteDialog.setContentView(R.layout.dialog_delete_idx_book_info)
+
+                val title = ""
+                val subTitle = "글을 삭제하시겠습니까?"
+
+                deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).setText(subTitle)
+                deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).setText(title)
+
+                if(title.length == 0) {
+                    deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.GONE
+                } else {
+                    deleteDialog.findViewById<TextView>(R.id.dialog_tv_title).visibility = View.VISIBLE
+                }
+
+                if(subTitle.length == 0) {
+                    deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).visibility = View.GONE
+                } else {
+                    deleteDialog.findViewById<TextView>(R.id.dialog_tv_subTitle).visibility = View.VISIBLE
+                }
+
                 showDeleteDialog()
             })
             editButton.observe(this@SeeTextMemoActivity, Observer {
@@ -165,6 +182,7 @@ class SeeTextMemoActivity : BaseActivity<ActivitySeeTextMemoBinding>(R.layout.ac
         val dialog_confirmation: Button = dialog.findViewById(R.id.dialog_confirmation)
         dialog_confirmation.setOnClickListener {
             // 편집화면 종료
+            binding.actionBarView.isSelected = false // 드롭 엘레베이션 false
             Log.i(TAG, "텍스트 길이 ${seeTextMemoViewModel.memo_contents.value.toString().length}")
             seeTextMemoViewModel.textSynchronization()
             seeTextMemoViewModel.isEditMode.value = false

@@ -128,10 +128,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     fun kakaoLogin() {
+        loginViewModel.showProgress()
         if (!loginViewModel.checkNetworkState()) return
         UserApiClient.instance
             .loginWithKakaoTalk(this@LoginActivity) { oAuthToken: OAuthToken?, error: Throwable? ->
                 if (error != null) {
+                    loginViewModel.hideProgress()
                     Log.e(TAG, "로그인 실패 " + error.message)
                     showSnackbar(getString(R.string.NOT_INSTALLED_KAKAOTALK))
                 } else if (oAuthToken != null) {
@@ -139,6 +141,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                     UserApiClient.instance.me { user: User?, meError: Throwable? ->
                         if (meError != null) {
+                            loginViewModel.hideProgress()
                             Log.e(TAG, "사용자 정보 요청 실패", meError)
                         } else {
                             // 기존 가입 이력이 있는지 확인
@@ -169,6 +172,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
 
                             Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id} 이메일: ${user?.kakaoAccount?.email}""".trimIndent())
+                            loginViewModel.hideProgress()
                         }
                     }
                 }

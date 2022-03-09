@@ -11,6 +11,7 @@ import com.ejstudio.bookhistory.domain.repository.BookListRepository
 import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.BookActivity
 import com.ejstudio.bookhistory.util.Converter
 import com.ejstudio.bookhistory.util.ImageSenderModule
+import com.ejstudio.bookhistory.util.UserInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -151,7 +152,7 @@ class BookListRepositorylmpl(
 
                 val imageSenderModule = ImageSenderModule.getInstance()
                 var (server, body) = imageSenderModule.SendImageModule(file, Converter.decByKey(Converter.key, it.memo_image?.trim())!!)
-                server.imageSenderToServer("name2.png", body).enqueue(object: Callback<String> {
+                server.imageSenderToServer(UserInfo.email, body).enqueue(object: Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         Log.d(TAG,"에러")
                         // 이미지 이름 복호화

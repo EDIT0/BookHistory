@@ -91,6 +91,14 @@ class BookListRemoteDataSourcelmpl(
     }
 
     override fun deleteIdxImageMemo(imageMemoIdx: Int): Single<CheckTrueOrFalseModel> {
-        return apiInterface.deleteIdxImageMemo(imageMemoIdx)
+        try {
+            encText = Converter.encByKey(Converter.key, UserInfo.email)!!
+//            decText = Converter.decByKey(Converter.key, encText)!!
+            Log.i(TAG, "이메일 암호화 결과 : $encText")
+//            Log.i(TAG, "이메일 복호화 결과 : $decText")
+        } catch (e: Exception) {
+            Log.i(TAG, "이메일 암호화 에러: " + e.printStackTrace())
+        }
+        return apiInterface.deleteIdxImageMemo(imageMemoIdx, encText)
     }
 }

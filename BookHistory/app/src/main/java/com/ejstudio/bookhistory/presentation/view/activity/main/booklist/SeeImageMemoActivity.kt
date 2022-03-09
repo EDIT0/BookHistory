@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.presentation.view.activity.main.booklist
 
+import android.Manifest
 import android.R.attr
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,14 +25,18 @@ import android.R.attr.path
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import androidx.lifecycle.lifecycleScope
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.ArrayList
 
 
 class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.activity_see_image_memo) {
@@ -120,18 +125,7 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
 //            sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
 //            startActivity(Intent.createChooser(sharingIntent, "Share image using"))
 
-
-            if(!seeImageMemoViewModel.checkNetworkState()) return@setOnClickListener
-            lifecycleScope.launch(Dispatchers.IO) {
-                val bitmap = convertBitmapFromURL(seeImageMemoViewModel.imageUrl.value.toString())
-                val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
-                val bitmapUri = Uri.parse(bitmapPath)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                intent.type = "image/png"
-                startActivity(intent)
-            }
+            checkPermissions()
 
 
         }
@@ -149,5 +143,44 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
 
         }catch (e: Exception) {}
         return null
+    }
+
+    var permissionlistener: PermissionListener = object : PermissionListener {
+        override fun onPermissionGranted() { // 권한 허가시 실행 할 내용
+            initView()
+        }
+        override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
+            // 권한 거부시 실행  할 내용
+            showToast("권한 허용을 하지 않으면 서비스를 이용할 수 없습니다.")
+        }
+    }
+
+    private fun checkPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
+            TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")
+                .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다.\n [설정] > [권한] 에서 사용으로 활성화해주세요.")
+                .setPermissions(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ).check()
+        } else {
+            initView()
+        }
+    }
+
+    fun initView() {
+        if(!seeImageMemoViewModel.checkNetworkState()) return
+        lifecycleScope.launch(Dispatchers.IO) {
+            val bitmap = convertBitmapFromURL(seeImageMemoViewModel.imageUrl.value.toString())
+            val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+            val bitmapUri = Uri.parse(bitmapPath)
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.type = "image/png"
+            startActivity(intent)
+        }
     }
 }
