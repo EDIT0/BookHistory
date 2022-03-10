@@ -150,7 +150,7 @@ val apiModule: Module = module {
 }
 
 val viewModelModule: Module = module {
-    viewModel { SplashViewModel(get(), get()) }
+    viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { SignUpViewModel(get(), get()) }
     viewModel { SignUp2ViewModel(get(), get(), get()) }

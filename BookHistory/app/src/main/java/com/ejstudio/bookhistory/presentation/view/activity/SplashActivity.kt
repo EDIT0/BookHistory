@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
 import com.ejstudio.bookhistory.presentation.view.viewmodel.SplashViewModel
@@ -16,8 +18,12 @@ class SplashActivity : AppCompatActivity() {
     private val TAG = SplashActivity::class.java.simpleName
     private val splashViewModel: SplashViewModel by viewModel()
 
+    private lateinit var mActivity: SplashActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mActivity = this
 
         initViewModelCallback()
 
@@ -35,6 +41,14 @@ class SplashActivity : AppCompatActivity() {
             })
             goToMain.observe(this@SplashActivity, Observer {
                 goToMainActivity()
+            })
+            requestToast.observe(this@SplashActivity, Observer {
+                Toast.makeText(mActivity, getString(R.string.NETWORK_NOT_CONNECTED), Toast.LENGTH_SHORT).show()
+                Thread(Runnable {
+                    Thread.sleep(2000)
+                    finish()
+                }).start()
+
             })
         }
     }

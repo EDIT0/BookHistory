@@ -1,5 +1,7 @@
 package com.ejstudio.bookhistory.presentation.view.adapter.main.booklist
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +12,17 @@ import com.ejstudio.bookhistory.R
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.databinding.BookListItemBinding
 import com.ejstudio.bookhistory.presentation.view.DiffUtil.main.BookListDiffUtil
+import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+
 
 class BookListAdapter: RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
+
+    lateinit var builder: SpannableStringBuilder
+    lateinit var colorBlueSpan: ForegroundColorSpan
 
     private lateinit var listener1: OnBookClickListener
 
@@ -39,6 +50,34 @@ class BookListAdapter: RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
 
         fun bind(info : BookListEntity){
             binding.bookListEntity = info
+
+            when(info.reading_state) {
+                MainViewModel.READING -> {
+                    binding.tvStateDate.text = info.reading_start_datetime?.substring(0,10) + " 부터 읽는 중"
+
+                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
+                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
+                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    binding.tvStateDate.text = builder
+                }
+                MainViewModel.BEFORE_READ -> {
+                    binding.tvStateDate.text = info.add_datetime?.substring(0,10) + " 리스트에 담음"
+
+                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
+                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
+                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    binding.tvStateDate.text = builder
+                }
+                MainViewModel.END_READ -> {
+                    if(info.reading_start_datetime == null || info.reading_start_datetime.length == 0 || info.reading_start_datetime.substring(0, 10).equals("0001-01-01")) {
+                        binding.tvStateDate.text = info.reading_end_datetime?.substring(0, 10) + " ~ " + info.reading_end_datetime?.substring(0, 10)
+                    } else {
+                        binding.tvStateDate.text = info.reading_start_datetime?.substring(0, 10) + " ~ " + info.reading_end_datetime?.substring(0, 10)
+                    }
+                }
+            }
         }
 
     }
