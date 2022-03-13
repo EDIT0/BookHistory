@@ -90,29 +90,60 @@ interface ApiInterface {
     ) : Single<SaveBookInfoModel>
 
 
-    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+//    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+//    fun getRecentPopularBook(
+//        @Query("authKey") authKey : String,
+//        @Query("startDt") startDt : String,
+//        @Query("endDt") endDt: String,
+//        @Query("pageNo") pageNo: Int,
+//        @Query("pageSize") pageSize: Int,
+//        @Query("format") format: String
+//    ) : Single<RecentPopularBookModel>
+//
+//    @GET("${ApiClient.BOOK_BASE_URL}recommandList")
+//    fun getRecommendBook(
+//        @Query("authKey") authKey : String,
+//        @Query("isbn13") isbn13 : String,
+//        @Query("format") format: String
+//    ) : Single<RecommendBookModel>
+//
+//    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+//    fun getAlwaysPopularBook(
+//        @Query("authKey") authKey : String,
+//        @Query("pageNo") pageNo: Int,
+//        @Query("pageSize") pageSize: Int,
+//        @Query("format") format: String
+//    ) : Single<RecentPopularBookModel>
+
+    @FormUrlEncoded
+    @POST("main/GetLibraryInfo.php")
     fun getRecentPopularBook(
-        @Query("authKey") authKey : String,
-        @Query("startDt") startDt : String,
-        @Query("endDt") endDt: String,
-        @Query("pageNo") pageNo: Int,
-        @Query("pageSize") pageSize: Int,
-        @Query("format") format: String
+        @Field("cmd") cmd : String,
+        @Field("authKey") authKey : String,
+        @Field("startDt") startDt : String,
+        @Field("endDt") endDt: String,
+        @Field("pageNo") pageNo: Int,
+        @Field("pageSize") pageSize: Int,
+        @Field("format") format: String
     ) : Single<RecentPopularBookModel>
 
-    @GET("${ApiClient.BOOK_BASE_URL}recommandList")
+    @FormUrlEncoded
+    @POST("main/GetLibraryInfo.php")
     fun getRecommendBook(
-        @Query("authKey") authKey : String,
-        @Query("isbn13") isbn13 : String,
-        @Query("format") format: String
+        @Field("cmd") cmd : String,
+        @Field("authKey") authKey : String,
+        @Field("isbn13") isbn13 : String,
+        @Field("format") format: String
     ) : Single<RecommendBookModel>
 
-    @GET("${ApiClient.BOOK_BASE_URL}loanItemSrch")
+    @FormUrlEncoded
+    @POST("main/GetLibraryInfo.php")
     fun getAlwaysPopularBook(
-        @Query("authKey") authKey : String,
-        @Query("pageNo") pageNo: Int,
-        @Query("pageSize") pageSize: Int,
-        @Query("format") format: String
+        @Field("cmd") cmd : String,
+        @Field("authKey") authKey : String,
+        @Field("pageNo") pageNo: Int,
+        @Field("pageSize") pageSize: Int,
+        @Field("format") format: String
     ) : Single<RecentPopularBookModel>
 
     // c, i

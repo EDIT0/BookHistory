@@ -75,7 +75,7 @@ class BookMemoImageFragment : Fragment() {
         // 리사이클러뷰가 상단을 찍을 시 상위 네스티드 스크롤뷰를 켠다.
         binding.rcImageMemoList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (!binding.rcImageMemoList.canScrollVertically(-1)) {
+                if (!binding.rcImageMemoList.canScrollVertically(-1) && newState == 0) {
 //                    Log.i(TAG, "Top of list")
                     BookActivity.isNestedScrolling.setValue(true)
                 } else if (!binding.rcImageMemoList.canScrollVertically(1)) {

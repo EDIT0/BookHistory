@@ -5,6 +5,7 @@ import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
 import com.ejstudio.bookhistory.domain.model.*
 import com.ejstudio.bookhistory.util.Converter
+import com.google.android.gms.common.api.Api
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.lang.Exception
@@ -62,14 +63,14 @@ class SearchBookRemoteDataSourcelmpl(
     }
 
     override fun getRecentPopularBook(startDt: String, endDt: String, page: Int, pageSize: Int): Single<RecentPopularBookModel> {
-        return apiInterface.getRecentPopularBook(ApiClient.BOOK_API_KEY, startDt, endDt, page, pageSize, ApiClient.FORMAT_JSON)
+        return apiInterface.getRecentPopularBook(ApiClient.RECENT_POPULAR_BOOK, ApiClient.BOOK_API_KEY, startDt, endDt, page, pageSize, ApiClient.FORMAT_JSON)
     }
 
     override fun getRecommendBook(isbn: String): Single<RecommendBookModel> {
-        return apiInterface.getRecommendBook(ApiClient.BOOK_API_KEY, isbn, ApiClient.FORMAT_JSON)
+        return apiInterface.getRecommendBook(ApiClient.RECOMMEND_BOOK, ApiClient.BOOK_API_KEY, isbn, ApiClient.FORMAT_JSON)
     }
 
     override fun getAlwaysPopularBook(page: Int, pageSize: Int): Single<RecentPopularBookModel> {
-        return apiInterface.getAlwaysPopularBook(ApiClient.BOOK_API_KEY, page, pageSize, ApiClient.FORMAT_JSON)
+        return apiInterface.getAlwaysPopularBook(ApiClient.ALWAYS_POPULAR_BOOK, ApiClient.BOOK_API_KEY, page, pageSize, ApiClient.FORMAT_JSON)
     }
 }

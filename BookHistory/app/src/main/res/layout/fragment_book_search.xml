@@ -85,7 +85,8 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="1"
             android:clipToPadding="false"
             android:fillViewport="true"
             android:overScrollMode="never"
@@ -111,8 +112,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="70dp">
+                    android:layout_marginTop="10dp">
 
                     <View
                         android:id="@+id/recentPopularBookBackgroundView"
@@ -265,7 +265,21 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_alwaysPopularBookTitle"
                         tools:itemCount="7" />
                     <!--                    android:layout_marginBottom="10dp"-->
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:text="제공: 도서관 정보나루(국립중앙도서관)"
+                    android:textColor="#595959"
+                    android:paddingVertical="5dp"
+                    android:singleLine="true"
+                    android:paddingHorizontal="10dp"
+                    android:textSize="14sp" />
+
 
             </LinearLayout>
         </ScrollView>

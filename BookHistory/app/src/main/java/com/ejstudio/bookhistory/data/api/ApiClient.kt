@@ -8,5 +8,8 @@ object ApiClient {
     const val BOOK_API_KEY = "ad74877eb97009085637a77085e42aae261e453040fba3f317533cc0fbd4453a"
     const val IMAGE_BASE_URL = "http://edit0@edit0.dothome.co.kr/bookhistory/image/imageMemo/"
 
+    const val RECENT_POPULAR_BOOK = "getRecentPopularBook"
+    const val RECOMMEND_BOOK = "getRecommendBook"
+    const val ALWAYS_POPULAR_BOOK = "getAlwaysPopularBook"
     const val FORMAT_JSON = "json"
 }

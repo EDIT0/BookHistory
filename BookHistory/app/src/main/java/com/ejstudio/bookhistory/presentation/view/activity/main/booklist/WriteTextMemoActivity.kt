@@ -3,9 +3,7 @@ package com.ejstudio.bookhistory.presentation.view.activity.main.booklist
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
-import android.content.ContentValues
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.res.AssetManager
 import android.database.Cursor
 import android.graphics.Bitmap
@@ -69,6 +67,7 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
         recvIntent()
         scrollingSetting()
         viewModelCallback()
+        buttonClickListener()
 
 //        dataPath = filesDir.toString()+ "/tesseract/" //언어데이터의 경로 미리 지정
 //
@@ -122,6 +121,16 @@ class WriteTextMemoActivity : BaseActivity<ActivityWriteTextMemoBinding>(R.layou
 //            clickOCR.observe(this@WriteTextMemoActivity, Observer {
 //                goToCamera()
 //            })
+        }
+    }
+
+    fun buttonClickListener() {
+        binding.ibTextCopy.setOnClickListener {
+            val clipboardManager: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("TEXT", binding.etContents.getText().toString().trim()) //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
+            clipboardManager.setPrimaryClip(clipData)
+
+            showToast("✔")
         }
     }
 

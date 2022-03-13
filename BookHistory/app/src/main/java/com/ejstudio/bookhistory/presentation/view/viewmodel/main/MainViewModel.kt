@@ -252,8 +252,9 @@ class MainViewModel(
 
     fun getRecentPopularBookList() {
         if (!checkNetworkState()) return
+        var _page = (1..10).random()
         compositeDisposable.add(
-            getRecentPopularBookUseCase.execute(before60days, todayDate, page, pageSize)
+            getRecentPopularBookUseCase.execute(before60days, todayDate, _page, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }
@@ -311,8 +312,9 @@ class MainViewModel(
     * */
     fun getAlwaysPopularBookList() {
         if (!checkNetworkState()) return
+        var _page = (1..10).random()
         compositeDisposable.add(
-            getAlwaysPopularBookUseCase.execute(page, pageSize)
+            getAlwaysPopularBookUseCase.execute(_page, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }

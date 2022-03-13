@@ -185,7 +185,14 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 showSnackbar(snackbarMessage)
             })
             isNestedScrolling.observe(this@BookActivity, Observer {
+                Log.i(TAG, "현재 스크롤링 상태: ${it}")
                 binding.nestedScrollview.isNestedScrollingEnabled = it
+
+                if(it) {
+
+                } else {
+                    binding.motionlayout.transitionToEnd()
+                }
             })
         }
     }
@@ -233,6 +240,9 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
                     bookViewModel.currentTab = BookViewModel.IMAGE
                 }
+
+                binding.motionlayout.transitionToEnd()
+                isNestedScrolling.setValue(false)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -241,6 +251,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // 이미 선택된 탭이 다시 선택 되었을 때
+                binding.motionlayout.transitionToEnd()
+                isNestedScrolling.setValue(false)
             }
         })
     }

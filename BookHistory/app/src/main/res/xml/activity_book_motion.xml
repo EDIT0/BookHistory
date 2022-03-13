@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/collapsed"
         motion:constraintSetStart="@+id/expanded"
-        motion:duration="1000"
+        motion:duration="200"
         motion:motionInterpolator="linear">
 
         <OnSwipe
