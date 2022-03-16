@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#ffffff"
-            android:gravity="start|center"
             android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:textColor="#303030"
+                android:layout_gravity="start|center"
                 android:textSize="20sp"
                 android:fontFamily="@font/seoulnamsancbl_regular"
                 app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
@@ -51,11 +51,52 @@
                 android:id="@+id/ib_selectionImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_expand_more_orange_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_selection"
                 app:layout_constraintStart_toEndOf="@+id/tv_selection"
                 app:layout_constraintTop_toTopOf="@+id/tv_selection" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/yearPickerLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="20dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="7dp"
+                    android:background="@drawable/year_background_round"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="2022"
+                        android:letterSpacing="-0.02"
+                        android:textColor="#303030"
+                        android:gravity="center"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_unfold_more_24dp"/>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

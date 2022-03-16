@@ -8,7 +8,7 @@ import com.ejstudio.bookhistory.domain.repository.MyBookHistoryRepository
 class GetEmailTotalTextImageMemoUseCase(
     private val myBookHistoryRepository: MyBookHistoryRepository
 ) {
-    fun execute(email: String) : LiveData<List<TextImageMemoModel>> {
-        return myBookHistoryRepository.getEmailTotalTextImageMemoList(email)
+    fun execute(email: String, calendarYear: String) : LiveData<List<TextImageMemoModel>> {
+        return myBookHistoryRepository.getEmailTotalTextImageMemoList(email, calendarYear)
     }
 }

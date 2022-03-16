@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
     }
 
     private val TAG: String? = MainActivity::class.java.simpleName
-    val mainViewModel: MainViewModel by viewModel()
+    public val mainViewModel: MainViewModel by viewModel()
 
 //    lateinit var bookListFragment: BookListFragment
 //    lateinit var bookSearchFragment: BookSearchFragment
@@ -108,39 +108,65 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         /*
         * 메인으로 보여줄 프래그먼트 불러오기
         * */
-        fragmentManager.beginTransaction()
-            .replace(R.id.mainFramelayout, bookListFragment)
-            .commitAllowingStateLoss()
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.mainFramelayout, bookListFragment)
+//            .commitAllowingStateLoss()
+        fragmentManager.beginTransaction().add(R.id.mainFramelayout, bookListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.mainFramelayout, bookSearchFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.mainFramelayout, myBookHistoryFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.mainFramelayout, settingFragment).commit()
+
+        fragmentManager.beginTransaction().show(bookListFragment).commit()
+        fragmentManager.beginTransaction().hide(bookSearchFragment).commit()
+        fragmentManager.beginTransaction().hide(myBookHistoryFragment).commit()
+        fragmentManager.beginTransaction().hide(settingFragment).commit()
+
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(object : BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when (item.itemId) {
                     R.id.tab_list -> {
-                        fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                            .replace(R.id.mainFramelayout, bookListFragment)
-                            .commit()
+                        if(bookListFragment != null) fragmentManager.beginTransaction().show(bookListFragment).commit()
+                        if(bookSearchFragment != null) fragmentManager.beginTransaction().hide(bookSearchFragment).commit()
+                        if(myBookHistoryFragment != null) fragmentManager.beginTransaction().hide(myBookHistoryFragment).commit()
+                        if(settingFragment != null) fragmentManager.beginTransaction().hide(settingFragment).commit()
+//                        fragmentManager.beginTransaction()
+//                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+//                            .replace(R.id.mainFramelayout, bookListFragment)
+//                            .commit()
                         true
                     }
                     R.id.tab_search -> {
-                        fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                            .replace(R.id.mainFramelayout, bookSearchFragment)
-                            .commit()
+                        if(bookListFragment != null) fragmentManager.beginTransaction().hide(bookListFragment).commit()
+                        if(bookSearchFragment != null) fragmentManager.beginTransaction().show(bookSearchFragment).commit()
+                        if(myBookHistoryFragment != null) fragmentManager.beginTransaction().hide(myBookHistoryFragment).commit()
+                        if(settingFragment != null) fragmentManager.beginTransaction().hide(settingFragment).commit()
+//                        fragmentManager.beginTransaction()
+//                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+//                            .replace(R.id.mainFramelayout, bookSearchFragment)
+//                            .commit()
                         true
                     }
                     R.id.tab_history -> {
-                        fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                            .replace(R.id.mainFramelayout, myBookHistoryFragment)
-                            .commit()
+                        if(bookListFragment != null) fragmentManager.beginTransaction().hide(bookListFragment).commit()
+                        if(bookSearchFragment != null) fragmentManager.beginTransaction().hide(bookSearchFragment).commit()
+                        if(myBookHistoryFragment != null) fragmentManager.beginTransaction().show(myBookHistoryFragment).commit()
+                        if(settingFragment != null) fragmentManager.beginTransaction().hide(settingFragment).commit()
+//                        fragmentManager.beginTransaction()
+//                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+//                            .replace(R.id.mainFramelayout, myBookHistoryFragment)
+//                            .commit()
                         true
                     }
                     R.id.tab_setting -> {
-                        fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                            .replace(R.id.mainFramelayout, settingFragment)
-                            .commit()
+                        if(bookListFragment != null) fragmentManager.beginTransaction().hide(bookListFragment).commit()
+                        if(bookSearchFragment != null) fragmentManager.beginTransaction().hide(bookSearchFragment).commit()
+                        if(myBookHistoryFragment != null) fragmentManager.beginTransaction().hide(myBookHistoryFragment).commit()
+                        if(settingFragment != null) fragmentManager.beginTransaction().show(settingFragment).commit()
+//                        fragmentManager.beginTransaction()
+//                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+//                            .replace(R.id.mainFramelayout, settingFragment)
+//                            .commit()
                         true
                     }
                 }

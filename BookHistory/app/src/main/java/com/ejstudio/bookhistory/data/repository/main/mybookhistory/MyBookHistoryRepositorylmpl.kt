@@ -14,8 +14,8 @@ class MyBookHistoryRepositorylmpl(
 
     private val TAG = MyBookHistoryRepository::class.java.simpleName
 
-    override fun getEmailTotalTextImageMemoList(email: String): LiveData<List<TextImageMemoModel>> {
-        return myBookHistoryLocalDataSource.getEmailTotalTextImageMemoList(email)
+    override fun getEmailTotalTextImageMemoList(email: String, calendarYear: String): LiveData<List<TextImageMemoModel>> {
+        return myBookHistoryLocalDataSource.getEmailTotalTextImageMemoList(email, calendarYear)
     }
 
     override fun getCalendarDateMemoList(email: String, calendarDate: String): LiveData<List<TextImageMemoModel>> {

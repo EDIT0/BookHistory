@@ -1,6 +1,7 @@
 package com.ejstudio.bookhistory.presentation.view.viewmodel.main
 
 import android.util.Log
+import androidx.annotation.Nullable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.api.ApiClient
@@ -30,9 +31,20 @@ import com.ejstudio.bookhistory.util.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.Task
+import java.lang.Exception
+import java.time.LocalDate
+
 
 class MainViewModel(
     private val getTotalBookUseCase : GetTotalBookUseCase,
@@ -68,10 +80,15 @@ class MainViewModel(
     var page = 1
     var pageSize = 10
     var calendarDate = MutableLiveData<String>()
+    var pickerYear= MutableLiveData<String>() // 책 리스트 연도
+    val onlyDate: LocalDate = LocalDate.now()
+    var calendarYear = MutableLiveData<String>()
 
     init {
+        pickerYear.value = onlyDate.toString().substring(0,4)
+        calendarYear.value = onlyDate.toString().substring(0,4)
         getDate(-60) // 현 시간 기준 60일 전 날짜 구하기
-        Log.i(TAG, "메인 뷰 모델 호출!!!!!!!!!!!!!!!!!!!!!!!")
+        Log.i(TAG, "메인 뷰 모델 호출!!!!!!!!!!!!!!!!!!!!!!! ${pickerYear.value.toString()}")
         Log.i(TAG, "요청 url:  ${ApiClient.BOOK_BASE_URL}loanItemSrch?authKey=${ApiClient.BOOK_API_KEY}&startDt=$before60days" +
                 "&endDt=$todayDate&page=$page&pageSize=${pageSize}&format=${ApiClient.FORMAT_JSON}" )
 
@@ -208,16 +225,35 @@ class MainViewModel(
     val totalBookList: LiveData<List<BookListEntity>> get() = _totalBookList
 
     // 읽기 전
-    private val _beforeReadBookList = getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ)
-    val beforeReadBookList: LiveData<List<BookListEntity>> get() = _beforeReadBookList
+    val beforeReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+        getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ, param)
+    }
 
     // 읽는 중
-    private val _readingBookList = getReadingBookUseCase.execute(UserInfo.email, READING)
-    val readingBookList: LiveData<List<BookListEntity>> get() = _readingBookList
+    val readingBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+        getReadingBookUseCase.execute(UserInfo.email, READING, param)
+    }
 
     // 읽은 후
-    private val _endReadBookList = getEndReadBookUseCase.execute(UserInfo.email, END_READ)
-    val endReadBookList: LiveData<List<BookListEntity>> get() = _endReadBookList
+    val endReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+        getEndReadBookUseCase.execute(UserInfo.email, END_READ, param)
+    }
+
+    fun searchByCategory(param: String) {
+        pickerYear.value = param
+    }
+
+    // 읽기 전
+//    private val _beforeReadBookList = getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ, pickerYear.value.toString())
+//    val beforeReadBookList: LiveData<List<BookListEntity>> get() = _beforeReadBookList
+
+    // 읽는 중
+//    private val _readingBookList = getReadingBookUseCase.execute(UserInfo.email, READING, pickerYear.value.toString())
+//    val readingBookList: LiveData<List<BookListEntity>> get() = _readingBookList
+
+    // 읽은 후
+//    private val _endReadBookList = getEndReadBookUseCase.execute(UserInfo.email, END_READ)
+//    val endReadBookList: LiveData<List<BookListEntity>> get() = _endReadBookList
 
     // 요즘 많이 읽는 책들
     private val _recentPopularBookList = ArrayList<RecentPopularBookModel.Response.Doc>()
@@ -232,8 +268,12 @@ class MainViewModel(
     val alwaysPopularBookList = MutableLiveData<ArrayList<RecentPopularBookModel.Response.Doc>>()
 
     // 글, 이미지 메모 리스트
-    private val _totalTextImageMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email)
-    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
+    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> = Transformations.switchMap(calendarYear) { param->
+        getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
+    }
+    // 글, 이미지 메모 리스트
+//    private val _totalTextImageMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email)
+//    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
 
 
 
@@ -417,8 +457,20 @@ class MainViewModel(
             }
             .subscribe({
                 Log.i(TAG, "유저 삭제 성공")
-                FirebaseAuth.getInstance().currentUser?.delete()
-                _logoutSuccess.value = Unit
+                FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener(object : OnFailureListener,
+                    OnCompleteListener<Void> {
+                    override fun onFailure(p0: Exception) {
+                        Log.i(TAG, "성공")
+                        _logoutSuccess.value = Unit
+                    }
+
+                    override fun onComplete(p0: Task<Void>) {
+                        Log.i(TAG, "실패")
+                        _logoutSuccess.value = Unit
+                    }
+
+                })
+
             }, {
                 Log.i(TAG, "유저 삭제 오류 " + it.message.toString())
             })

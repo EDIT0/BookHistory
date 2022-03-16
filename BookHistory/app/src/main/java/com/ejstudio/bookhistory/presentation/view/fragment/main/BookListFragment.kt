@@ -1,5 +1,7 @@
 package com.ejstudio.bookhistory.presentation.view.fragment.main
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.databinding.DataBindingUtil
@@ -34,6 +33,20 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.AdRequest
 
 import com.google.android.gms.ads.MobileAds
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.content.res.Resources
+import android.os.Build
+import android.widget.*
+import android.widget.DatePicker.OnDateChangedListener
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.ejstudio.bookhistory.data.model.BookListEntity
+import com.ejstudio.bookhistory.util.UserInfo
+import java.lang.reflect.Field
+import java.time.LocalDate
+import java.util.*
+
 
 class BookListFragment : Fragment() {
 
@@ -65,7 +78,6 @@ class BookListFragment : Fragment() {
         dataEmptyScreenSetting()
         viewModelCallback()
         buttonClickListener()
-
 
         return binding.root
     }
@@ -140,7 +152,11 @@ class BookListFragment : Fragment() {
                     }
                 }
             })
+//            busObservable.observe(viewLifecycleOwner, Observer {
+//                Log.i(TAG, "코드님: ${it.toString()}")
+//            })
             beforeReadBookList.observe(viewLifecycleOwner, Observer {
+                Log.i(TAG, "코드응답왔다. ${_selectedMenu.value} ${getString(R.string.before_read)}")
                 try{
                     if(_selectedMenu.value.equals(getString(R.string.before_read))) {
                         Log.i(TAG, "읽을 책 순: ${it}")
@@ -182,12 +198,13 @@ class BookListFragment : Fragment() {
                 bookListAdapter.updataList(listOf())
                 when (it) {
                     getString(R.string.before_read) -> {
-                        if(beforeReadBookList.value == null || beforeReadBookList.value?.size == 0) {
+                        if (beforeReadBookList.value == null || beforeReadBookList.value?.size == 0) {
                             mainViewModel.showDataEmptyScreen()
                         } else {
                             mainViewModel.hideDataEmptyScreen()
                             bookListAdapter.updataList(beforeReadBookList.value!!)
                         }
+
                     }
                     getString(R.string.reading) -> {
                         if(readingBookList.value == null || readingBookList.value?.size == 0) {
@@ -269,6 +286,53 @@ class BookListFragment : Fragment() {
                 requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.not_move_activity)
             }
         })
+        binding.yearPickerLayout.setOnClickListener {
+            val dialog = AlertDialog.Builder(context).create()
+
+            val edialog : LayoutInflater = LayoutInflater.from(context)
+            val mView : View = edialog.inflate(R.layout.year_picker_dialog,null)
+
+            val year : NumberPicker = mView.findViewById(R.id.yearpicker_datepicker)
+//            val month : NumberPicker = mView.findViewById(R.id.monthpicker_datepicker)
+            val cancel : Button = mView.findViewById(R.id.dialog_cancel)
+            val save : Button = mView.findViewById(R.id.dialog_confirmation)
+
+
+            //  순환 안되게 막기
+            year.wrapSelectorWheel = false
+
+            //  editText 설정 해제
+            year.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+
+            //  최소값 설정
+            year.minValue = 1950
+
+            //  최대값 설정
+            year.maxValue = 2200
+
+            year.value = mainViewModel.pickerYear.value.toString().toInt()
+
+            //  취소 버튼 클릭 시
+            cancel.setOnClickListener {
+                dialog.dismiss()
+                dialog.cancel()
+            }
+
+            //  완료 버튼 클릭 시
+            save.setOnClickListener {
+                binding.tvYear.text = year.value.toString()
+                mainViewModel.pickerYear.value = year.value.toString()
+                mainViewModel.searchByCategory(year.value.toString()) // Room 쿼리 변경 후 리스트 갱신
+
+                dialog.dismiss()
+                dialog.cancel()
+            }
+
+            dialog.setView(mView)
+            dialog.create()
+
+            dialog.show()
+        }
     }
 
 }

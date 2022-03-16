@@ -130,6 +130,7 @@ class SignUp2Activity : BaseActivity<ActivitySignUp2Binding>(R.layout.activity_s
 
     private fun goToMainActivity() {
         var intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra("WhatIsTheTypeOfLogin", MainActivity.FIRST_LOGIN)
         startActivity(intent)
         finish()

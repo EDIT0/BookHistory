@@ -23,7 +23,7 @@
     <string name="before_read_book_empty">읽고 싶은 책,\n잊기 전에 담아둬요</string>
     <string name="reading_book_empty">담아둔 책을 오늘 읽어볼까요?\n아래 <font color='#ffa967'>책 검색</font>에서 읽을 책을 저장해요</string>
     <string name="end_read_book_empty">완독하지 않아도 좋아요\n나만의 생각을 기록해요</string>
-    <string name="COMPLETE_ADD_BOOK">서재에 책을 담았습니다.</string>
+    <string name="COMPLETE_ADD_BOOK">리스트에 책을 담았습니다.</string>
     <string name="ALREADY_GET_BOOK">이미 가지고 있는 책입니다.</string>
 
 </resources>

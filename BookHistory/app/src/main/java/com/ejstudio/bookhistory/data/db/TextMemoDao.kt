@@ -47,12 +47,12 @@ interface TextMemoDao {
 
     @Query("SELECT BookListEntity.title, TextMemoEntity.idx, TextMemoEntity.booklist_idx, TextMemoEntity.memo_contents, TextMemoEntity.save_datetime, TextMemoEntity.email " +
             "from TextMemoEntity, BookListEntity " +
-            "WHERE TextMemoEntity.email= :email and BookListEntity.idx = TextMemoEntity.booklist_idx " +
+            "WHERE TextMemoEntity.email= :email and BookListEntity.idx = TextMemoEntity.booklist_idx and save_datetime LIKE '%' || :calendarYear || '%' " +
             "union " +
             "SELECT BookListEntity.title, ImageMemoEntity.idx, ImageMemoEntity.booklist_idx, ImageMemoEntity.memo_image, ImageMemoEntity.save_datetime, ImageMemoEntity.email " +
             "from ImageMemoEntity, BookListEntity " +
-            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx")
-    fun getEmailTotalTextImageMemo(email: String): LiveData<List<TextImageMemoModel>>
+            "WHERE ImageMemoEntity.email = :email and BookListEntity.idx = ImageMemoEntity.booklist_idx and save_datetime LIKE '%' || :calendarYear || '%'")
+    fun getEmailTotalTextImageMemo(email: String, calendarYear: String): LiveData<List<TextImageMemoModel>>
 
     @Query("SELECT * FROM (SELECT BookListEntity.title, TextMemoEntity.idx, TextMemoEntity.booklist_idx, TextMemoEntity.memo_contents, TextMemoEntity.save_datetime, TextMemoEntity.email " +
             "from TextMemoEntity, BookListEntity " +

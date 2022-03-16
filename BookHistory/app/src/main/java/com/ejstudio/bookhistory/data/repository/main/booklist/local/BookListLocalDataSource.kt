@@ -9,9 +9,9 @@ import io.reactivex.rxjava3.core.Single
 
 interface BookListLocalDataSource {
     fun getTotalBookList(email: String) : LiveData<List<BookListEntity>>
-    fun getBeforeReadBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
-    fun getReadingBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
-    fun getEndReadBookList(email: String, reading_state: String) : LiveData<List<BookListEntity>>
+    fun getBeforeReadBookList(email: String, reading_state: String, pickerYear: String) : LiveData<List<BookListEntity>>
+    fun getReadingBookList(email: String, reading_state: String, pickerYear: String) : LiveData<List<BookListEntity>>
+    fun getEndReadBookList(email: String, reading_state: String, pickerYear: String) : LiveData<List<BookListEntity>>
     fun getIdxBookInfo(email: String, idx: Int, reading_state: String) : LiveData<BookListEntity>
     fun deleteIdxBookInfo(email: String, idx: Int) : Completable
     fun updateBookReadingState_before(email: String, idx: Int, reading_state: String, reading_start_datetime: String, reading_end_datetime: String, add_datetiem: String) : Completable

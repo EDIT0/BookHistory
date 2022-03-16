@@ -5,6 +5,6 @@ import com.ejstudio.bookhistory.data.model.TextMemoEntity
 import com.ejstudio.bookhistory.domain.model.TextImageMemoModel
 
 interface MyBookHistoryLocalDataSource {
-    fun getEmailTotalTextImageMemoList(email: String) : LiveData<List<TextImageMemoModel>>
+    fun getEmailTotalTextImageMemoList(email: String, calendarYear: String) : LiveData<List<TextImageMemoModel>>
     fun getCalendarDateMemoList(email: String, calendarDate: String) : LiveData<List<TextImageMemoModel>>
 }

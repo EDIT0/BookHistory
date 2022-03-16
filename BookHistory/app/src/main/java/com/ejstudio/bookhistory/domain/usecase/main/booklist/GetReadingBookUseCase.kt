@@ -7,7 +7,7 @@ import com.ejstudio.bookhistory.domain.repository.BookListRepository
 class GetReadingBookUseCase(
     private val bookListRepository: BookListRepository
 ) {
-    fun execute(email: String, reading_state: String) : LiveData<List<BookListEntity>> {
-        return bookListRepository.getReadingBookList(email, reading_state)
+    fun execute(email: String, reading_state: String, pickerYear: String) : LiveData<List<BookListEntity>> {
+        return bookListRepository.getReadingBookList(email, reading_state, pickerYear)
     }
 }

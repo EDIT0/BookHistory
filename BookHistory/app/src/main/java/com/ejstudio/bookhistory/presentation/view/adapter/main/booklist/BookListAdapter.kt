@@ -55,20 +55,20 @@ class BookListAdapter: RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
                 MainViewModel.READING -> {
                     binding.tvStateDate.text = info.reading_start_datetime?.substring(0,10) + " 부터 읽는 중"
 
-                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
-                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
-                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                    binding.tvStateDate.text = builder
+//                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
+//                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
+//                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//
+//                    binding.tvStateDate.text = builder
                 }
                 MainViewModel.BEFORE_READ -> {
                     binding.tvStateDate.text = info.add_datetime?.substring(0,10) + " 리스트에 담음"
 
-                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
-                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
-                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-                    binding.tvStateDate.text = builder
+//                    builder = SpannableStringBuilder(binding.tvStateDate.text.toString())
+//                    colorBlueSpan = ForegroundColorSpan(Color.parseColor("#ffa967"))
+//                    builder.setSpan(colorBlueSpan, 11, binding.tvStateDate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//
+//                    binding.tvStateDate.text = builder
                 }
                 MainViewModel.END_READ -> {
                     if(info.reading_start_datetime == null || info.reading_start_datetime.length == 0 || info.reading_start_datetime.substring(0, 10).equals("0001-01-01")) {

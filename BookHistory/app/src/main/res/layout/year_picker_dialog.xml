@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="246dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tv_yearPickerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="연도 선택"
+            android:textColor="#303030"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/yearpicker_datepicker"/>
+
+        <NumberPicker
+            android:id="@+id/yearpicker_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_yearPickerTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:theme="@style/AppTheme.NumberPicker"
+            app:layout_constraintBottom_toTopOf="@+id/dialog_buttonLayout"/>
+
+        <!--        <NumberPicker-->
+        <!--            android:id="@+id/monthpicker_datepicker"-->
+        <!--            android:layout_width="63dp"-->
+        <!--            android:layout_height="124dp"-->
+        <!--            android:layout_marginStart="50dp"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/yearpicker_datepicker"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            android:theme="@style/AppTheme.NumberPicker"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/yearpicker_datepicker"-->
+<!--            android:text="취소"-->
+<!--            android:layout_marginEnd="5dp"-->
+<!--            android:id="@+id/cancel_button_datepicker"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/save_button_datepicker"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/yearpicker_datepicker" />-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/save_button_datepicker"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:text="확인"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/cancel_button_datepicker"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/yearpicker_datepicker"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/yearpicker_datepicker" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/dialog_tv_title"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="#595959"-->
+<!--            android:textSize="16sp"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintVertical_chainStyle="packed"-->
+<!--            app:layout_constraintVertical_bias="0.5"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/dialog_tv_subTitle"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:text="제목"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/dialog_tv_subTitle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:textColor="#595959"-->
+<!--            android:textSize="14sp"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/dialog_buttonLayout"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/dialog_tv_title"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/dialog_tv_title"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/dialog_tv_title"-->
+<!--            tools:text="부제목"/>-->
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#a5a5a5"
+            app:layout_constraintBottom_toTopOf="@+id/dialog_buttonLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/dialog_buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+                <!--        app:layout_constraintTop_toBottomOf="@+id/dialog_tv_subTitle"-->
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="취소" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#a5a5a5" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_confirmation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="확인"
+                    android:textColor="#ff5107" />
+        </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

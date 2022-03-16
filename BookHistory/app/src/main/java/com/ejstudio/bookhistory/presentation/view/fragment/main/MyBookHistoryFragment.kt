@@ -11,22 +11,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.ejstudio.bookhistory.R
-import com.ejstudio.bookhistory.databinding.FragmentBookListBinding
 import com.ejstudio.bookhistory.databinding.FragmentMyBookHistoryBinding
 import com.ejstudio.bookhistory.presentation.view.activity.main.MainActivity
-import com.ejstudio.bookhistory.presentation.view.activity.main.booklist.WriteTextMemoActivity
 import com.ejstudio.bookhistory.presentation.view.activity.main.mybookhistory.CalendarClickActivity
-import com.ejstudio.bookhistory.presentation.view.fragment.main.booklist.BookMenuChangeBottomSheetDialogFragment
-import com.ejstudio.bookhistory.presentation.view.fragment.main.mybookhistory.CalendarClickBottomSheetDialogFragment
 import com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.util.*
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.ejstudio.bookhistory.util.EventDecorator
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
 
 
 class MyBookHistoryFragment : Fragment() {
@@ -65,7 +60,26 @@ class MyBookHistoryFragment : Fragment() {
 
 //        binding.calendarView.getSe
 
+        calendarListener()
+        viewModelCallback()
+
+        return binding.root
+    }
+
+    fun calendarListener() {
+        binding.calendarView.setOnMonthChangedListener(object : OnMonthChangedListener {
+            override fun onMonthChanged(widget: MaterialCalendarView?, date: CalendarDay?) {
+                Log.i(TAG, "onMonthChanged: " + date?.year + " / calendarYear: ${mainViewModel.calendarYear.value.toString()}")
+                if(!date?.year.toString().equals(mainViewModel.calendarYear.value.toString())) {
+                    Log.i(TAG, "onMonthChanged 호출?")
+                    mainViewModel.calendarYear.value = date?.year.toString()
+                }
+            }
+        })
+
+
         binding.calendarView.setOnDateChangedListener(object : OnDateSelectedListener {
+
             override fun onDateSelected(widget: MaterialCalendarView, date: CalendarDay, selected: Boolean) {
                 binding.calendarView.clearSelection()
 
@@ -96,10 +110,6 @@ class MyBookHistoryFragment : Fragment() {
 //                calendarClickBottomSheetDialogFragment.show(requireActivity().supportFragmentManager, "tag")
             }
         })
-
-        viewModelCallback()
-
-        return binding.root
     }
 
     fun viewModelCallback() {
