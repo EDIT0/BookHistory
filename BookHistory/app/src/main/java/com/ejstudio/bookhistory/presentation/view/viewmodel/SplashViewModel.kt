@@ -31,7 +31,7 @@ class SplashViewModel(
         if (!checkNetworkState()) return
         if(isFirstWelcomeUseCase.execute()) { // 앱을 처음 설치한 사용자인지
             _goToWelcome.value = Unit
-            isFirstWelcomeUseCase.execute(false)
+//            isFirstWelcomeUseCase.execute(false)
         } else { // 첫 설치가 아니면
             compositeDisposable.add(isAutoLoginUseCase.execute()
                 .subscribe {

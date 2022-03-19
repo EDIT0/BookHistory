@@ -44,6 +44,7 @@ import com.ejstudio.bookhistory.domain.usecase.main.setting.RequestLogoutUseCase
 import com.ejstudio.bookhistory.presentation.view.activity.login.LoginActivity
 import com.ejstudio.bookhistory.presentation.view.activity.login.SignUpActivity
 import com.ejstudio.bookhistory.presentation.view.activity.SplashActivity
+import com.ejstudio.bookhistory.presentation.view.activity.WelcomeActivity
 import com.ejstudio.bookhistory.presentation.view.fragment.main.BookListFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.BookSearchFragment
 import com.ejstudio.bookhistory.presentation.view.fragment.main.MyBookHistoryFragment
@@ -165,6 +166,7 @@ val viewModelModule: Module = module {
     viewModel { SeeImageMemoViewModel(get(), get()) }
     viewModel { CalendarClickViewModel(get()) }
     viewModel { LibraryMapViewModel() }
+    viewModel { WelcomeViewModel(get()) }
 }
 
 val useCaseModule: Module = module {
@@ -249,6 +251,7 @@ val activityMoudel: Module = module {
     single { SignUpActivity() }
     single { LoginActivity() }
     single { SplashActivity() }
+    single { WelcomeActivity() }
 }
 
 val fragmentModule: Module = module {

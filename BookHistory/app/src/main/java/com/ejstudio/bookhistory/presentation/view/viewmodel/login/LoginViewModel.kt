@@ -44,7 +44,7 @@ class LoginViewModel(
             _requestSnackbar.value = Unit
         } else {
             Log.i(TAG, "로그인 실행한다. ${inputEmail.value} ${inputPassword.value}")
-            compositeDisposable.add(isLoginAuthUseCase.execute(inputEmail.value!!, inputPassword.value!!)
+            compositeDisposable.add(isLoginAuthUseCase.execute(inputEmail.value!!.trim(), inputPassword.value!!.trim())
                 .doOnSubscribe { showProgress() }
                 .doAfterTerminate {
                     hideProgress()
