@@ -41,7 +41,7 @@ class LoginManager(context: Context) : KoinComponent {
                         val editor = loginPreferences.edit()
 
                         editor.putString(PreferenceManager.EMAIL, email)
-                        editor.putString(PreferenceManager.PASSWORD, password)
+                        editor.putString(PreferenceManager.PASSWORD, Converter.encByKey(Converter.key, password))
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
                         editor.putString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, protectDuplicateLoginToken)
                         editor.apply()
@@ -76,7 +76,7 @@ class LoginManager(context: Context) : KoinComponent {
 
                         val editor = loginPreferences.edit()
                         editor.putString(PreferenceManager.EMAIL, email)
-                        editor.putString(PreferenceManager.PASSWORD, password)
+                        editor.putString(PreferenceManager.PASSWORD, Converter.encByKey(Converter.key, password))
                         editor.putBoolean(PreferenceManager.AUTO_LOGIN_KEY, true)
                         editor.putString(PreferenceManager.PROTECT_DUPLICATE_LOGIN_TOKEN, protectDuplicateLoginToken)
                         editor.remove("KAKAO_USER_TOKEN");

@@ -7,6 +7,7 @@ import com.ejstudio.bookhistory.domain.usecase.login.CreateEmailUserUseCase
 import com.ejstudio.bookhistory.domain.usecase.login.RegisterEmailAndPasswordUseCase
 import com.ejstudio.bookhistory.presentation.base.BaseViewModel
 import com.ejstudio.bookhistory.util.NetworkManager
+import kotlin.random.Random
 
 class SignUp2ViewModel(
     private val createEmailUserUseCase: CreateEmailUserUseCase,
@@ -55,7 +56,8 @@ class SignUp2ViewModel(
     fun createUser() {
         if (!checkNetworkState()) return
         if(_tosValue.value.toString().toBoolean()) {
-            protectDuplicateLoginToken = email + currentTime
+            protectDuplicateLoginToken = Random.nextInt(1, 999999).toString() + currentTime
+//            protectDuplicateLoginToken = email + currentTime
             compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
                 .subscribe {
                     Log.i(TAG, "메시지: " + it)

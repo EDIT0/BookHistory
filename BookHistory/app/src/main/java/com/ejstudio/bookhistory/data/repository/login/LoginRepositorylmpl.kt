@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.Exception
+import kotlin.random.Random
 
 class LoginRepositorylmpl(
     private val loginLocalDataSource: LoginLocalDataSource,
@@ -34,7 +35,8 @@ class LoginRepositorylmpl(
 
     override fun loginAuth(email: String, password: String): Observable<Boolean> {
         val currentTime: Long = System.currentTimeMillis()
-        val protectDuplicateLoginToken = email + currentTime
+        val protectDuplicateLoginToken = Random.nextInt(1, 999999).toString() + currentTime
+//        val protectDuplicateLoginToken = email + currentTime
 
         return loginRemoteDataSource.loginAuth(email, password, protectDuplicateLoginToken)
             .flatMap {

@@ -44,6 +44,9 @@ class PreferenceManager(context: Context) : KoinComponent {
 
         var prefEmail = loginPreferences.getString(EMAIL, null)
         var prefPassword = loginPreferences.getString(PASSWORD, null)
+        if(prefPassword != null) {
+            prefPassword = Converter.decByKey(Converter.key, prefPassword)
+        }
         var prefKakaoToken = loginPreferences.getString(KAKAO_USER_TOKEN, null)
 
 

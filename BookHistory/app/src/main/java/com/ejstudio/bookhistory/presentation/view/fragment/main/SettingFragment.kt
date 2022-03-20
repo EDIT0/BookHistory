@@ -152,17 +152,19 @@ class SettingFragment : Fragment() {
 
 
         dialog_confirmation.setOnClickListener {
-            if(dialog_confirmation.text.equals("회원탈퇴")) {
-                UserApiClient.instance.unlink { throwable: Throwable? ->
-                    if (throwable != null) {
-                        // @brief : 연결 끊기 실패
-                        Log.e("[카카오] 로그아웃", "연결 끊기 실패", throwable)
-                    } else {
-                        // @brief : 연결 끊기 성공
-                        Log.i("kakaoLogout", "연결 끊기 성공. SDK에서 토큰 삭제")
-                    }
-                }
-            }
+//            if(dialog_confirmation.text.equals("회원탈퇴")) {
+//                if(UserApiClient.instance != null) {
+//                    UserApiClient.instance.unlink { throwable: Throwable? ->
+//                        if (throwable != null) {
+//                            // @brief : 연결 끊기 실패
+//                            Log.e("[카카오] 로그아웃", "연결 끊기 실패")
+//                        } else {
+//                            // @brief : 연결 끊기 성공
+//                            Log.i("kakaoLogout", "연결 끊기 성공. SDK에서 토큰 삭제")
+//                        }
+//                    }
+//                }
+//            }
             mainViewModel.accountLogout(type)
             dialog.dismiss()
         }

@@ -42,6 +42,7 @@ import androidx.lifecycle.Transformations
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
+import com.kakao.sdk.user.UserApiClient
 import java.lang.Exception
 import java.time.LocalDate
 
@@ -402,6 +403,22 @@ class MainViewModel(
                         if(type.equals(SettingFragment.CHANGE_PASSWORD)) {
                             sendFindPasswordEmail()
                         } else if(type.equals(SettingFragment.LOGOUT)) {
+                            // 파이어베이스 로그아웃
+                            if(FirebaseAuth.getInstance().currentUser != null) {
+                                Log.i(TAG, "파이어베이스 로그아웃 - 로그아웃")
+                                FirebaseAuth.getInstance().signOut()
+                            }
+                            // 카카오 로그아웃
+                            if(UserApiClient.instance != null) {
+                                UserApiClient.instance.logout { error ->
+                                    if (error != null) {
+                                        Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                                    }
+                                    else {
+                                        Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                                    }
+                                }
+                            }
                             _logoutSuccess.value = Unit
                         } else if(type.equals(SettingFragment.REMOVE_ACCOUNT)) {
                             removeUserAccount()
@@ -457,19 +474,36 @@ class MainViewModel(
             }
             .subscribe({
                 Log.i(TAG, "유저 삭제 성공")
-                FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener(object : OnFailureListener,
-                    OnCompleteListener<Void> {
-                    override fun onFailure(p0: Exception) {
-                        Log.i(TAG, "성공")
-                        _logoutSuccess.value = Unit
-                    }
+                if(FirebaseAuth.getInstance().currentUser != null && UserInfo.email.contains("@")) {
+                    FirebaseAuth.getInstance().currentUser?.delete()
+                        ?.addOnCompleteListener(object : OnFailureListener,
+                            OnCompleteListener<Void> {
+                            override fun onFailure(p0: Exception) {
+                                Log.i(TAG, "실패")
+                                _logoutSuccess.value = Unit
+                            }
 
-                    override fun onComplete(p0: Task<Void>) {
-                        Log.i(TAG, "실패")
-                        _logoutSuccess.value = Unit
-                    }
+                            override fun onComplete(p0: Task<Void>) {
+                                Log.i(TAG, "성공")
+                                _logoutSuccess.value = Unit
+                            }
 
-                })
+                        })
+                } else if(UserApiClient.instance != null) {
+                    UserApiClient.instance.unlink { throwable: Throwable? ->
+                        if (throwable != null) {
+                            // @brief : 연결 끊기 실패
+                            Log.e("[카카오] 로그아웃", "연결 끊기 실패")
+                            _logoutSuccess.value = Unit
+                        } else {
+                            // @brief : 연결 끊기 성공
+                            Log.i("kakaoLogout", "연결 끊기 성공. SDK에서 토큰 삭제")
+                            _logoutSuccess.value = Unit
+                        }
+                    }
+                } else {
+                    _logoutSuccess.value = Unit
+                }
 
             }, {
                 Log.i(TAG, "유저 삭제 오류 " + it.message.toString())

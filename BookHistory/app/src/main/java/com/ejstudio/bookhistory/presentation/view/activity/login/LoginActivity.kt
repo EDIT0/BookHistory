@@ -22,6 +22,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import kotlin.random.Random
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -152,7 +153,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                             UserInfo.protectDuplicateLoginToken = prefProtectDuplicateLoginToken!!
 
                             val currentTime: Long = System.currentTimeMillis()
-                            val protectDuplicateLoginToken = user?.id.toString() + currentTime
+                            val protectDuplicateLoginToken = Random.nextInt(1, 999999).toString() + currentTime
+//                            val protectDuplicateLoginToken = user?.id.toString() + currentTime
 
                             loginViewModel.initProtectDuplicateLoginTokenForKakao = protectDuplicateLoginToken
 
@@ -169,6 +171,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
                             // 중복로그인 방지 토큰 서버에 저장
                             loginViewModel.updateProtectDuplicateLoginToken(user?.id.toString(), protectDuplicateLoginToken)
+//                            loginViewModel.updateProtectDuplicateLoginToken(user?.id.toString(), protectDuplicateLoginToken)
 
 
                             Log.i(TAG, """사용자 정보 요청 성공회원번호: ${user?.id} 이메일: ${user?.kakaoAccount?.email}""".trimIndent())
