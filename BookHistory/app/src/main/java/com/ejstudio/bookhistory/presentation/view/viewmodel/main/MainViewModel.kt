@@ -85,6 +85,8 @@ class MainViewModel(
     val onlyDate: LocalDate = LocalDate.now()
     var calendarYear = MutableLiveData<String>()
 
+    var adCount = 0;
+
     init {
         pickerYear.value = onlyDate.toString().substring(0,4)
         calendarYear.value = onlyDate.toString().substring(0,4)

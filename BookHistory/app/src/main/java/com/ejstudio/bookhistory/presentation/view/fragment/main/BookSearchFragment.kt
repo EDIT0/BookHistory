@@ -44,7 +44,6 @@ class BookSearchFragment : Fragment() {
     var recommendBookAdapter = RecommendBookAdapter()
     var alwaysPopularBookAdapter = AlwaysPopularBookAdapter()
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_search, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -65,6 +64,17 @@ class BookSearchFragment : Fragment() {
         val adRequest: AdRequest = AdRequest.Builder().build()
 
         mAdView!!.loadAd(adRequest)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.adCount++
+        if(mainViewModel.adCount >= 3) {
+            Log.i(TAG, "애드몹 갱신2")
+            val adRequest: AdRequest = AdRequest.Builder().build()
+            mAdView!!.loadAd(adRequest)
+            mainViewModel.adCount = 0
+        }
     }
 
     fun settingRecyclerView() {

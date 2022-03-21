@@ -90,6 +90,17 @@ class BookListFragment : Fragment() {
         mAdView!!.loadAd(adRequest)
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.adCount++
+        if(mainViewModel.adCount >= 3) {
+            Log.i(TAG, "애드몹 갱신1")
+            val adRequest: AdRequest = AdRequest.Builder().build()
+            mAdView!!.loadAd(adRequest)
+            mainViewModel.adCount = 0
+        }
+    }
+
     fun settingRecyclerView() {
         var layoutmanager = LinearLayoutManager(binding.rcBookList.context)
         binding.rcBookList.layoutManager = layoutmanager
