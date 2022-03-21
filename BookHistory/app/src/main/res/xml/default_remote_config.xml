@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>server_check</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>server_message</key>
+        <value>서버 메시지입니다.</value>
+    </entry>
+
+    <entry>
+        <key>version_code_number</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>version_code_message</key>
+        <value>버전코드 메시지 입니다.</value>
+    </entry>
+
+</defaultsMap>

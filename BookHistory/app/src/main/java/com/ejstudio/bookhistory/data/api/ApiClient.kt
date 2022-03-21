@@ -12,4 +12,6 @@ object ApiClient {
     const val RECOMMEND_BOOK = "getRecommendBook"
     const val ALWAYS_POPULAR_BOOK = "getAlwaysPopularBook"
     const val FORMAT_JSON = "json"
+
+    const val GOOGLE_PLAYSTORE_APP_PAGE = ""
 }

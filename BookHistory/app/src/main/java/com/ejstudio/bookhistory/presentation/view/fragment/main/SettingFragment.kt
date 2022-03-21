@@ -1,7 +1,11 @@
 package com.ejstudio.bookhistory.presentation.view.fragment.main
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -50,7 +54,7 @@ class SettingFragment : Fragment() {
         binding.mainViewModel = mainViewModel
 
 
-        settingUserId()
+        settingUserIdAndVersionName()
         settingButton()
         viewModelCallback()
         buttonClickListener()
@@ -58,12 +62,24 @@ class SettingFragment : Fragment() {
         return binding.root
     }
 
-    fun settingUserId() {
+    fun settingUserIdAndVersionName() {
         if(!UserInfo.email.contains("@")) {
             binding.tvUserId.text = "카카오 로그인(${UserInfo.email.substring(0,3)}*****)"
         } else {
             binding.tvUserId.text = UserInfo.email
         }
+        binding.tvVersionName.text = getVersion(requireActivity())
+    }
+
+    fun getVersion(context: Context): String? {
+        var versionName = ""
+        try {
+            val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            versionName = pInfo.versionName + ""
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        return versionName
     }
 
     fun settingButton() {

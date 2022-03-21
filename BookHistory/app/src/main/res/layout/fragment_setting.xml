@@ -206,7 +206,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginBottom="15dp"
-                            android:text="정책"
+                            android:text="앱 정보"
                             android:textColor="#000000"
                             android:textSize="16sp" />
 
@@ -235,6 +235,45 @@
                     app:layout_constraintEnd_toEndOf="@+id/policyView"
                     app:layout_constraintStart_toStartOf="@+id/policyView"
                     app:layout_constraintTop_toBottomOf="@+id/policyTitleLayout" />
+
+                <LinearLayout
+                    android:id="@+id/versionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintVertical_bias="0"
+                    android:text="개인정보 보호정책"
+                    android:textColor="#595959"
+                    android:textSize="16sp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/policyView"
+                    app:layout_constraintEnd_toEndOf="@+id/policyView"
+                    app:layout_constraintStart_toStartOf="@+id/policyView"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tos" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:text="버전"
+                        android:textColor="#595959"
+                        android:textSize="16sp" />
+                    
+                    <TextView
+                        android:id="@+id/tv_versionName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="버전 네임"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:textSize="16sp"
+                        android:textColor="#595959"/>
+                    
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
