@@ -47,16 +47,16 @@ class SignUpViewModel(
     }
 
     fun sendNumber() {
-        if(email.value == null || email.value.toString() == ""){
+        if(email.value?.trim() == null || email.value.toString().trim() == ""){
             Log.i(TAG, "이메일 비었음")
         }else{
             Log.i(TAG, "이메일 보내기")
             randomNum = random.nextInt(100000, 999999)
 
-            authEmail = email.value.toString()
+            authEmail = email.value.toString().trim()
 
             if (!checkNetworkState()) return
-            compositeDisposable.add(sendSignUpEmailUseCase.execute(email.value.toString(), randomNum.toString())
+            compositeDisposable.add(sendSignUpEmailUseCase.execute(email.value.toString().trim(), randomNum.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }

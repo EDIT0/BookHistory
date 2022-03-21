@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     ads:adSize="BANNER"
                     android:layout_marginTop="10dp"
-                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+                    ads:adUnitId="ca-app-pub-8761696495202698/2821208109" />
 <!--ca-app-pub-8761696495202698/2821208109--> <!--광고 단위 ID-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

@@ -58,7 +58,7 @@ class SignUp2ViewModel(
         if(_tosValue.value.toString().toBoolean()) {
             protectDuplicateLoginToken = Random.nextInt(1, 999999).toString() + currentTime
 //            protectDuplicateLoginToken = email + currentTime
-            compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!, protectDuplicateLoginToken)
+            compositeDisposable.add(createEmailUserUseCase.execute(email, password.value!!.trim(), protectDuplicateLoginToken)
                 .subscribe {
                     Log.i(TAG, "메시지: " + it)
                     if (it.toString().toBoolean()) {
