@@ -228,14 +228,14 @@ class MainViewModel(
     val totalBookList: LiveData<List<BookListEntity>> get() = _totalBookList
 
     // 읽기 전
-    val beforeReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
-        getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ, param)
-    }
+//    val beforeReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+//        getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ)
+//    }
 
     // 읽는 중
-    val readingBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
-        getReadingBookUseCase.execute(UserInfo.email, READING, param)
-    }
+//    val readingBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+//        getReadingBookUseCase.execute(UserInfo.email, READING)
+//    }
 
     // 읽은 후
     val endReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
@@ -247,12 +247,12 @@ class MainViewModel(
     }
 
     // 읽기 전
-//    private val _beforeReadBookList = getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ, pickerYear.value.toString())
-//    val beforeReadBookList: LiveData<List<BookListEntity>> get() = _beforeReadBookList
+    private val _beforeReadBookList = getBeforeReadBookUseCase.execute(UserInfo.email, BEFORE_READ)
+    val beforeReadBookList: LiveData<List<BookListEntity>> get() = _beforeReadBookList
 
     // 읽는 중
-//    private val _readingBookList = getReadingBookUseCase.execute(UserInfo.email, READING, pickerYear.value.toString())
-//    val readingBookList: LiveData<List<BookListEntity>> get() = _readingBookList
+    private val _readingBookList = getReadingBookUseCase.execute(UserInfo.email, READING)
+    val readingBookList: LiveData<List<BookListEntity>> get() = _readingBookList
 
     // 읽은 후
 //    private val _endReadBookList = getEndReadBookUseCase.execute(UserInfo.email, END_READ)

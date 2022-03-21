@@ -68,8 +68,9 @@ class BookSearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.i(TAG, "onResume 애드몹 갱신2 ${mainViewModel.adCount}")
         mainViewModel.adCount++
-        if(mainViewModel.adCount >= 3) {
+        if(mainViewModel.adCount >= 5) {
             Log.i(TAG, "애드몹 갱신2")
             val adRequest: AdRequest = AdRequest.Builder().build()
             mAdView!!.loadAd(adRequest)

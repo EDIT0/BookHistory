@@ -51,13 +51,13 @@ interface BookListDao {
 //    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by idx desc")
 //    fun getBookList(email: String, reading_state: String): LiveData<List<BookListEntity>>
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state and add_datetime LIKE '%' || :pickerYear || '%' order by add_datetime desc")
-    fun getBookList_before(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>>
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by add_datetime desc")
+    fun getBookList_before(email: String, reading_state: String): LiveData<List<BookListEntity>>
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state and add_datetime LIKE '%' || :pickerYear || '%' order by reading_start_datetime desc")
-    fun getBookList_reading(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>>
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state order by reading_start_datetime desc")
+    fun getBookList_reading(email: String, reading_state: String): LiveData<List<BookListEntity>>
 
-    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state and add_datetime LIKE '%' || :pickerYear || '%' order by reading_end_datetime desc")
+    @Query("SELECT * FROM BookListEntity WHERE email = :email and reading_state = :reading_state and reading_end_datetime LIKE '%' || :pickerYear || '%' order by reading_end_datetime desc")
     fun getBookList_end(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>>
 
     @Query("SELECT * FROM BookListEntity WHERE idx = :idx and email = :email and reading_state = :reading_state")

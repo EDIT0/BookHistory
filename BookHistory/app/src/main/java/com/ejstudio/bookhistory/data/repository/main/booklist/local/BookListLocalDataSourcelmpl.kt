@@ -24,14 +24,14 @@ class BookListLocalDataSourcelmpl(
         return bookListDao.getAllBookList(email)
     }
 
-    override fun getBeforeReadBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {
+    override fun getBeforeReadBookList(email: String, reading_state: String): LiveData<List<BookListEntity>> {
         Log.i(TAG, "getBeforeReadBookList() 호출 ${bookListDao.hashCode()}")
-        return bookListDao.getBookList_before(email, reading_state, pickerYear)
+        return bookListDao.getBookList_before(email, reading_state)
 
     }
-    override fun getReadingBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {
+    override fun getReadingBookList(email: String, reading_state: String): LiveData<List<BookListEntity>> {
         Log.i(TAG, "getReadingBookList() 호출")
-        return bookListDao.getBookList_reading(email, reading_state, pickerYear)
+        return bookListDao.getBookList_reading(email, reading_state)
     }
 
     override fun getEndReadBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {

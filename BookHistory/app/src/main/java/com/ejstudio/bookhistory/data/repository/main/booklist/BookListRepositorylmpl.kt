@@ -33,12 +33,12 @@ class BookListRepositorylmpl(
         return bookListLocalDataSource.getTotalBookList(email)
     }
 
-    override fun getBeforeReadBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {
-        return bookListLocalDataSource.getBeforeReadBookList(email, reading_state, pickerYear)
+    override fun getBeforeReadBookList(email: String, reading_state: String): LiveData<List<BookListEntity>> {
+        return bookListLocalDataSource.getBeforeReadBookList(email, reading_state)
     }
 
-    override fun getReadingBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {
-        return bookListLocalDataSource.getReadingBookList(email, reading_state, pickerYear)
+    override fun getReadingBookList(email: String, reading_state: String): LiveData<List<BookListEntity>> {
+        return bookListLocalDataSource.getReadingBookList(email, reading_state)
     }
 
     override fun getEndReadBookList(email: String, reading_state: String, pickerYear: String): LiveData<List<BookListEntity>> {

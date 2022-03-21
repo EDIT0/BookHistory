@@ -92,8 +92,9 @@ class BookListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.i(TAG, "onResume 애드몹 갱신1 ${mainViewModel.adCount}")
         mainViewModel.adCount++
-        if(mainViewModel.adCount >= 3) {
+        if(mainViewModel.adCount >= 5) {
             Log.i(TAG, "애드몹 갱신1")
             val adRequest: AdRequest = AdRequest.Builder().build()
             mAdView!!.loadAd(adRequest)
@@ -215,7 +216,7 @@ class BookListFragment : Fragment() {
                             mainViewModel.hideDataEmptyScreen()
                             bookListAdapter.updataList(beforeReadBookList.value!!)
                         }
-
+                        binding.yearPickerLayout.visibility = View.GONE
                     }
                     getString(R.string.reading) -> {
                         if(readingBookList.value == null || readingBookList.value?.size == 0) {
@@ -224,6 +225,7 @@ class BookListFragment : Fragment() {
                             mainViewModel.hideDataEmptyScreen()
                             bookListAdapter.updataList(readingBookList.value!!)
                         }
+                        binding.yearPickerLayout.visibility = View.GONE
                     }
                     getString(R.string.end_read) -> {
                         if(endReadBookList.value == null || endReadBookList.value?.size == 0) {
@@ -232,6 +234,7 @@ class BookListFragment : Fragment() {
                             mainViewModel.hideDataEmptyScreen()
                             bookListAdapter.updataList(endReadBookList.value!!)
                         }
+                        binding.yearPickerLayout.visibility = View.VISIBLE
                     }
                 }
             })
