@@ -132,7 +132,7 @@ class CalendarDateMemoAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         super.getItemViewType(position)
         var viewType = 0
 
-        var aBoolean = items.get(position).memo_contents.contains("http://edit0@edit0.dothome.co.kr/bookhistory/image/imageMemo/")
+        var aBoolean = items.get(position).memo_contents.contains("http://ec2-3-35-209-180.ap-northeast-2.compute.amazonaws.com/bookhistory/image/imageMemo/")
 
         if(aBoolean) {
             viewType = VIEWTYPE_IMAGEMEMO

@@ -25,7 +25,7 @@
             android:layout_marginTop="124dp"
             android:fontFamily="@font/seoulnamsancbl_regular"
             android:gravity="center"
-            android:text="독서노트"
+            android:text="@string/app_name"
             android:textColor="#232323"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_loginTitle"

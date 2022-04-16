@@ -145,6 +145,8 @@ class SplashActivity : AppCompatActivity() {
 //                        finish()
 //                    })
 //            builder.create().show()
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.GOOGLE_PLAYSTORE_APP_PAGE))
+            startActivity(intent)
             Toast.makeText(mActivity, version_code_message, Toast.LENGTH_LONG).show()
             finish()
         } else {
