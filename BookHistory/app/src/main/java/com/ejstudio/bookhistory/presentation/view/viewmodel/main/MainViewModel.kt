@@ -1,7 +1,9 @@
 package com.ejstudio.bookhistory.presentation.view.viewmodel.main
 
+import android.os.Build
 import android.util.Log
 import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ejstudio.bookhistory.data.api.ApiClient
@@ -74,6 +76,15 @@ class MainViewModel(
     public var _selectedMenu : MutableLiveData<String> = MutableLiveData()
     val selectedMenu: LiveData<String> get() = _selectedMenu
 
+    private val _isLoadingRecentPopularBookList = MutableLiveData<Boolean>(false)
+    val isLoadingRecentPopularBookList: LiveData<Boolean> get() = _isLoadingRecentPopularBookList
+
+    private val _isLoadingAlwaysPopularBookList = MutableLiveData<Boolean>(false)
+    val isLoadingAlwaysPopularBookList: LiveData<Boolean> get() = _isLoadingAlwaysPopularBookList
+
+    private val _isLoadingRecommendBookList = MutableLiveData<Boolean>(false)
+    val isLoadingRecommendBookList: LiveData<Boolean> get() = _isLoadingRecommendBookList
+
     var cal: Calendar = Calendar.getInstance()
     var date= Date()
     var todayDate = ""
@@ -82,6 +93,7 @@ class MainViewModel(
     var pageSize = 10
     var calendarDate = MutableLiveData<String>()
     var pickerYear= MutableLiveData<String>() // 책 리스트 연도
+    @RequiresApi(Build.VERSION_CODES.O)
     val onlyDate: LocalDate = LocalDate.now()
     var calendarYear = MutableLiveData<String>()
 
@@ -300,9 +312,9 @@ class MainViewModel(
             getRecentPopularBookUseCase.execute(before60days, todayDate, _page, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
+                .doOnSubscribe { _isLoadingRecentPopularBookList.value = true }
                 .doAfterTerminate {
-                    hideProgress()
+                    _isLoadingRecentPopularBookList.value = false
                 }
                 .subscribe({ it ->
                     if (it.response.resultNum == 0) {
@@ -328,9 +340,9 @@ class MainViewModel(
             getRecommendBookUseCase.execute(isbn)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
+                .doOnSubscribe { _isLoadingRecommendBookList.value = true }
                 .doAfterTerminate {
-                    hideProgress()
+                    _isLoadingRecommendBookList.value = false
                 }
                 .subscribe({ it ->
                     if (it.response.resultNum == 0) {
@@ -360,9 +372,9 @@ class MainViewModel(
             getAlwaysPopularBookUseCase.execute(_page, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
+                .doOnSubscribe { _isLoadingAlwaysPopularBookList.value = true }
                 .doAfterTerminate {
-                    hideProgress()
+                    _isLoadingAlwaysPopularBookList.value = false
                 }
                 .subscribe({ it ->
                     if (it.response.resultNum == 0) {

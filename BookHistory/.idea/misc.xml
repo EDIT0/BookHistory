@@ -49,6 +49,7 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_expand_more_gray_32dp.xml" value="0.128125" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_expand_more_orange_24dp.xml" value="0.146875" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_expand_more_white_24dp.xml" value="0.12604166666666666" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_format_list_bulleted_black_24dp.xml" value="0.38229166666666664" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_location_24dp.xml" value="0.146875" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_location_white_24dp.xml" value="0.12604166666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/ic_more_vert_24dp.xml" value="0.146875" />
@@ -75,7 +76,7 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/drawable/year_picker_background.xml" value="0.134375" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/font/custom_font_family.xml" value="0.15729166666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/font/font.xml" value="0.15729166666666666" />
-        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_book.xml" value="0.264" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_book.xml" value="0.26998841251448435" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_book_detail_page.xml" value="0.4984646878198567" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_calendar_click.xml" value="0.2544052863436123" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_find_password.xml" value="0.264" />
@@ -88,7 +89,7 @@
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_see_image_memo.xml" value="0.2" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_see_text_memo.xml" value="0.176" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_sign_up.xml" value="0.152" />
-        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_sign_up2.xml" value="0.2" />
+        <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_sign_up2.xml" value="0.264" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_splash.xml" value="0.14947916666666666" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_welcome.xml" value="0.18451519536903038" />
         <entry key="..\:/BookHistoryProject/BookHistory/app/src/main/res/layout/activity_write_text_memo.xml" value="0.264" />

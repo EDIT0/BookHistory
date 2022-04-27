@@ -103,10 +103,11 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:onClick="@{() -> bookViewModel.changeMenu()}"
-            android:src="@drawable/ic_more_vert_white_24dp"
+            android:src="@drawable/ic_format_list_bulleted_white_24dp"
             app:layout_constraintEnd_toEndOf="@+id/bookInfoBackgroundView"
             app:layout_constraintStart_toEndOf="@+id/ib_deleteBook"
             app:layout_constraintTop_toTopOf="@+id/bookInfoBackgroundView" />
+        <!--ic_more_vert_white_24dp-->
 
         <ImageButton
             android:id="@+id/ib_menuChange_black"
@@ -114,12 +115,13 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:onClick="@{() -> bookViewModel.changeMenu()}"
-            android:src="@drawable/ic_more_vert_24dp"
+            android:src="@drawable/ic_format_list_bulleted_black_24dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/ib_menuChange"
             app:layout_constraintEnd_toEndOf="@+id/ib_menuChange"
             app:layout_constraintStart_toStartOf="@+id/ib_menuChange"
             app:layout_constraintTop_toTopOf="@+id/ib_menuChange" />
+        <!--ic_more_vert_24dp-->
 
         <ImageButton
             android:id="@+id/ib_deleteBook"
@@ -250,7 +252,7 @@
             app:layout_constraintStart_toStartOf="@+id/bookInfoView"
             app:layout_constraintTop_toTopOf="@+id/bookInfoView" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/ib_bookInfoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

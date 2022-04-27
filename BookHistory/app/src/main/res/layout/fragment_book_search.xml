@@ -5,7 +5,7 @@
     tools:context=".presentation.view.fragment.main.BookSearchFragment">
 
     <data>
-
+        <import type="android.view.View" />
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
@@ -163,6 +163,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_recentPopularBookTitle"
                         tools:itemCount="7" />
                     <!--                    android:layout_marginBottom="10dp"-->
+
+                    <ProgressBar
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{mainViewModel.isLoadingRecentPopularBookList() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintEnd_toEndOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/recentPopularBookBackgroundView"/>
+
                     <View
                         android:id="@+id/recommendBookBackgroundView"
                         android:layout_width="0dp"
@@ -214,6 +224,14 @@
                         tools:itemCount="7" />
                     <!--                    android:layout_marginBottom="10dp"-->
 
+                    <ProgressBar
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{mainViewModel.isLoadingRecommendBookList() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintStart_toStartOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintEnd_toEndOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/recommendBookBackgroundView"/>
 
                     <View
                         android:id="@+id/alwaysPopularBookBackgroundView"
@@ -266,6 +284,14 @@
                         tools:itemCount="7" />
                     <!--                    android:layout_marginBottom="10dp"-->
 
+                    <ProgressBar
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{mainViewModel.isLoadingAlwaysPopularBookList() ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintStart_toStartOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintEnd_toEndOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/alwaysPopularBookBackgroundView"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

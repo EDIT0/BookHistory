@@ -16,7 +16,7 @@
         android:id="@+id/tab_history"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_navi_article_24dp_outline"
-        android:title="기록"/>
+        android:title="캘린더"/>
 
     <item
         android:id="@+id/tab_setting"

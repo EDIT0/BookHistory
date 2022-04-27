@@ -11,10 +11,10 @@ android {
 
     defaultConfig {
         applicationId "com.ejstudio.bookhistory"
-        minSdk 23
+        minSdk 26
         targetSdk 31
-        versionCode 4
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,7 +50,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Google Ads
-    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -73,7 +73,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-config:19.1.1'
+    implementation 'com.google.firebase:firebase-config:21.0.2'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     // 카카오
@@ -85,9 +85,9 @@ dependencies {
 //    implementation "com.kakao.sdk:v2-navi:2.8.4" // 카카오내비
 
     // Room
-    implementation "androidx.room:room-ktx:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
-    implementation("androidx.room:room-rxjava3:2.3.0")
+    implementation "androidx.room:room-ktx:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    implementation("androidx.room:room-rxjava3:2.4.2")
     // Room GUI
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
@@ -110,7 +110,7 @@ dependencies {
     implementation 'com.naver.maps:map-sdk:3.14.0'
 
     // 구글 내 위치 찾기
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     // 인디케이터
     implementation 'com.tbuonomo:dotsindicator:4.2'

@@ -64,7 +64,8 @@ class SettingFragment : Fragment() {
 
     fun settingUserIdAndVersionName() {
         if(!UserInfo.email.contains("@")) {
-            binding.tvUserId.text = "카카오 로그인(${UserInfo.email.substring(0,3)}*****)"
+//            binding.tvUserId.text = "카카오 로그인(${UserInfo.email.substring(0,3)}*****)"
+            binding.tvUserId.text = "카카오 로그인(${UserInfo.email})"
         } else {
             binding.tvUserId.text = UserInfo.email
         }

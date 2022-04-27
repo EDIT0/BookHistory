@@ -105,7 +105,7 @@
             android:id="@+id/cb_tos"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="13dp"
             android:onClick="@{() -> signUp2ViewModel.tosCheck()}"
             app:layout_constraintBottom_toTopOf="@+id/btn_createUser"
@@ -121,7 +121,7 @@
             android:layout_marginHorizontal="5dp"
             android:textSize="16sp"
             android:textColor="#595959"
-            android:text="개인정보 취급방침 및 이용약관 동의하기"
+            android:text="개인정보 취급방침 및 이용약관 동의"
             app:layout_constraintTop_toTopOf="@+id/cb_tos"
             app:layout_constraintBottom_toBottomOf="@+id/cb_tos"
             app:layout_constraintEnd_toStartOf="@+id/ib_tosExpandableButton"
@@ -129,7 +129,8 @@
 
         <ImageButton
             android:id="@+id/ib_tosExpandableButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="0"
             android:layout_height="wrap_content"
             android:onClick="@{() -> signUp2ViewModel.showExpandableToS()}"
             android:background="@android:color/transparent"
