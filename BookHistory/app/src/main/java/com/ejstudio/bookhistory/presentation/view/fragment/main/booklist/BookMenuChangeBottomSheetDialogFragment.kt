@@ -55,7 +55,7 @@ class BookMenuChangeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet = bottomSheetDialog.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
 //        val layoutParams = bottomSheet!!.layoutParams
 //        layoutParams.height = getBottomSheetDialogDefaultHeight()

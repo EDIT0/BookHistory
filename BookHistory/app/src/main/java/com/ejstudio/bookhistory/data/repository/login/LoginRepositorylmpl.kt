@@ -45,7 +45,7 @@ class LoginRepositorylmpl(
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { t1, t2 ->
-                            Log.i(TAG, "중복로그인 방지 로큰 저장: ${t1.returnvalue}")
+                            Log.i(TAG, "중복로그인 방지 로큰 저장: ${t1?.returnvalue}")
                         }
                     Observable.just(it)
                 } else {
@@ -77,7 +77,7 @@ class LoginRepositorylmpl(
     override fun updateProtectDuplicateLoginToken(userId: String, protectDuplicateLoginToken: String) {
         loginRemoteDataSource.updateProtectDuplicateLoginToken(userId, protectDuplicateLoginToken)
             .subscribe { t1, t2 ->
-                Log.i(TAG, "카카오 중복로그인 방지 토큰: ${t1.returnvalue}")
+                Log.i(TAG, "카카오 중복로그인 방지 토큰: ${t1?.returnvalue}")
             }
     }
 
@@ -97,12 +97,12 @@ class LoginRepositorylmpl(
             .subscribe { it, exception ->
                 try {
                     // 이메일 복호화
-                    for(i in 0 until it.totalBookListModel.size) {
+                    for(i in 0 until it?.totalBookListModel?.size!!) {
                         it.totalBookListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookListModel.get(i).email)!!
                     }
                     Log.i(TAG, "서버에서 온 전체 책 리스트 ${it}")
                 }catch (e: Exception){}
-                if(it.totalBookListModel != null && it.totalBookListModel.size != 0) {
+                if(it?.totalBookListModel != null && it?.totalBookListModel?.size != 0) {
                     loginLocalDataSource.insertTotalBookList(it.totalBookListModel)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -116,11 +116,11 @@ class LoginRepositorylmpl(
                                 .subscribe { it, exception ->
                                     try {
                                         // 이메일 복호화
-                                        for (i in 0 until it.totalBookTextMemoListModel.size) {
+                                        for (i in 0 until it?.totalBookTextMemoListModel?.size!!) {
                                             it.totalBookTextMemoListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookTextMemoListModel.get(i).email)!!
                                         }
                                     }catch (e : Exception) {}
-                                    if(it.totalBookTextMemoListModel != null && it.totalBookTextMemoListModel.size != 0) {
+                                    if(it?.totalBookTextMemoListModel != null && it.totalBookTextMemoListModel.size != 0) {
                                         loginLocalDataSource.insertTotalBookTextMemoList(it.totalBookTextMemoListModel)
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())
@@ -139,12 +139,12 @@ class LoginRepositorylmpl(
                                 .subscribe { it, exception ->
                                     // 이메일 복호화
                                     try {
-                                        for(i in 0 until it.totalBookImageMemoListModel.size) {
+                                        for(i in 0 until it?.totalBookImageMemoListModel?.size!!) {
                                             it.totalBookImageMemoListModel.get(i).email = Converter.decByKey(Converter.key, it.totalBookImageMemoListModel.get(i).email)!!
                                         }
                                     }catch (e : Exception) {}
 
-                                    if(it.totalBookImageMemoListModel != null && it.totalBookImageMemoListModel.size != 0) {
+                                    if(it?.totalBookImageMemoListModel != null && it.totalBookImageMemoListModel.size != 0) {
                                         loginLocalDataSource.insertTotalBookImageMemoList(it.totalBookImageMemoListModel)
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())

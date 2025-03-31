@@ -37,7 +37,6 @@ import com.googlecode.leptonica.android.Pix
 import com.googlecode.leptonica.android.ReadFile
 import com.googlecode.tesseract.android.TessBaseAPI
 import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.*
 import java.lang.Exception

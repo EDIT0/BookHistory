@@ -32,7 +32,6 @@ import com.ejstudio.bookhistory.util.UserInfo
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -44,7 +43,7 @@ import android.graphics.Matrix
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.MutableLiveData
-import com.theartofdev.edmodo.cropper.CropImage
+import com.gun0912.tedpermission.normal.TedPermission
 
 
 class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
@@ -333,12 +332,12 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         checkPermissions()
     }
 
-    fun goToLibraryMapActivity() {
-        var intent = Intent(this, LibraryMapActivity::class.java)
-        intent.putExtra("book_isbn", bookViewModel.bookISBN)
-        startActivity(intent)
-        overridePendingTransition(R.anim.not_move_activity,R.anim.not_move_activity)
-    }
+//    fun goToLibraryMapActivity() {
+//        var intent = Intent(this, LibraryMapActivity::class.java)
+//        intent.putExtra("book_isbn", bookViewModel.bookISBN)
+//        startActivity(intent)
+//        overridePendingTransition(R.anim.not_move_activity,R.anim.not_move_activity)
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -355,168 +354,168 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
         /*
         * 크롭 후 requestCode
         * */
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            val result = CropImage.getActivityResult(data)
-            if (resultCode == RESULT_OK) {
-                photoURI = result.uri
-                Log.i(TAG, "값은? " + photoURI)
-
-                deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
-                deleteFile.delete()
-
-//                deleteImagePath.path = "/data/data/com.example.appname/cache/" // 내부저장소 캐시
-                deleteImagePath.path = photoURI.toString().substring(7, photoURI.toString().length)
-                Log.i(TAG, "값은? " + photoURI.toString().substring(7, photoURI.toString().length))
-//                deleteImagePath.path = absolutelyPath(photoURI!!)
-
-                val file = File(deleteImagePath.path)
-                var fileName = file.getName()
-                fileName = "${UserInfo.email}.png"
-
-                Log.i(TAG, "photoURI: " + photoURI)
-                Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
-                Log.i(TAG, "이미지 제목 ${fileName}")
-
-                bookViewModel.insertImageMemo(file, fileName)
-                photoURI = null // 사용 후 null 처리
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
-            }
-        }
-
-        Log.i(TAG, "onActivityResult() 호출")
-
-        /*
-        * 사진찍기
-        * */
-        if(resultCode == Activity.RESULT_OK) {
-            when(requestCode){
-                FLAG_REQ_CAMERA -> {
-                    if (photoURI != null) {
-                        Log.i(TAG, "이미지 URI: ${photoURI}")
-                        val bitmap = loadBitmapFromMediaStoreBy(photoURI!!)
-//                        binding.textImage.setImageBitmap(bitmap)
-                        Log.i(TAG, "이미지 비트맵: ${bitmap}")
-
-                        deleteImagePath.path = absolutelyPath(photoURI!!) // 파일 경로 얻기
-
-//                        soundDoodleInit("")
-
-                        /*
-                        * 사진 각도 맞춤
-                        * */
-                        try {
-                            exif = ExifInterface(deleteImagePath.path)
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                        val orientation = exif!!.getAttributeInt(ExifInterface.ORIENTATION_ROTATE_90.toString(), ExifInterface.ORIENTATION_UNDEFINED)
-                        val bmRotated: Bitmap = rotateBitmap(bitmap!!, orientation)!!
-
-                        photoURI = getBitmapToUri(bmRotated) // bitmap에서 uri로 변경
-                        deleteFile = File(deleteImagePath.path) // 1. 사진 찍으면 생성된 이미지 파일 삭제
-                        deleteFile.delete()
-                        deleteImagePath.path = absolutelyPath(photoURI!!)
-//                        val resizedBmp = Bitmap.createScaledBitmap(bitmap!!, bitmap.width / 5, bitmap.height/5, true)
-//                        photoURI = getImageUri(resizedBmp)
-                        // 사진 리사이징
-                        var resizeBitmap = resize(this, photoURI!!, 500)
-                        photoURI = getBitmapToUri(resizeBitmap!!)
-                        deleteFile = File(deleteImagePath.path) // 2. 각도 조절한 이미지 파일 삭제
-                        deleteFile.delete()
-                        deleteImagePath.path = absolutelyPath(photoURI!!)
-
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            val result = CropImage.getActivityResult(data)
+//            if (resultCode == RESULT_OK) {
+//                photoURI = result.uri
+//                Log.i(TAG, "값은? " + photoURI)
+//
+//                deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
+//                deleteFile.delete()
+//
+////                deleteImagePath.path = "/data/data/com.example.appname/cache/" // 내부저장소 캐시
+//                deleteImagePath.path = photoURI.toString().substring(7, photoURI.toString().length)
+//                Log.i(TAG, "값은? " + photoURI.toString().substring(7, photoURI.toString().length))
+////                deleteImagePath.path = absolutelyPath(photoURI!!)
+//
+//                val file = File(deleteImagePath.path)
+//                var fileName = file.getName()
+//                fileName = "${UserInfo.email}.png"
+//
+//                Log.i(TAG, "photoURI: " + photoURI)
+//                Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
+//                Log.i(TAG, "이미지 제목 ${fileName}")
+//
+//                bookViewModel.insertImageMemo(file, fileName)
+//                photoURI = null // 사용 후 null 처리
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                val error = result.error
+//            }
+//        }
+//
+//        Log.i(TAG, "onActivityResult() 호출")
+//
+//        /*
+//        * 사진찍기
+//        * */
+//        if(resultCode == Activity.RESULT_OK) {
+//            when(requestCode){
+//                FLAG_REQ_CAMERA -> {
+//                    if (photoURI != null) {
+//                        Log.i(TAG, "이미지 URI: ${photoURI}")
+//                        val bitmap = loadBitmapFromMediaStoreBy(photoURI!!)
+////                        binding.textImage.setImageBitmap(bitmap)
+//                        Log.i(TAG, "이미지 비트맵: ${bitmap}")
+//
+//                        deleteImagePath.path = absolutelyPath(photoURI!!) // 파일 경로 얻기
+//
+////                        soundDoodleInit("")
+//
+//                        /*
+//                        * 사진 각도 맞춤
+//                        * */
+//                        try {
+//                            exif = ExifInterface(deleteImagePath.path)
+//                        } catch (e: IOException) {
+//                            e.printStackTrace()
+//                        }
+//                        val orientation = exif!!.getAttributeInt(ExifInterface.ORIENTATION_ROTATE_90.toString(), ExifInterface.ORIENTATION_UNDEFINED)
+//                        val bmRotated: Bitmap = rotateBitmap(bitmap!!, orientation)!!
+//
+//                        photoURI = getBitmapToUri(bmRotated) // bitmap에서 uri로 변경
+//                        deleteFile = File(deleteImagePath.path) // 1. 사진 찍으면 생성된 이미지 파일 삭제
+//                        deleteFile.delete()
+//                        deleteImagePath.path = absolutelyPath(photoURI!!)
+////                        val resizedBmp = Bitmap.createScaledBitmap(bitmap!!, bitmap.width / 5, bitmap.height/5, true)
+////                        photoURI = getImageUri(resizedBmp)
+//                        // 사진 리사이징
+//                        var resizeBitmap = resize(this, photoURI!!, 500)
+//                        photoURI = getBitmapToUri(resizeBitmap!!)
+//                        deleteFile = File(deleteImagePath.path) // 2. 각도 조절한 이미지 파일 삭제
+//                        deleteFile.delete()
+//                        deleteImagePath.path = absolutelyPath(photoURI!!)
+//
+////                        val file = File(deleteImagePath.path)
+////                        var fileName = file.getName()
+////                        fileName = "${UserInfo.email}.png"
+////
+////                        Log.i(TAG,"photoURI: "+photoURI)
+////                        Log.i(TAG,"이미지 경로: "+ deleteImagePath.path)
+////                        Log.i(TAG,"이미지 제목 ${fileName}")
+////
+////                        bookViewModel.insertImageMemo(file, fileName)
+//
+//
+//
+//                        /*
+//                        * 크롭 호출
+//                        * */
+//                        CropImage.activity(photoURI)
+//                            .start(this)
+//
+//                        // 3. 리사이즈한 이미지는 이미지 저장 완료 후 삭제
+//
+////                        Observable.fromCallable {
+////                            var intent = Intent("com.android.camera.action.CROP")
+////                            intent.setDataAndType(photoURI, "image/*")
+////                        intent.putExtra("crop", "true");
+////                        // indicate aspect of desired crop
+////                        intent.putExtra("aspectX", 1);
+////                        intent.putExtra("aspectY", 1);
+////                        // indicate output X and Y
+////                        intent.putExtra("outputX", 300);
+////                        intent.putExtra("outputY", 300);
+//////                            intent.putExtra("scale", true)
+////                            intent.putExtra("return-data", true);
+////                            startActivityForResult(intent, CROP_FROM_CAMERA); // CROP_FROM_CAMERA case문 이동
+////                        }
+////                            .subscribeOn(Schedulers.newThread())
+////                            .observeOn(AndroidSchedulers.mainThread())
+////                            .subscribe {
+////                                Log.i(TAG, "끝이다.")
+////                            }
+//
+//
+////                        deleteFile = File(deleteImagePath.path)
+////                        deleteFile.delete()
+//
+//                    }
+//                }
+//
+//                /*
+//                * 크롭 코드 였던 것..
+//                * */
+//                CROP_FROM_CAMERA -> {
+//                    if(data?.extras != null) {
+//                        var extras: Bundle = data?.extras!!
+//                        Log.i(TAG, "크롭 데이터: ${extras.get("data")}")
+//
+//                        photoURI = getBitmapToUri(extras.get("data") as Bitmap) // bitmap에서 uri로 변경
+//                        deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
+//                        deleteFile.delete()
+//                        deleteImagePath.path = absolutelyPath(photoURI!!)
+//
 //                        val file = File(deleteImagePath.path)
 //                        var fileName = file.getName()
 //                        fileName = "${UserInfo.email}.png"
 //
-//                        Log.i(TAG,"photoURI: "+photoURI)
-//                        Log.i(TAG,"이미지 경로: "+ deleteImagePath.path)
-//                        Log.i(TAG,"이미지 제목 ${fileName}")
+//                        Log.i(TAG, "photoURI: " + photoURI)
+//                        Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
+//                        Log.i(TAG, "이미지 제목 ${fileName}")
 //
 //                        bookViewModel.insertImageMemo(file, fileName)
-
-
-
-                        /*
-                        * 크롭 호출
-                        * */
-                        CropImage.activity(photoURI)
-                            .start(this)
-
-                        // 3. 리사이즈한 이미지는 이미지 저장 완료 후 삭제
-
-//                        Observable.fromCallable {
-//                            var intent = Intent("com.android.camera.action.CROP")
-//                            intent.setDataAndType(photoURI, "image/*")
-//                        intent.putExtra("crop", "true");
-//                        // indicate aspect of desired crop
-//                        intent.putExtra("aspectX", 1);
-//                        intent.putExtra("aspectY", 1);
-//                        // indicate output X and Y
-//                        intent.putExtra("outputX", 300);
-//                        intent.putExtra("outputY", 300);
-////                            intent.putExtra("scale", true)
-//                            intent.putExtra("return-data", true);
-//                            startActivityForResult(intent, CROP_FROM_CAMERA); // CROP_FROM_CAMERA case문 이동
-//                        }
-//                            .subscribeOn(Schedulers.newThread())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe {
-//                                Log.i(TAG, "끝이다.")
-//                            }
-
-
-//                        deleteFile = File(deleteImagePath.path)
-//                        deleteFile.delete()
-
-                    }
-                }
-
-                /*
-                * 크롭 코드 였던 것..
-                * */
-                CROP_FROM_CAMERA -> {
-                    if(data?.extras != null) {
-                        var extras: Bundle = data?.extras!!
-                        Log.i(TAG, "크롭 데이터: ${extras.get("data")}")
-
-                        photoURI = getBitmapToUri(extras.get("data") as Bitmap) // bitmap에서 uri로 변경
-                        deleteFile = File(deleteImagePath.path) // 3. 크롭 하기 전 이미지 파일 삭제
-                        deleteFile.delete()
-                        deleteImagePath.path = absolutelyPath(photoURI!!)
-
-                        val file = File(deleteImagePath.path)
-                        var fileName = file.getName()
-                        fileName = "${UserInfo.email}.png"
-
-                        Log.i(TAG, "photoURI: " + photoURI)
-                        Log.i(TAG, "이미지 경로: " + deleteImagePath.path)
-                        Log.i(TAG, "이미지 제목 ${fileName}")
-
-                        bookViewModel.insertImageMemo(file, fileName)
-                        photoURI = null // 사용 후 null 처리
-                    } else {
-                        Log.i(TAG, "크롭 데이터 null")
-                    }
-                }
-            }
-        }
+//                        photoURI = null // 사용 후 null 처리
+//                    } else {
+//                        Log.i(TAG, "크롭 데이터 null")
+//                    }
+//                }
+//            }
+//        }
     }
 
     var permissionlistener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() { // 권한 허가시 실행 할 내용
             initView()
         }
-        override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-            // 권한 거부시 실행  할 내용
+
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
             showToast("권한 허용을 하지 않으면 서비스를 이용할 수 없습니다.")
         }
     }
 
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
-            TedPermission.with(this)
+            TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")
                 .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다.\n [설정] > [권한] 에서 사용으로 활성화해주세요.")

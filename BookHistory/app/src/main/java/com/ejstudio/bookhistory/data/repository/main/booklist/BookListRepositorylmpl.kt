@@ -173,7 +173,7 @@ class BookListRepositorylmpl(
 
                     }
                     override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response?.isSuccessful) {
+                        if (response.isSuccessful) {
                             Log.d(TAG,""+response?.body().toString())
                         } else {
                         }

@@ -40,7 +40,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
@@ -99,6 +98,14 @@ class MainViewModel(
 
     var adCount = 0;
 
+    // 읽은 후
+    private val _endReadBookList = MediatorLiveData<List<BookListEntity>>()
+    val endReadBookList: LiveData<List<BookListEntity>> get() = _endReadBookList
+
+    // 글, 이미지 메모 리스트
+    private val _totalTextImageMemoList = MediatorLiveData<List<TextImageMemoModel>>()
+    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
+
     init {
         pickerYear.value = onlyDate.toString().substring(0,4)
         calendarYear.value = onlyDate.toString().substring(0,4)
@@ -111,6 +118,16 @@ class MainViewModel(
         getRecentPopularBookList() // 요즘 많이 읽는 책들 호출
         getAlwaysPopularBookList() // 언제나 인기있는 책
 
+        _endReadBookList.addSource(pickerYear) { param ->
+            _endReadBookList.value = getEndReadBookUseCase.execute(UserInfo.email, END_READ, param).value
+        }
+
+        _totalTextImageMemoList.addSource(calendarYear) { param ->
+            val result = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
+            _totalTextImageMemoList.addSource(result) { memoList ->
+                _totalTextImageMemoList.value = memoList
+            }
+        }
     }
 
     private fun getDate(day: Int) {
@@ -135,8 +152,8 @@ class MainViewModel(
                     hideProgress()
                 }
                 .subscribe { it, exception ->
-                    Log.i(TAG, "내부토큰: " + preferencesToken + " / 서버토큰: ${Converter.decByKey(Converter.key, it.returnvalue)}")
-                    if(Converter.decByKey(Converter.key, it.returnvalue).equals(preferencesToken)) {
+                    Log.i(TAG, "내부토큰: " + preferencesToken + " / 서버토큰: ${Converter.decByKey(Converter.key, it?.returnvalue)}")
+                    if(Converter.decByKey(Converter.key, it?.returnvalue).equals(preferencesToken)) {
                         Log.i(TAG, "내부토큰과 서버토큰 같은지 비교: true")
                         _tokenTrue.value = Unit
                     } else {
@@ -250,9 +267,9 @@ class MainViewModel(
 //    }
 
     // 읽은 후
-    val endReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
-        getEndReadBookUseCase.execute(UserInfo.email, END_READ, param)
-    }
+//    val endReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
+//        getEndReadBookUseCase.execute(UserInfo.email, END_READ, param)
+//    }
 
     fun searchByCategory(param: String) {
         pickerYear.value = param
@@ -283,9 +300,9 @@ class MainViewModel(
     val alwaysPopularBookList = MutableLiveData<ArrayList<RecentPopularBookModel.Response.Doc>>()
 
     // 글, 이미지 메모 리스트
-    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> = Transformations.switchMap(calendarYear) { param->
-        getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
-    }
+//    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> = Transformations.switchMap(calendarYear) { param->
+//        getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
+//    }
     // 글, 이미지 메모 리스트
 //    private val _totalTextImageMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email)
 //    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList

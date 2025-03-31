@@ -30,7 +30,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.lifecycleScope
 import com.ejstudio.bookhistory.presentation.view.viewmodel.login.FindPasswordViewModel
 import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
+import com.gun0912.tedpermission.normal.TedPermission
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -149,7 +149,8 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
         override fun onPermissionGranted() { // 권한 허가시 실행 할 내용
             initView()
         }
-        override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
+
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
             // 권한 거부시 실행  할 내용
             showToast("권한 허용을 하지 않으면 서비스를 이용할 수 없습니다.")
         }
@@ -157,7 +158,7 @@ class SeeImageMemoActivity : BaseActivity<ActivitySeeImageMemoBinding>(R.layout.
 
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
-            TedPermission.with(this)
+            TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")
                 .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다.\n [설정] > [권한] 에서 사용으로 활성화해주세요.")

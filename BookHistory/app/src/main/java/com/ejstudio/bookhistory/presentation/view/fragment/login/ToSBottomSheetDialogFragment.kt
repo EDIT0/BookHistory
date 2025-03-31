@@ -62,8 +62,7 @@ class ToSBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
         //id = com.google.android.material.R.id.design_bottom_sheet for Material Components
         //id = android.support.design.R.id.design_bottom_sheet for support librares
-        val bottomSheet =
-            bottomSheetDialog.findViewById<View>(com.ejstudio.bookhistory.R.id.design_bottom_sheet) as FrameLayout
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         val layoutParams = bottomSheet!!.layoutParams
         layoutParams.height = getBottomSheetDialogDefaultHeight()
