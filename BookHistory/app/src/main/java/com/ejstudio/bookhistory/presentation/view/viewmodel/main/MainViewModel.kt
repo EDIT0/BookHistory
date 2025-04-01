@@ -41,6 +41,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.switchMap
+import com.ejstudio.bookhistory.BuildConfig
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
@@ -104,8 +105,8 @@ class MainViewModel(
         calendarYear.value = onlyDate.toString().substring(0,4)
         getDate(-60) // 현 시간 기준 60일 전 날짜 구하기
         Log.i(TAG, "메인 뷰 모델 호출!!!!!!!!!!!!!!!!!!!!!!! ${pickerYear.value.toString()}")
-        Log.i(TAG, "요청 url:  ${ApiClient.BOOK_BASE_URL}loanItemSrch?authKey=${ApiClient.BOOK_API_KEY}&startDt=$before60days" +
-                "&endDt=$todayDate&page=$page&pageSize=${pageSize}&format=${ApiClient.FORMAT_JSON}" )
+        Log.i(TAG, "요청 url:  ${BuildConfig.BOOK_BASE_URL}loanItemSrch?authKey=${BuildConfig.BOOK_API_KEY}&startDt=$before60days" +
+                "&endDt=$todayDate&page=$page&pageSize=${pageSize}&format=${BuildConfig.FORMAT_JSON}" )
 
         _selectedMenu.value = "읽는 중" // 스타트 메뉴
         getRecentPopularBookList() // 요즘 많이 읽는 책들 호출

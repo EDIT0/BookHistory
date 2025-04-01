@@ -25,6 +25,7 @@ import android.content.DialogInterface
 
 import android.content.pm.PackageInfo
 import android.net.Uri
+import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
 import java.lang.Exception
 
@@ -145,7 +146,7 @@ class SplashActivity : AppCompatActivity() {
 //                        finish()
 //                    })
 //            builder.create().show()
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.GOOGLE_PLAYSTORE_APP_PAGE))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GOOGLE_PLAYSTORE_APP_PAGE))
             startActivity(intent)
             Toast.makeText(mActivity, version_code_message, Toast.LENGTH_LONG).show()
             finish()

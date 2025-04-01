@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.util
 
+import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
 import okhttp3.MediaType
@@ -28,7 +29,7 @@ class ImageSenderModule {
     fun BaseModule(): ApiInterface {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(ApiClient.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .build()
         val client: ApiInterface = retrofit.create(ApiInterface::class.java)
 
@@ -42,7 +43,7 @@ class ImageSenderModule {
 
         var retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(ApiClient.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .build()
 
         var server = retrofit.create(ApiInterface::class.java)

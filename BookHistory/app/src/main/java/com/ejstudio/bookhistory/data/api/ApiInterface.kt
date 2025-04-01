@@ -1,5 +1,6 @@
 package com.ejstudio.bookhistory.data.api
 
+import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.model.BookListEntity
 import com.ejstudio.bookhistory.data.model.ImageMemoEntity
 import com.ejstudio.bookhistory.data.model.TextMemoEntity
@@ -52,8 +53,8 @@ interface ApiInterface {
         @Field("email") email: String
     ) : Single<CheckTrueOrFalseModel>
 
-    @Headers("Authorization: KakaoAK ${ApiClient.KAKAO_API_KEY}")
-    @GET("${ApiClient.KAKAO_BASE_URL}v3/search/book")
+    @Headers("Authorization: KakaoAK ${BuildConfig.KAKAO_API_KEY}")
+    @GET("${BuildConfig.KAKAO_BASE_URL}v3/search/book")
     fun getSearchBook(
 //        @Header("Authorization:KakaoAK ${ApiClient.KAKAO_API_KEY}") apiKey: String = ApiClient.KAKAO_API_KEY,
         @Query("query") query : String,

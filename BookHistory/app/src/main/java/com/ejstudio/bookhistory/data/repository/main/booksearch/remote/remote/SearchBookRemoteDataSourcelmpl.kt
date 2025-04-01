@@ -1,6 +1,7 @@
 package com.ejstudio.bookhistory.data.repository.main.booksearch.remote.remote
 
 import android.util.Log
+import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
 import com.ejstudio.bookhistory.data.api.ApiInterface
 import com.ejstudio.bookhistory.domain.model.*
@@ -63,14 +64,14 @@ class SearchBookRemoteDataSourcelmpl(
     }
 
     override fun getRecentPopularBook(startDt: String, endDt: String, page: Int, pageSize: Int): Single<RecentPopularBookModel> {
-        return apiInterface.getRecentPopularBook(ApiClient.RECENT_POPULAR_BOOK, ApiClient.BOOK_API_KEY, startDt, endDt, page, pageSize, ApiClient.FORMAT_JSON)
+        return apiInterface.getRecentPopularBook(BuildConfig.RECENT_POPULAR_BOOK, BuildConfig.BOOK_API_KEY, startDt, endDt, page, pageSize, BuildConfig.FORMAT_JSON)
     }
 
     override fun getRecommendBook(isbn: String): Single<RecommendBookModel> {
-        return apiInterface.getRecommendBook(ApiClient.RECOMMEND_BOOK, ApiClient.BOOK_API_KEY, isbn, ApiClient.FORMAT_JSON)
+        return apiInterface.getRecommendBook(BuildConfig.RECOMMEND_BOOK, BuildConfig.BOOK_API_KEY, isbn, BuildConfig.FORMAT_JSON)
     }
 
     override fun getAlwaysPopularBook(page: Int, pageSize: Int): Single<RecentPopularBookModel> {
-        return apiInterface.getAlwaysPopularBook(ApiClient.ALWAYS_POPULAR_BOOK, ApiClient.BOOK_API_KEY, page, pageSize, ApiClient.FORMAT_JSON)
+        return apiInterface.getAlwaysPopularBook(BuildConfig.ALWAYS_POPULAR_BOOK, BuildConfig.BOOK_API_KEY, page, pageSize, BuildConfig.FORMAT_JSON)
     }
 }

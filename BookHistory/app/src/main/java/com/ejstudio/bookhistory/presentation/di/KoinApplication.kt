@@ -118,7 +118,7 @@ val apiModule: Module = module {
 
     single<Retrofit> {
         Retrofit.Builder()
-            .baseUrl(ApiClient.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(get())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
