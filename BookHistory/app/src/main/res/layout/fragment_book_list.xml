@@ -86,9 +86,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:letterSpacing="-0.02"
-                        android:text="2022"
                         android:textColor="#303030"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        tools:text="2022" />
 
                     <ImageView
                         android:layout_width="wrap_content"

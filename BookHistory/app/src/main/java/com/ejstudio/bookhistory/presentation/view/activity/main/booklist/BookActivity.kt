@@ -168,7 +168,8 @@ class BookActivity : BaseActivity<ActivityBookBinding>(R.layout.activity_book) {
                 if(currentTab.equals(BookViewModel.TEXT)) {
                     goToWriteTextMemoActivity()
                 } else if(currentTab.equals(BookViewModel.IMAGE)) {
-                    goToCamera()
+//                    goToCamera()
+                    showToast("준비중 이에요")
                 }
             })
             goToShopping.observe(this@BookActivity, Observer {

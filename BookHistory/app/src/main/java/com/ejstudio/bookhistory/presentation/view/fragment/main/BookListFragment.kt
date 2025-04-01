@@ -82,6 +82,12 @@ class BookListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvYear.text = LocalDate.now().year.toString()
+    }
+
     fun settingAdView() {
         MobileAds.initialize(binding.root.context)
         mAdView = binding.adView

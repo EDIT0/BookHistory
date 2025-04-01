@@ -115,7 +115,8 @@ class BookMemoImageFragment : Fragment() {
                         Converter.dpToPx(binding.root.context, 24),
                         Converter.dpToPx(binding.root.context, 24))
                     .into(emptyImage)
-                emptyTextTitle.text = "기록하고\n나중에 꺼내보는\n즐거움이 있어요"
+//                emptyTextTitle.text = "기록하고\n나중에 꺼내보는\n즐거움이 있어요"
+                emptyTextTitle.text = "준비중 이에요"
             })
         }
     }
