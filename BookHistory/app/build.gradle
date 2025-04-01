@@ -7,6 +7,12 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 android {
     namespace = "com.ejstudio.bookhistory"
     compileSdk 35
@@ -37,14 +43,14 @@ android {
 
             resValue "string", "app_name", "오늘독서(DEV)"
 
-            buildConfigField("String", "BASE_URL", BASE_URL)
+            buildConfigField("String", "BASE_URL", localProperties.getProperty("BASE_URL"))
 
-            buildConfigField("String", "KAKAO_BASE_URL", KAKAO_BASE_URL)
-            buildConfigField("String", "KAKAO_API_KEY", KAKAO_API_KEY)
-            buildConfigField("String", "BOOK_BASE_URL", BOOK_BASE_URL)
+            buildConfigField("String", "KAKAO_BASE_URL", localProperties.getProperty("KAKAO_BASE_URL"))
+            buildConfigField("String", "KAKAO_API_KEY", localProperties.getProperty("KAKAO_API_KEY"))
+            buildConfigField("String", "BOOK_BASE_URL", localProperties.getProperty("BOOK_BASE_URL"))
 //            buildConfigField 'String', 'BOOK_API_KEY', '"ad74877eb97009085637a77085e42aae261e453040fba3f317533cc0fbd4453a"'
-            buildConfigField("String", "BOOK_API_KEY", BOOK_API_KEY)
-            buildConfigField("String", "IMAGE_BASE_URL", IMAGE_BASE_URL)
+            buildConfigField("String", "BOOK_API_KEY", localProperties.getProperty("BOOK_API_KEY"))
+            buildConfigField("String", "IMAGE_BASE_URL", localProperties.getProperty("IMAGE_BASE_URL"))
 
             buildConfigField 'String', 'RECENT_POPULAR_BOOK', '"getRecentPopularBook"'
             buildConfigField 'String', 'RECOMMEND_BOOK', '"getRecommendBook"'
@@ -60,14 +66,14 @@ android {
 
             resValue "string", "app_name", "오늘독서"
 
-            buildConfigField("String", "BASE_URL", BASE_URL)
+            buildConfigField("String", "BASE_URL", localProperties.getProperty("BASE_URL"))
 
-            buildConfigField("String", "KAKAO_BASE_URL", KAKAO_BASE_URL)
-            buildConfigField("String", "KAKAO_API_KEY", KAKAO_API_KEY)
-            buildConfigField("String", "BOOK_BASE_URL", BOOK_BASE_URL)
+            buildConfigField("String", "KAKAO_BASE_URL", localProperties.getProperty("KAKAO_BASE_URL"))
+            buildConfigField("String", "KAKAO_API_KEY", localProperties.getProperty("KAKAO_API_KEY"))
+            buildConfigField("String", "BOOK_BASE_URL", localProperties.getProperty("BOOK_BASE_URL"))
 //            buildConfigField 'String', 'BOOK_API_KEY', '"ad74877eb97009085637a77085e42aae261e453040fba3f317533cc0fbd4453a"'
-            buildConfigField("String", "BOOK_API_KEY", BOOK_API_KEY)
-            buildConfigField("String", "IMAGE_BASE_URL", IMAGE_BASE_URL)
+            buildConfigField("String", "BOOK_API_KEY", localProperties.getProperty("BOOK_API_KEY"))
+            buildConfigField("String", "IMAGE_BASE_URL", localProperties.getProperty("IMAGE_BASE_URL"))
 
             buildConfigField 'String', 'RECENT_POPULAR_BOOK', '"getRecentPopularBook"'
             buildConfigField 'String', 'RECOMMEND_BOOK', '"getRecommendBook"'
