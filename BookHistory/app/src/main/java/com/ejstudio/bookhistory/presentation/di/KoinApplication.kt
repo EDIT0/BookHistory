@@ -1,6 +1,7 @@
 package com.ejstudio.bookhistory.presentation.di
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import com.ejstudio.bookhistory.BuildConfig
 import com.ejstudio.bookhistory.data.api.ApiClient
@@ -65,6 +66,7 @@ import com.google.gson.GsonBuilder
 import com.kakao.sdk.common.KakaoSdk
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -126,9 +128,12 @@ val apiModule: Module = module {
     single<GsonConverterFactory> { GsonConverterFactory.create(gson) }
 
     single<OkHttpClient> {
+        val logging = get<HttpLoggingInterceptor>()
+        logging.level = HttpLoggingInterceptor.Level.BODY
         OkHttpClient.Builder()
             .run {
                 addInterceptor(get<Interceptor>())
+                addInterceptor(logging)
                 build()
             }
     }
@@ -146,6 +151,12 @@ val apiModule: Module = module {
                     .build()
                 proceed(newRequest)
             }
+        }
+    }
+
+    single<HttpLoggingInterceptor> {
+        HttpLoggingInterceptor {
+            Log.i("KoinApplication", "[Network] ${it}")
         }
     }
 }

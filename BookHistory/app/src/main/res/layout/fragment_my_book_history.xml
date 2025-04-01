@@ -13,7 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
@@ -25,12 +27,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
+            app:mcv_dateTextAppearance="@style/calendarDateAppearance"
+            app:mcv_headerTextAppearance="@style/calendarmonthAppearance"
             app:mcv_selectionColor="#ffffff"
             app:mcv_selectionMode="single"
-            app:mcv_dateTextAppearance="@style/calendarDateAppearance"
-            app:mcv_weekDayTextAppearance="@style/calendarweekAppearance"
-            app:mcv_headerTextAppearance="@style/calendarmonthAppearance"
-            />
+            app:mcv_weekDayTextAppearance="@style/calendarweekAppearance" />
 
         <!--        <com.kizitonwose.calendarview.CalendarView-->
         <!--            android:id="@+id/calendarView"-->

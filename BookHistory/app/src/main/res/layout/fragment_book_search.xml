@@ -5,7 +5,9 @@
     tools:context=".presentation.view.fragment.main.BookSearchFragment">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="mainViewModel"
             type="com.ejstudio.bookhistory.presentation.view.viewmodel.main.MainViewModel" />
@@ -13,21 +15,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/searchBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#ffffff"
+            android:orientation="vertical"
             android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" >
+            app:layout_constraintVertical_chainStyle="packed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -50,12 +54,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="책 제목 / 지은이 검색"
                     android:layout_marginStart="15dp"
+                    android:text="책 제목 / 지은이 검색"
                     android:textColor="#858585"
-                    app:layout_constraintTop_toTopOf="@+id/searchView"
+                    app:layout_constraintBottom_toBottomOf="@+id/searchView"
                     app:layout_constraintStart_toStartOf="@+id/searchView"
-                    app:layout_constraintBottom_toBottomOf="@+id/searchView"/>
+                    app:layout_constraintTop_toTopOf="@+id/searchView" />
 
                 <ImageView
                     android:id="@+id/iv_searchButton"
@@ -73,20 +77,18 @@
         </LinearLayout>
 
 
-
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="#cccccc"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />-->
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="#cccccc"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView" />-->
 
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight="1"
             android:clipToPadding="false"
             android:fillViewport="true"
             android:overScrollMode="never"
@@ -94,7 +96,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchBackgroundView"
-            app:layout_constraintVertical_bias="0">
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,10 +108,10 @@
                     android:id="@+id/adView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    ads:adSize="BANNER"
                     android:layout_marginTop="10dp"
+                    ads:adSize="BANNER"
                     ads:adUnitId="ca-app-pub-8761696495202698/8988097957" />
-<!--ca-app-pub-8761696495202698/8988097957--> <!--광고 단위 ID-->
+                <!--ca-app-pub-8761696495202698/8988097957--> <!--광고 단위 ID-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,10 +171,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="@{mainViewModel.isLoadingRecentPopularBookList() ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/recentPopularBookBackgroundView"
                         app:layout_constraintEnd_toEndOf="@+id/recentPopularBookBackgroundView"
-                        app:layout_constraintTop_toTopOf="@+id/recentPopularBookBackgroundView"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentPopularBookBackgroundView"/>
+                        app:layout_constraintStart_toStartOf="@+id/recentPopularBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/recentPopularBookBackgroundView" />
 
                     <View
                         android:id="@+id/recommendBookBackgroundView"
@@ -228,10 +231,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="@{mainViewModel.isLoadingRecommendBookList() ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toStartOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/recommendBookBackgroundView"
                         app:layout_constraintEnd_toEndOf="@+id/recommendBookBackgroundView"
-                        app:layout_constraintTop_toTopOf="@+id/recommendBookBackgroundView"
-                        app:layout_constraintBottom_toBottomOf="@+id/recommendBookBackgroundView"/>
+                        app:layout_constraintStart_toStartOf="@+id/recommendBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/recommendBookBackgroundView" />
 
                     <View
                         android:id="@+id/alwaysPopularBookBackgroundView"
@@ -288,10 +291,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="@{mainViewModel.isLoadingAlwaysPopularBookList() ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toStartOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintBottom_toBottomOf="@+id/alwaysPopularBookBackgroundView"
                         app:layout_constraintEnd_toEndOf="@+id/alwaysPopularBookBackgroundView"
-                        app:layout_constraintTop_toTopOf="@+id/alwaysPopularBookBackgroundView"
-                        app:layout_constraintBottom_toBottomOf="@+id/alwaysPopularBookBackgroundView"/>
+                        app:layout_constraintStart_toStartOf="@+id/alwaysPopularBookBackgroundView"
+                        app:layout_constraintTop_toTopOf="@+id/alwaysPopularBookBackgroundView" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -299,11 +302,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"
-                    android:text="제공: 도서관 정보나루(국립중앙도서관)"
-                    android:textColor="#595959"
+                    android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:singleLine="true"
-                    android:paddingHorizontal="10dp"
+                    android:text="제공: 도서관 정보나루(국립중앙도서관)"
+                    android:textColor="#595959"
                     android:textSize="14sp" />
 
 

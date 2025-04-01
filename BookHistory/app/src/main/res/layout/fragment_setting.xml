@@ -13,7 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -48,21 +50,21 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <TextView
+                    android:id="@+id/tv_userId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_userId"
-                    android:textColor="#595959"
-                    android:textSize="16sp"
-                    tools:text="유저아이디"
-                    android:singleLine="true"
                     android:ellipsize="end"
                     android:gravity="center|start"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_settingTitle"
+                    android:singleLine="true"
+                    android:textColor="#595959"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/accountManagementView"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_settingTitle"
+                    tools:text="유저아이디" />
 
                 <View
                     android:id="@+id/accountManagementView"
@@ -164,8 +166,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_logout" />
 
 
-
-
                 <View
                     android:id="@+id/policyView"
                     android:layout_width="0dp"
@@ -225,7 +225,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
-                    app:layout_constraintVertical_bias="0"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:text="개인정보 보호정책"
@@ -234,21 +233,22 @@
                     app:layout_constraintBottom_toBottomOf="@+id/policyView"
                     app:layout_constraintEnd_toEndOf="@+id/policyView"
                     app:layout_constraintStart_toStartOf="@+id/policyView"
-                    app:layout_constraintTop_toBottomOf="@+id/policyTitleLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/policyTitleLayout"
+                    app:layout_constraintVertical_bias="0" />
 
                 <LinearLayout
                     android:id="@+id/versionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintVertical_bias="0"
+                    android:orientation="horizontal"
                     android:text="개인정보 보호정책"
                     android:textColor="#595959"
                     android:textSize="16sp"
-                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/policyView"
                     app:layout_constraintEnd_toEndOf="@+id/policyView"
                     app:layout_constraintStart_toStartOf="@+id/policyView"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_tos" >
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tos"
+                    app:layout_constraintVertical_bias="0">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -259,20 +259,20 @@
                         android:text="버전"
                         android:textColor="#595959"
                         android:textSize="16sp" />
-                    
+
                     <TextView
                         android:id="@+id/tv_versionName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="버전 네임"
-                        android:paddingEnd="20dp"
                         android:paddingTop="12dp"
+                        android:paddingEnd="20dp"
                         android:paddingBottom="12dp"
-                        android:textSize="16sp"
-                        android:textColor="#595959"/>
-                    
+                        android:text="버전 네임"
+                        android:textColor="#595959"
+                        android:textSize="16sp" />
+
                 </LinearLayout>
 
 

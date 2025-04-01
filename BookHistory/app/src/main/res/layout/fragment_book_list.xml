@@ -15,30 +15,32 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/actionBarBackgroundView"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#ffffff"
+            android:orientation="horizontal"
             android:stateListAnimator="@animator/toolbar_elevation"
             app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" >
+            app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
                 android:id="@+id/tv_selection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="#303030"
                 android:layout_gravity="start|center"
-                android:textSize="20sp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/seoulnamsancbl_regular"
+                android:textColor="#303030"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/actionBarBackgroundView"
                 app:layout_constraintEnd_toStartOf="@+id/ib_selectionImage"
                 app:layout_constraintHorizontal_bias="0"
@@ -60,38 +62,38 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:id="@+id/yearPickerLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginEnd="20dp"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="7dp"
                     android:background="@drawable/year_background_round"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="7dp"
+                    android:paddingBottom="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tv_year"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="2022"
-                        android:letterSpacing="-0.02"
-                        android:textColor="#303030"
                         android:gravity="center"
-                        android:textSize="16sp"/>
+                        android:letterSpacing="-0.02"
+                        android:text="2022"
+                        android:textColor="#303030"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_unfold_more_24dp"/>
+                        android:src="@drawable/ic_unfold_more_24dp" />
 
                 </LinearLayout>
 
@@ -101,25 +103,24 @@
         </LinearLayout>
 
 
-
-<!--        <View-->
-<!--            android:id="@+id/line1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0.75dp"-->
-<!--            android:background="#cccccc"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />-->
+        <!--        <View-->
+        <!--            android:id="@+id/line1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0.75dp"-->
+        <!--            android:background="#cccccc"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/nested_scrollview"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView" />-->
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/nested_scrollview"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBarBackgroundView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -129,14 +130,14 @@
                     android:id="@+id/adView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    ads:adSize="BANNER"
                     android:layout_marginVertical="10dp"
+                    ads:adSize="BANNER"
                     ads:adUnitId="ca-app-pub-8761696495202698/2821208109"
                     app:layout_constraintBottom_toTopOf="@+id/rc_bookList"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-<!--ca-app-pub-8761696495202698/2821208109--> <!--광고 단위 ID-->
+                <!--ca-app-pub-8761696495202698/2821208109--> <!--광고 단위 ID-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_bookList"
@@ -150,7 +151,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         </androidx.core.widget.NestedScrollView>

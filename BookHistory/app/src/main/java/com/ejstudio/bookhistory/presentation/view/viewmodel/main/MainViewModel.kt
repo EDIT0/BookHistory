@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.switchMap
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
@@ -98,14 +99,6 @@ class MainViewModel(
 
     var adCount = 0;
 
-    // 읽은 후
-    private val _endReadBookList = MediatorLiveData<List<BookListEntity>>()
-    val endReadBookList: LiveData<List<BookListEntity>> get() = _endReadBookList
-
-    // 글, 이미지 메모 리스트
-    private val _totalTextImageMemoList = MediatorLiveData<List<TextImageMemoModel>>()
-    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
-
     init {
         pickerYear.value = onlyDate.toString().substring(0,4)
         calendarYear.value = onlyDate.toString().substring(0,4)
@@ -117,17 +110,6 @@ class MainViewModel(
         _selectedMenu.value = "읽는 중" // 스타트 메뉴
         getRecentPopularBookList() // 요즘 많이 읽는 책들 호출
         getAlwaysPopularBookList() // 언제나 인기있는 책
-
-        _endReadBookList.addSource(pickerYear) { param ->
-            _endReadBookList.value = getEndReadBookUseCase.execute(UserInfo.email, END_READ, param).value
-        }
-
-        _totalTextImageMemoList.addSource(calendarYear) { param ->
-            val result = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
-            _totalTextImageMemoList.addSource(result) { memoList ->
-                _totalTextImageMemoList.value = memoList
-            }
-        }
     }
 
     private fun getDate(day: Int) {
@@ -270,6 +252,9 @@ class MainViewModel(
 //    val endReadBookList: LiveData<List<BookListEntity>> = Transformations.switchMap(pickerYear) { param->
 //        getEndReadBookUseCase.execute(UserInfo.email, END_READ, param)
 //    }
+    val endReadBookList: LiveData<List<BookListEntity>> = pickerYear.switchMap { param ->
+        getEndReadBookUseCase.execute(UserInfo.email, END_READ, param)
+    }
 
     fun searchByCategory(param: String) {
         pickerYear.value = param
@@ -303,6 +288,9 @@ class MainViewModel(
 //    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> = Transformations.switchMap(calendarYear) { param->
 //        getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
 //    }
+    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> = calendarYear.switchMap { param ->
+        getEmailTotalTextImageMemoUseCase.execute(UserInfo.email, param)
+    }
     // 글, 이미지 메모 리스트
 //    private val _totalTextImageMemoList = getEmailTotalTextImageMemoUseCase.execute(UserInfo.email)
 //    val totalTextImageMemoList: LiveData<List<TextImageMemoModel>> get() = _totalTextImageMemoList
